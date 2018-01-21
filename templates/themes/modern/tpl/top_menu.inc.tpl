@@ -208,6 +208,9 @@
               <li><a href="{{ $design->url('user','main','logout') }}" title="{lang 'Logout'}"><i class="fa fa-sign-out"></i> {lang 'Logout'}</a></li>
             </ul>
           </li>
+          <li class="menu-item">
+            <ul><li>Credits: <span class="badge">{count_credits}</span></li></ul>
+          </li>
       {/if}
 
 
