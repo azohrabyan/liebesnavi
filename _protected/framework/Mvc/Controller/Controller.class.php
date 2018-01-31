@@ -79,6 +79,7 @@ abstract class Controller extends Core
         $this->setMetaTplVars();
         $this->setModsStatusTplVars();
         $this->setUserNotifications();
+        $this->setUserCredits();
 
         /***** Display *****/
         $this->view->setTemplateDir($this->registry->path_module_views . PH7_TPL_MOD_NAME);
@@ -250,6 +251,16 @@ abstract class Controller extends Core
 
         $this->view->assigns($aNotificationCounter);
         unset($aNotificationCounter);
+    }
+
+    private function setUserCredits()
+    {
+        $aCreditsCount = [
+            'count_credits' => UserCore::countCredits($this->session->get('member_id')),
+        ];
+
+        $this->view->assigns($aCreditsCount);
+        unset($aCreditsCount);
     }
 
     /**

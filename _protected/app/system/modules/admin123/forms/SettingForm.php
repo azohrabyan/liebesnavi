@@ -156,6 +156,10 @@ class SettingForm
         /********** Security **********/
         $oForm->addElement(new \PFBC\Element\HTMLExternal('</div></div><div class="content" id="security"><div class="col-md-10"><h2 class="underline">' . t('Security') . '</h2>'));
 
+        $oForm->addElement(new \PFBC\Element\HTMLExternal('<br /><h3 class="underline">' . t('Messages') . '</h3>'));
+
+        $oForm->addElement(new \PFBC\Element\Number(t('Maximum Message lenghts'), 'max_message_length', array('value' => DbConfig::getSetting('maxMessageLength'), 'required' => 1)));
+
         $oForm->addElement(new \PFBC\Element\HTMLExternal('<br /><h3 class="underline">' . t('Password') . '</h3>'));
 
         $oForm->addElement(new \PFBC\Element\Number(t('Minimum password length:'), 'min_password_length', array('value' => DbConfig::getSetting('minPasswordLength'), 'required' => 1)));

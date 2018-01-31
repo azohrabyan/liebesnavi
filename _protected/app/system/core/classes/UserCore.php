@@ -17,6 +17,7 @@ use PH7\Framework\Image\Image;
 use PH7\Framework\Ip\Ip;
 use PH7\Framework\Layout\Html\Design;
 use PH7\Framework\Mvc\Model\DbConfig;
+use PH7\Framework\Mvc\Model\Engine\Db;
 use PH7\Framework\Mvc\Model\Engine\Util\Various as VariousModel;
 use PH7\Framework\Mvc\Model\Security as SecurityModel;
 use PH7\Framework\Mvc\Request\Http as HttpRequest;
@@ -58,6 +59,19 @@ class UserCore
     public static function isAdminLoggedAs()
     {
         return (new Session)->exists('login_user_as');
+    }
+
+    public static function countCredits($iProfileId)
+    {
+        $rStmt = Db::getInstance()->prepare('SELECT credits FROM' . Db::prefix('Members') .
+            'WHERE profileId = :profileId ');
+
+        $rStmt->bindValue(':profileId', $iProfileId, \PDO::PARAM_INT);
+        $rStmt->execute();
+        $iCredits = (int)$rStmt->fetchColumn();
+        Db::free($rStmt);
+
+        return $iCredits;
     }
 
     /**
