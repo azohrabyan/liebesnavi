@@ -8,6 +8,27 @@
     margin: 0;
 }
 
+
+.img-circle {
+    border-radius: 50%;
+    border:2px solid #95BAD4;
+    opacity:0.5;
+    width:180px;
+    height:180px;
+    padding: 10px;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.img-circle:hover {
+    border-radius: 50%;
+    border:2px solid #B0101B;
+    opacity:1;
+}
+
+
+
 body, td, pre {
     font-family: 'Open Sans', Verdana, Arial, sans-serif;
     font-size: 13px;

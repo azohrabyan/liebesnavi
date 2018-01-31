@@ -42,3 +42,5 @@ coverage
 
 # PHPStorm IDE folder.
 .idea
+
+env

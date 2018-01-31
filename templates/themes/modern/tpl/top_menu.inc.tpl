@@ -34,29 +34,14 @@
 
     {* Menu Guest, Member and Admin *}
       {if !$is_aff_auth}
-        <li class="dropdown"><a href="{{ $design->url('user', 'browse', 'index') }}" title="{lang 'Members'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-user fa-fw"></i> {lang 'People'} <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="{{ $design->url('user', 'browse', 'index') }}" rel="nofollow" title="{lang 'Members'}" data-load="ajax"><i class="fa fa-users"></i> {lang 'People'}</a></li>
 
-            <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url('user','search', 'index') }}" title="{lang 'Search the members'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-search"></i> {lang 'Search'}</a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ $design->url('user', 'search', 'quick') }}" title="{lang 'Quick Search'}" data-load="ajax">{lang 'Quick Search'}</a></li>
-                <li><a href="{{ $design->url('user', 'search', 'advanced') }}" title="{lang 'Advanced Search'}" data-load="ajax">{lang 'Advanced Search'}</a></li>
-              </ul>
-            </li>
-
-            <li><a href="{{ $design->url('user','country','index',$country.PH7_SH.$city) }}" title="{lang 'Users in %0% through the Map!',$city}"><i class="fa fa-map-marker"></i> {lang 'People Nearby'}</a></li>
-
-            <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url('user', 'birthday', 'index') }}" title="{lang 'Users Birthday'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-birthday-cake"></i> {lang 'Birthday'}</a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ $design->url('user', 'birthday', 'index', 'all') }}" rel="nofollow" title="{lang 'All Birthday'}" data-load="ajax">{lang 'All Birthday'}</a></li>
-                <li><a href="{{ $design->url('user', 'birthday', 'index', 'male') }}" title="{lang 'Men Birthday'}" data-load="ajax">{lang 'Men Birthday'}</a></li>
-                <li><a href="{{ $design->url('user', 'birthday', 'index', 'female') }}" title="{lang 'Women Birthday'}" data-load="ajax">{lang 'Women Birthday'}</a></li>
-                <li><a href="{{ $design->url('user', 'birthday', 'index', 'couple') }}" title="{lang 'Couples Birthday'}" data-load="ajax">{lang 'Couples Birthday'}</a></li>
-              </ul>
-            </li>
-          </ul>
+        <li class="dropdown">
+<a href="{{ $design->url('user-dashboard', 'main', 'index') }}" rel="nofollow"  data-load="ajax"><i class="fa fa-user"></i> {lang 'Dashboard'}</a>
         </li>
+
+	<li class="dropdown">
+<a href="{{ $design->url('user', 'browse', 'index') }}" rel="nofollow" title="{lang 'Search The Members'}" data-load="ajax"><i class="fa fa-search"></i> {lang 'Search'}</a>
+	</li>
       {/if}
 
 
@@ -208,9 +193,15 @@
               <li><a href="{{ $design->url('user','main','logout') }}" title="{lang 'Logout'}"><i class="fa fa-sign-out"></i> {lang 'Logout'}</a></li>
             </ul>
           </li>
-          <li class="menu-item">
-            <ul><li>Credits: <span class="badge">{count_credits}</span></li></ul>
+          <li  class="dropdown" >
+            <ul class="dropdown-menu" role="menu" >
+		<li>{lang 'Credits:'} <span class="badge">{count_credits}</span></li></ul>
           </li>
+
+
+        <li class="dropdown"><a href="{{ $design->url('payment', 'main', 'info') }}" rel="nofollow"  data-load="ajax"> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;<span class="badge">  {count_credits}  {lang 'Coins: '} <img src="/images/Add_coin.png" width=21></span></a>
+        </li>
+
       {/if}
 
 
