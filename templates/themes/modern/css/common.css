@@ -9,6 +9,15 @@
 }
 
 
+.content_visitor {
+	border: 0px solid #B0101B;
+	width:180px;
+	text-align: center;
+	position: absolute;
+	top:80px;
+	right:35%;
+}
+
 .img-circle {
     border-radius: 50%;
     border:2px solid #95BAD4;

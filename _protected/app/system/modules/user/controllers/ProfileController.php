@@ -106,17 +106,17 @@ class ProfileController extends Controller
             $aAge = explode('-', $oUser->birthDate);
             $iAge = (new Year($aAge[0], $aAge[1], $aAge[2]))->get();
 
-            $this->view->page_title = t('Meet %0%, A %1% looking for %2% - %3% years - %4% - %5% %6%',
-                $sFirstName, t($oUser->sex), t($oUser->matchSex), $iAge, t($sCountry), $sCity, $sState);
+//            $this->view->page_title = t('Meet %0%, A %1% looking for %2% - %3% years - %4% - %5% %6%',
+//                $sFirstName, t($oUser->sex), t($oUser->matchSex), $iAge, t($sCountry), $sCity, $sState);
 
-            $this->view->meta_description = t('Meet %0% %1% | %2% - %3%', $sFirstName, $sLastName,
-                $oUser->username, substr($sDescription, 0, 100));
+//            $this->view->meta_description = t('Meet %0% %1% | %2% - %3%', $sFirstName, $sLastName,
+//                $oUser->username, substr($sDescription, 0, 100));
 
-            $this->view->h1_title = t('Meet <span class="pH1">%0%</span> on <span class="pH0">%site_name%</span>',
-                $sFirstName);
+//            $this->view->h1_title = t('Meet <span class="pH1">%0%</span> on <span class="pH0">%site_name%</span>',
+//                $sFirstName);
 
-            $this->view->h2_title = t('A <span class="pH1">%0%</span> of <span class="pH3">%1% years</span>, from <span class="pH2">%2%, %3% %4%</span>',
-                t($oUser->sex), $iAge, t($sCountry), $sCity, $sState);
+//           $this->view->h2_title = t('A <span class="pH1">%0%</span> of <span class="pH3">%1% years</span>, from <span class="pH2">%2%, %3% %4%</span>',
+//                t($oUser->sex), $iAge, t($sCountry), $sCity, $sState);
 
 
             $this->view->avatarDesign = new AvatarDesignCore; // Avatar Design Class
