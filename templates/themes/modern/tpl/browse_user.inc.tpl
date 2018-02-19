@@ -1,6 +1,5 @@
 <div class="box-left">
     <div role="search" class="design-box">
-        <h2>{lang 'Quick Search'}</h2>
         {{ SearchUserCoreForm::quick(PH7_WIDTH_SEARCH_FORM) }}
     </div>
 </div>
@@ -15,6 +14,7 @@
             {* Members Age *}
             {{ $aAge = explode('-', $user->birthDate); $age = (new Framework\Math\Measure\Year($aAge[0], $aAge[1], $aAge[2]))->get() }}
 
+
             <div class="thumb_photo">
                 {{ UserDesignCoreModel::userStatus($user->profileId) }}
 
@@ -27,11 +27,14 @@
                     {{ $sex_ico = '' }}
                 {/if}
 
-                {{ $avatarDesign->get($user->username, $user->firstName, $user->sex, 64, true) }}
+                {{ $avatarDesign->get($user->username, $user->firstName, $user->sex, 100, true) }}
                 <p class="cy_ico">
                     <a href="{% (new UserCore)->getProfileLink($user->username) %}" title="{lang 'Name: %0%', $user->firstName}<br> {lang 'Gender: %0% %1%', t($user->sex), $sex_ico}<br> {lang 'Seeking: %0%', t($user->matchSex)}<br> {lang 'Age: %0%', $age}<br> {lang 'From: %0%', $country_name}<br> {lang 'City: %0%', $this->str->upperFirst($user->city)}<br> {lang 'State: %0%', $this->str->upperFirst($user->state)}">
                         <strong>{% $this->str->extract($user->username,0,PH7_MAX_USERNAME_LENGTH_SHOWN, '...') %}</strong>
-                    </a> <img src="{{ $design->getSmallFlagIcon($user->country) }}" alt="{country_name}" title="{lang 'From %0%', $country_name}" />
+                    </a> 
+		<br>  {lang '%0% |  %1% Jahre', t($user->sex),$age} 
+		<br>  {lang '%0% | %1% ', $country_name, $this->str->upperFirst($user->city)}
+		<br>  {lang '%0%', substr($user->description,0,50)}
                 </p>
 
                 {if $is_admin_auth}

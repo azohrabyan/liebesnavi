@@ -8,8 +8,8 @@
         <h3 class="underline">{lang 'Recently Viewed By:'}</h3>
         <p class="italic underline"><strong><a href="{{ $design->url('user','visitor','index',$username) }}">{visitor_number}</a></strong></p><br />
         {each $v in $visitors}
-            <div class="s_photo">
-                {{ $avatarDesign->get($v->username, $v->firstName, $v->sex, 64, true) }}
+            <div class="s_photo_s">
+                {{ $avatarDesign->get($v->username, $v->firstName, $v->sex, 100, true) }}
             </div>
         {/each}
 

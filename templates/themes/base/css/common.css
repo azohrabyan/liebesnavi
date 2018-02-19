@@ -192,13 +192,14 @@ label#percent {
 .thumb_photo, .s_photo, .m_photo, .m_video {
     float: left;
     vertical-align: bottom;
+
 }
 
 .thumb_photo img, .s_photo img, .m_photo img {
     margin: 2px;
     padding: 4px;
     border: 1px #DFDFDF solid;
-    background: #fff;
+    background: #fffeee;
     box-shadow: 3px 3px 3px #ccc;
 }
 
@@ -215,14 +216,6 @@ label#percent {
     transition: all 0.5s ease-in-out;
 }
 
-.thumb_photo {
-    margin: 10px;
-}
-
-.thumb_photo img {
-    width: 160px;
-    height: 150px;
-}
 
 .s_photo {
     width: 72px;

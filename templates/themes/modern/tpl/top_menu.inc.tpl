@@ -35,6 +35,29 @@
     {* Menu Guest, Member and Admin *}
       {if !$is_aff_auth}
 
+	{if !$is_admin_auth}
+	<li class="dropdown">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </li>
+	<li class="dropdown">
+	<a href="{{ $design->url('user-dashboard', 'main', 'index') }}" rel="nofollow"  data-load="ajax"><img src="/images/dashboard_off.jpg" border=0 ></a>
+        </li>
+	
+        <li class="dropdown">
+<a href="{{ $design->url('user', 'browse', 'index') }}" rel="nofollow" title="{lang 'Search The Members'}" data-load="ajax"><img src="/images/search_off.jpg" border=0 ></a>
+        </li>
+
+        <li class="dropdown">
+	<a href="" rel="nofollow"  data-load="ajax"><img src="/images/chat_off.jpg" border=0 ></a>
+        </li>
+
+		{if $is_mail_enabled}
+        	<li class="dropdown">
+		<a href="{{ $design->url('mail','main','compose') }}" rel="nofollow"  title="{lang 'My Emails'}" data-load="ajax"><img src="/images/mail_off.jpg" border=0 ></a>
+        	</li>
+		{/if}
+	{/if}
+
+
+	{if $is_admin_auth}
         <li class="dropdown">
 <a href="{{ $design->url('user-dashboard', 'main', 'index') }}" rel="nofollow"  data-load="ajax"><i class="fa fa-user"></i> {lang 'Dashboard'}</a>
         </li>
@@ -42,6 +65,9 @@
 	<li class="dropdown">
 <a href="{{ $design->url('user', 'browse', 'index') }}" rel="nofollow" title="{lang 'Search The Members'}" data-load="ajax"><i class="fa fa-search"></i> {lang 'Search'}</a>
 	</li>
+	{/if}
+
+
       {/if}
 
 
@@ -63,7 +89,6 @@
         {/if}
 
         {if $is_picture_enabled}
-          <li class="dropdown"><a href="{{ $design->url('picture','main','index') }}" title="{lang 'Photo Gallery'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-picture-o"></i> {lang 'Photo'} <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="{{ $design->url('picture','main','index') }}" rel="nofollow" title="{lang 'Photo Gallery'}" data-load="ajax"><i class="fa fa-picture-o"></i> {lang 'Photos'}</a></li>
 
@@ -71,7 +96,6 @@
                 <li><a href="{{ $design->url('hotornot','main','rating') }}" title="{lang 'Hot Or Not'}" data-load="ajax"><i class="fa fa-star-half-o"></i> {lang 'Hot Or Not'}</a></li>
               {/if}
 
-              <li><a href="{{ $design->url('picture','main','search') }}" title="{lang 'Search Photos'}" data-load="ajax"><i class="fa fa-search"></i> {lang 'Search'}</a></li>
             </ul>
           </li>
         {/if}
@@ -116,6 +140,8 @@
 
     {* Member Menu *}
       {if $is_user_auth AND ( !$is_aff_auth AND !$is_admin_auth ) OR $admin_logged_as_user }
+
+	{* Email commentet out from top Menu
           {if $is_mail_enabled}
             <li class="dropdown"><a href="{{ $design->url('mail','main','inbox') }}" title="{lang 'My Emails'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-envelope-o fa-fw"></i> {lang 'Mail'} {if $count_unread_mail}<span class="badge">{count_unread_mail}</span>{/if} <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
@@ -127,34 +153,18 @@
               </ul>
             </li>
           {/if}
-
+	*}
           <noscript>
             <li class="dropdown"><a href="{{ $design->url('user','setting','edit') }}" title="{lang 'Settings'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">{lang 'Settings'} <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="{{ $design->url('user','setting','edit') }}">{lang 'Edit Profile'}</a></li>
-                <li><a href="{{ $design->url('user','setting','design') }}">{lang 'Design Profile'}</a></li>
-                <li><a href="{{ $design->url('user','setting','notification') }}">{lang 'Notifications'}</a></li>
+
                 <li><a href="{{ $design->url('user','setting','privacy') }}">{lang 'Privacy Settings'}</a></li>
                 {if $is_valid_license}<li><a href="{{ $design->url('payment','main','info') }}">{lang 'Membership Details'}</a></li>{/if}
                 <li><a href="{{ $design->url('user','setting','password') }}">{lang 'Change Password'}</a></li>
               </ul>
             </li>
           </noscript>
-
-          <li class="dropdown"><a href="{{ $design->url('user','account','index') }}" title="{lang 'My Account'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-cog"></i> {lang 'Account'} <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="{{ $design->url('user','setting','index') }}" title="{lang 'My Settings'}"><i class="fa fa-cog fa-fw"></i> {lang 'Edit Profile'}</a></li>
-              <li><a href="{% (new UserCore)->getProfileLink($oSession->get('member_username')) %}" title="{lang 'See My Profile'}"><i class="fa fa-user fa-fw"></i> {lang 'See My Profile'}</a></li>
-              <li><a href="{{ $design->url('user','setting','avatar') }}" title="{lang 'Change Profile Photo'}"><i class="fa fa-upload"></i> {lang 'Change Profile Photo'}</a></li>
-
-              {if $is_picture_enabled}
-                <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url('picture','main','index') }}" title="{lang 'Photo Gallery'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-picture-o"></i> {lang 'Photo Gallery'}</a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ $design->url('picture','main','addalbum') }}" title="{lang 'Add an Album'}">{lang 'Add an Album'}</a></li>
-                    <li><a href="{{ $design->url('picture','main','albums', $oSession->get('member_username')) }}" title="{lang 'My Albums'}" data-load="ajax">{lang 'My Albums'}</a></li>
-                  </ul>
-                </li>
-              {/if}
 
               {if $is_video_enabled}
                 <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url('video','main','index') }}" title="{lang 'Videos Gallery'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-youtube-play"></i> {lang 'Videos Gallery'}</a>
@@ -183,25 +193,14 @@
                 </li>
               {/if}
 
-              <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url('user','visitor','index') }}" title="{lang 'Who Visited My Profile'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-eye"></i> {lang 'Who See Me'}</a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="{{ $design->url('user','visitor','index') }}" title="{lang 'Who Visited My Profile'}">{lang 'Who See Me'}</a></li>
-                  <li><a href="{{ $design->url('user','visitor','search') }}" title="{lang 'Find who visited my profile'}">{lang 'Find Visitor(s)'}</a></li>
-                </ul>
-              </li>
+	
 
-              <li><a href="{{ $design->url('user','main','logout') }}" title="{lang 'Logout'}"><i class="fa fa-sign-out"></i> {lang 'Logout'}</a></li>
-            </ul>
-          </li>
-          <li  class="dropdown" >
-            <ul class="dropdown-menu" role="menu" >
-		<li>{lang 'Credits:'} <span class="badge">{count_credits}</span></li></ul>
-          </li>
-
-
-        <li class="dropdown"><a href="{{ $design->url('payment', 'main', 'info') }}" rel="nofollow"  data-load="ajax"> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;<span class="badge">  {count_credits}  {lang 'Coins: '} <img src="/images/Add_coin.png" width=21></span></a>
-        </li>
-
+	<li>
+	<div class="top_coin_menu_wrapper">
+	<div class="top_coin_menu_left" ><a href="{{ $design->url('payment', 'main', 'info') }}" rel="nofollow"  data-load="ajax">  {count_credits}  {lang 'Coins: '} </div>
+	 <div class="top_coin_menu_right" ></div></a>
+	</div>
+	</li>
       {/if}
 
 

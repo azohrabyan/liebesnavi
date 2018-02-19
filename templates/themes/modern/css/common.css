@@ -48,6 +48,33 @@ body {
     background: white url(../img/body_bg_middle.jpg);
 }
 
+.top_coin_menu_wrapper {
+	overflow: hidden;
+	position:fixed;
+   	left: 55%;
+	top:9px;
+
+}
+
+.top_coin_menu_left {
+   background: white url(../img/coin_off.jpg);
+   height:37px;
+   width:102px;
+   text-align: right;
+   padding:9px;
+   float:left;
+}
+
+.top_coin_menu_right {
+   background: white url(../img/add_coin_off.jpg);
+   height:37px;
+   width:52px;
+   padding:8px;
+   float:left;
+}
+
+
+
 
 #links {
     float: right;
@@ -66,12 +93,20 @@ body {
 
 
 #logo {
-    padding-left: 170px;
+    display:block;
+    width:45px;
+    float:left;
+    margin-top: -1px;
+    padding-top:10px;
+    background: #0067A5;
+    padding-left: 260px;
     background: url(../img/logo.png) no-repeat;
+    background-color: #0067A5;
 }
 
 #logo h1 {
     font-size: 6em;
+    background-color: #0067A5
 }
 
 .navbar #logo {
@@ -90,7 +125,7 @@ body {
 }
 
 .siluet_show {
-	 margin-top: -185px;
+	margin-top: -185px;
 	float: left;
 	width: 94px;
 	height: 190px;
@@ -235,10 +270,15 @@ label#percent {
 
 .thumb_photo, .s_photo, .m_photo, .m_video {
     float: left;
-    vertical-align: bottom;
+    vertical-align: top;
+    width: 180px;
+    height: 210px;
+    border:1px;
+    margin: 2px
+
 }
 
-.thumb_photo img, .s_photo img, .m_photo img {
+.thumb_photo img, .s_photo img, .s_photo_s img , .m_photo img {
     margin: 2px;
     padding: 4px;
     border: 1px #DFDFDF solid;
@@ -247,6 +287,10 @@ label#percent {
 }
 
 .s_photo img {
+    padding: 3px;
+}
+
+.s_photo_s img {
     padding: 3px;
 }
 
@@ -269,7 +313,7 @@ label#percent {
 }
 
 .s_photo {
-    width: 72px;
+    width: 62px;
     margin: 4px;
 }
 
@@ -277,6 +321,8 @@ label#percent {
     width: 62px;
     height: 62px;
 }
+
+
 
 .m_photo {
     width: 150px;
@@ -312,6 +358,7 @@ label#percent {
     border: 0;
     background: transparent;
     box-shadow: none;
+    float:left;
 }
 
 .picture:hover a {

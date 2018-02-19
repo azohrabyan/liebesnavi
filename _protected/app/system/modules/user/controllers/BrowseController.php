@@ -56,10 +56,10 @@ class BrowseController extends Controller
             );
         } else {
             // We can put HTML tags in the <title> tag as our template engine will remove all HTML tags present in the title tag, ...
-            $this->view->page_title = t('Browse Members');
-            $this->view->h1_title = '<span class="pH1">' . t('Browse Members') . '</span>';
-            $this->view->h3_title = t('Meet new People with %0%', '<span class="pH0">' . $this->registry->site_name . '</span>');
-            $this->view->meta_description = t('Meet new People and Friends near you with %site_name% - Browse Members');
+ //           $this->view->page_title = t('Browse Members');
+ //           $this->view->h1_title = '<span class="pH1">' . t('Browse Members') . '</span>';
+ //           $this->view->h3_title = t('Meet new People with %0%', '<span class="pH0">' . $this->registry->site_name . '</span>');
+ //           $this->view->meta_description = t('Meet new People and Friends near you with %site_name% - Browse Members');
             $this->view->avatarDesign = new AvatarDesignCore;
             $this->view->users = $oUsers;
             $this->output();

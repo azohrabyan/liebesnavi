@@ -206,8 +206,8 @@
 }
 
 .box-right {
-    float: right;
-    width: 700px;
+    float: left;
+    width: 80%;
 }
 
 .icon-wrap i {
