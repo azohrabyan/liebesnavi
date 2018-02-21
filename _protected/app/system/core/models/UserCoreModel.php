@@ -1514,6 +1514,16 @@ class UserCoreModel extends Model
         return $oData;
     }
 
+    public function decreaseCredits($iProfileId)
+    {
+        $sSqlQuery = 'UPDATE' . Db::prefix('Members') . 'SET credits = credits - 1 WHERE profileId = :profileId LIMIT 1';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
+        $rStmt->bindValue(':profileId', $iProfileId, \PDO::PARAM_INT);
+
+        return $rStmt->execute();
+    }
+
     /**
      * @return string
      */

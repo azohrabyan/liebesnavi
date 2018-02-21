@@ -48,12 +48,18 @@ class MailFormProcess extends Form
             \PFBC\Form::setError('form_compose_mail', Form::duplicateContentMsg());
         } elseif (!$bIsAdmin && Spam::areUrls($sMessage, self::MAX_ALLOWED_LINKS)) {
             \PFBC\Form::setError('form_compose_mail', Form::tooManyUrlsMsg());
+        } elseif (!$bIsAdmin && !UserCore::isAdminLoggedAs() && UserCore::countCredits($iSenderId) <= 0) {
+            \PFBC\Form::setError('form_compose_mail', Form::notEnoughCredits());
         } else {
             $mSendMsg = $oMailModel->sendMsg($iSenderId, $iRecipientId, $this->httpRequest->post('title'), $sMessage, $sCurrentTime);
 
             if (false === $mSendMsg) {
                 \PFBC\Form::setError('form_compose_mail', t('Problem while sending the message. Please try again later.'));
             } else {
+                if (!$bIsAdmin && !UserCore::isAdminLoggedAs()) {
+                    $oUserModel->decreaseCredits($iSenderId);
+                }
+
                 // If the notification is accepted and if the recipient isn't online, we send a notification email
                 if (!$oUserModel->isNotification($iRecipientId, 'newMsg') && !$oUserModel->isOnline($iRecipientId)) {
                     $this->sendMail($iRecipientId, $mSendMsg, $oUserModel);
