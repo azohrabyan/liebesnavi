@@ -1403,6 +1403,27 @@ class UserCoreModel extends Model
         return $mData;
     }
 
+    public function getCreditPackages($iPackageId = null)
+    {
+        $this->cache->start(self::CACHE_GROUP, 'packages' . $iPackageId, static::CACHE_TIME);
+
+        if (!$mData = $this->cache->get()) {
+            $bIsPackageId = !empty($iPackageId);
+            $sSqlPackage = ($bIsPackageId) ? ' WHERE packageId = :packageId ' : ' ';
+
+            $rStmt = Db::getInstance()->prepare('SELECT * FROM' . Db::prefix('CreditPackages') . $sSqlPackage . 'ORDER BY sortOrder ASC');
+            if (!empty($iPackageId)) {
+                $rStmt->bindValue(':packageId', $iPackageId, \PDO::PARAM_INT);
+            }
+            $rStmt->execute();
+            $mData = ($bIsPackageId) ? $rStmt->fetch(\PDO::FETCH_OBJ) : $rStmt->fetchAll(\PDO::FETCH_OBJ);
+            Db::free($rStmt);
+            $this->cache->put($mData);
+        }
+
+        return $mData;
+    }
+
     /**
      * Get the membership details of a user.
      *
@@ -1481,6 +1502,24 @@ class UserCoreModel extends Model
         return $rStmt->execute();
     }
 
+    public function updateUserCoins($iPackageId, $iProfileId)
+    {
+        $oPackageData = $this->getCreditPackages($iPackageId);
+        if (!is_object($oPackageData)) {
+            return false;
+        }
+        $iPurchasedCredits = $oPackageData->credits;
+
+        $sSqlQuery = 'UPDATE' . Db::prefix('Members') . 'SET credits = credits + :credits' .
+            ' WHERE profileId = :profileId LIMIT 1';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
+        $rStmt->bindValue(':credits', $iPurchasedCredits, \PDO::PARAM_INT);
+        $rStmt->bindValue(':profileId', $iProfileId, \PDO::PARAM_INT);
+
+        return $rStmt->execute();
+    }
+
     /**
      * Get Info Fields from profile ID.
      *
@@ -1512,6 +1551,16 @@ class UserCoreModel extends Model
         }
 
         return $oData;
+    }
+
+    public function decreaseCredits($iProfileId)
+    {
+        $sSqlQuery = 'UPDATE' . Db::prefix('Members') . 'SET credits = credits - 1 WHERE profileId = :profileId LIMIT 1';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
+        $rStmt->bindValue(':profileId', $iProfileId, \PDO::PARAM_INT);
+
+        return $rStmt->execute();
     }
 
     /**

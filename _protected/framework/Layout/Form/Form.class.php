@@ -131,6 +131,14 @@ abstract class Form extends Core
     }
 
     /**
+     * @return string
+     */
+    public static function notEnoughCredits()
+    {
+        return t('Oops! Seems like you are out of credits. Buy some credits in out shop.');
+    }
+
+    /**
      * Get Time text.
      *
      * @param integer $iWaitTime

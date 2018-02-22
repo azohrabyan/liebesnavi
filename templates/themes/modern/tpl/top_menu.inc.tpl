@@ -197,7 +197,7 @@
 
 	<li>
 	<div class="top_coin_menu_wrapper">
-	<div class="top_coin_menu_left" ><a href="{{ $design->url('payment', 'main', 'info') }}" rel="nofollow"  data-load="ajax">  {count_credits}  {lang 'Coins: '} </div>
+	<div class="top_coin_menu_left" ><a href="{{ $design->url('payment', 'coins', '') }}" rel="nofollow"  data-load="ajax"> {lang 'Coins: '} {count_credits}   </div>
 	 <div class="top_coin_menu_right" ></div></a>
 	</div>
 	</li>

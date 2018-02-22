@@ -199,7 +199,7 @@
           </li>
 
 
-        <li class="dropdown"><a href="{{ $design->url('payment', 'main', 'info') }}" rel="nofollow"  data-load="ajax"> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;<span class="badge">  {count_credits}  {lang 'Coins: '} <img src="/images/Add_coin.png" width=21></span></a>
+        <li class="dropdown"><a href="{{ $design->url('payment', 'main', 'coins') }}" rel="nofollow"  data-load="ajax"> &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;<span class="badge">  {count_credits}  {lang 'Coins: '} <img src="/images/Add_coin.png" width=21></span></a>
         </li>
 
       {/if}

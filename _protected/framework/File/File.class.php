@@ -749,6 +749,7 @@ class File
      */
     public function getUrlContents($sUrl)
     {
+        $sUrl = str_replace('localhost:8081', 'localhost:80', $sUrl);
         $rCh = curl_init();
         curl_setopt($rCh, CURLOPT_URL, $sUrl);
         curl_setopt($rCh, CURLOPT_HEADER, 0);

@@ -15,13 +15,14 @@
     {if !$is_paypal AND !$is_stripe AND !$is_braintree AND !$is_2co AND !$is_ccbill}
         <p class="err_msg">{lang 'No Payment System Enabled!'}</p>
     {else}
-        {if $membership->enable == 1 AND $membership->price != 0}
+
+        {if $package->enabled == 1 AND $package->price != 0}
             {{ $oDesign = new PaymentDesign }}
             {{ $oPc = new PaymentContext }}
-            {{ $oPc->id = $membership->groupId }}
-            {{ $oPc->price = $membership->price }}
-            {{ $oPc->name = $membership->name }}
-            {{ $oPc->module = 'main' }}
+            {{ $oPc->id = $package->packageId }}
+            {{ $oPc->price = $package->price }}
+            {{ $oPc->name = $package->credits . ' Coins'}}
+            {{ $oPc->module = 'coins' }}
 
             <div class="paypal_logo left">
                 <img src="{url_tpl_mod_img}payment-icon.png" alt="Payment Gateways" title="{lang 'Purchase your subscription safely!'}" />
@@ -57,7 +58,7 @@
                 </div>
             {/if}
         {else}
-            <p class="err_msg">{lang 'Membership requested is not available!'}</p>
+            <p class="err_msg">{lang 'Package requested is not available!'}</p>
         {/if}
     {/if}
 </div>

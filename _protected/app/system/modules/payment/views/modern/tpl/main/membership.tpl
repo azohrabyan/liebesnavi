@@ -1,12 +1,4 @@
 <div class="center">
-
-<div class="img-circle"><a href=""><h2>50 Coins</h2><p>&#8364; 9,99</p></a></div>
-<div class="img-circle"><a href=""><h2>180 Coins</h2><p>&#8364; 34,99</p></a></div>
-<div class="img-circle"><a href=""><h2>485 Coins</h2><p>&#8364; 84,99</p></a></div>
-<div class="img-circle"><a href=""><h2>900 Coins</h2><p>&#8364; 149,99</p></a></div>
-<div class="img-circle"><a href=""><h2>1.550 Coins</h2><p>&#8364; 249,99</p></a></div>
-
-
     <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <h3 class="panel-heading">{lang 'Choose your membership'}</h3>

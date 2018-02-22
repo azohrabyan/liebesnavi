@@ -20,48 +20,48 @@ class PaymentDesign extends Framework\Core\Core
     const DIV_CONTAINER_NAME = 'payment-form';
 
     /**
-     * @param stdClass $oMembership
+     * @param PaymentContext $oPc
      *
      * @return void
      */
-    public function buttonPayPal(stdClass $oMembership)
+    public function buttonPayPal(PaymentContext $oPc)
     {
         $oPayPal = new PayPal($this->config->values['module.setting']['sandbox.enabled']);
 
         $oPayPal
             ->param('business', $this->config->values['module.setting']['paypal.email'])
-            ->param('custom', base64_encode($oMembership->groupId . '|' . $oMembership->price))// Use base64_encode() to discourage curious people
-            ->param('amount', $oMembership->price)
-            ->param('item_number', $oMembership->groupId)
-            ->param('item_name', $this->registry->site_name . ' ' . $oMembership->name)
+            ->param('custom', base64_encode($oPc->id . '|' . $oPc->price))// Use base64_encode() to discourage curious people
+            ->param('amount', $oPc->price)
+            ->param('item_number', $oPc->id)
+            ->param('item_name', $this->registry->site_name . ' ' . $oPc->name)
             ->param('no_note', 1)
             ->param('no_shipping', 1)
             ->param('currency_code', $this->config->values['module.setting']['currency'])
             ->param('tax_cart', $this->config->values['module.setting']['vat_rate'])
-            ->param('return', Uri::get('payment', 'main', 'process', 'paypal'))
+            ->param('return', Uri::get('payment', $oPc->module, 'process', 'paypal'))
             ->param('rm', 2)// Auto redirection in POST data
-            ->param('notify_url', Uri::get('payment', 'main', 'notification', 'PH7\PayPal,' . $oMembership->groupId))
-            ->param('cancel_return', Uri::get('payment', 'main', 'membership', '?msg=' . t('The payment was aborted. No charge has been taken from your account.'), false));
+            ->param('notify_url', Uri::get('payment', $oPc->module, 'notification', 'PH7\PayPal,' . $oPc->id))
+            ->param('cancel_return', Uri::get('payment', $oPc->module, 'membership', '?msg=' . t('The payment was aborted. No charge has been taken from your account.'), false));
 
-        $this->displayGatewayForm($oPayPal, $oMembership->name, 'PayPal');
+        $this->displayGatewayForm($oPayPal, $oPc->name, 'PayPal');
 
-        unset($oPayPal, $oMembership);
+        unset($oPayPal, $oPc);
     }
 
     /**
      * Generates Stripe payment form Stripe API.
      *
-     * @param stdClass $oMembership
+     * @param PaymentContext $oPc
      *
      * @return void
      */
-    public function buttonStripe(stdClass $oMembership)
+    public function buttonStripe(PaymentContext $oPc)
     {
         $oStripe = new Stripe;
 
         $oStripe
-            ->param('item_number', $oMembership->groupId)
-            ->param('amount', $oMembership->price);
+            ->param('item_number', $oPc->id)
+            ->param('amount', $oPc->price);
 
         echo
         '<form action="', $oStripe->getUrl(), '" method="post">',
@@ -70,8 +70,8 @@ class PaymentDesign extends Framework\Core\Core
                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                 data-key="', $this->config->values['module.setting']['stripe.publishable_key'], '"
                 data-name="', $this->registry->site_name, '"
-                data-description="', $oMembership->name, '"
-                data-amount="', Stripe::getAmount($oMembership->price), '"
+                data-description="', $oPc->name, '"
+                data-amount="', Stripe::getAmount($oPc->price), '"
                 data-currency="', $this->config->values['module.setting']['currency'], '"
                 data-allow-remember-me="true"
                 data-bitcoin="true">
@@ -84,13 +84,13 @@ class PaymentDesign extends Framework\Core\Core
     /**
      * Generates Braintree payment form Braintree API.
      *
-     * @param stdClass $oMembership
+     * @param PaymentContext $oPc
      *
      * @return void
      */
-    public function buttonBraintree(stdClass $oMembership)
+    public function buttonBraintree(PaymentContext $oPc)
     {
-        $fPrice = $oMembership->price;
+        $fPrice = $oPc->price;
         $sCurrency = $this->config->values['module.setting']['currency'];
         $sLocale = PH7_LANG_NAME;
 
@@ -101,10 +101,10 @@ class PaymentDesign extends Framework\Core\Core
 
         $oBraintree = new Braintree;
         $oBraintree
-            ->param('item_number', $oMembership->groupId)
+            ->param('item_number', $oPc->id)
             ->param('amount', $fPrice);
 
-        $this->displayGatewayForm($oBraintree, $oMembership->name, '<u>Braintree</u>');
+        $this->displayGatewayForm($oBraintree, $oPc->name, '<u>Braintree</u>');
 
         unset($oBraintree);
 
@@ -118,28 +118,28 @@ class PaymentDesign extends Framework\Core\Core
     }
 
     /**
-     * @param stdClass $oMembership
+     * @param PaymentContext $oPc
      *
      * @return void
      */
-    public function button2CheckOut(stdClass $oMembership)
+    public function button2CheckOut(PaymentContext $oPc)
     {
         $o2CO = new TwoCO($this->config->values['module.setting']['sandbox.enabled']);
 
         $o2CO
             ->param('sid', $this->config->values['module.setting']['2co.vendor_id'])
             ->param('id_type', 1)
-            ->param('cart_order_id', $oMembership->groupId)
-            ->param('merchant_order_id', $oMembership->groupId)
-            ->param('c_prod', $oMembership->groupId)
-            ->param('c_price', $oMembership->price)
-            ->param('total', $oMembership->price)
-            ->param('c_name', $this->registry->site_name . ' ' . $oMembership->name)
+            ->param('cart_order_id', $oPc->id)
+            ->param('merchant_order_id', $oPc->id)
+            ->param('c_prod', $oPc->id)
+            ->param('c_price', $oPc->price)
+            ->param('total', $oPc->price)
+            ->param('c_name', $this->registry->site_name . ' ' . $oPc->name)
             ->param('tco_currency', $this->config->values['module.setting']['currency'])
             ->param('c_tangible', 'N')
-            ->param('x_receipt_link_url', Uri::get('payment', 'main', 'process', '2co'));
+            ->param('x_receipt_link_url', Uri::get('payment', $oPc->module, 'process', '2co'));
 
-        $this->displayGatewayForm($o2CO, $oMembership->name, '2CO');
+        $this->displayGatewayForm($o2CO, $oPc->name, '2CO');
 
         unset($o2CO);
     }
