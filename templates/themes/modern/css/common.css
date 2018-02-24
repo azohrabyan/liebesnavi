@@ -47,30 +47,140 @@ body {
     background: white url(../img/body_bg_middle.jpg);
 }
 
+
+
+
+#top_search {
+  position:relative;
+  height:37px;
+  width:40px;
+  margin:0 auto;
+}
+#top_search img {
+  position:absolute;
+  left:0;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+#top_search img.top:hover {
+  opacity:0;
+}
+
+#top_dashboard {
+  position:relative;
+  height:37px;
+  width:40px;
+  margin:0 auto;
+}
+#top_dashboard img {
+  position:absolute;
+  left:0;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+#top_dashboard img.top:hover {
+  opacity:0;
+}
+
+#top_chat {
+  position:relative;
+  height:37px;
+  width:40px;
+  margin:0 auto;
+}
+#top_chat img {
+  position:absolute;
+  left:0;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+#top_chat img.top:hover {
+  opacity:0;
+}
+
+
+
+#top_mail {
+  position:relative;
+  height:37px;
+  width:40px;
+  margin:0 auto;
+}
+#top_mail img {
+  position:absolute;
+  left:0;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+#top_mail img.top:hover {
+  opacity:0;
+}
+
+
+#top_coin_menu_right {
+  position:relative;
+  height:45px;
+  width:52px;
+  margin:0 auto;
+  float:left;
+}
+#top_coin_menu_right img {
+  position:absolute;
+  left:0;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+#top_coin_menu_right img.top:hover {
+  opacity:0;
+}
+
+
+#top_coin_menu_left {
+  position:relative;
+  height:37px;
+  width:102px;
+  margin:0 auto;
+  float:left;
+  
+}
+#top_coin_menu_left img {
+  position:absolute;
+  left:0;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+#top_coin_menu_left img.top:hover {
+  opacity:0;
+}
+
+#top_coin_menu_left_text {
+    position: relative;
+    z-index: 1;
+    margin-top: 11px;
+    width:100%;
+    text-align:center;
+    color:#fea223;
+}
+
 .top_coin_menu_wrapper {
 	overflow: hidden;
 	position:fixed;
    	left: 55%;
-	top:9px;
-
+	top:7px;
 }
 
-.top_coin_menu_left {
-   background: white url(../img/coin_off.jpg);
-   height:37px;
-   width:102px;
-   text-align: right;
-   padding:9px;
-   float:left;
-}
-
-.top_coin_menu_right {
-   background: white url(../img/add_coin_off.jpg);
-   height:37px;
-   width:52px;
-   padding:8px;
-   float:left;
-}
 
 .search_avatar {
    position: relative;

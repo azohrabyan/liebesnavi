@@ -33,25 +33,30 @@
 
 
     {* Menu Guest, Member and Admin *}
-      {if !$is_aff_auth}
+      {if $is_user_auth}
 
 	{if !$is_admin_auth}
 	<li class="dropdown">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </li>
 	<li class="dropdown">
-	<a href="{{ $design->url('user-dashboard', 'main', 'index') }}" rel="nofollow"  data-load="ajax"><img src="/images/dashboard_off.jpg" border=0 ></a>
+	<a href="{{ $design->url('user-dashboard', 'main', 'index') }}" rel="nofollow"  data-load="ajax"><div id="top_dashboard"><img class="bottom" src="/images/dashboard_on.jpg" border=0 ><img class="top" src="/images/dashboard_off.jpg" border=0></div></a>
         </li>
 	
         <li class="dropdown">
-<a href="{{ $design->url('user', 'browse', 'index') }}" rel="nofollow" title="{lang 'Search The Members'}" data-load="ajax"><img src="/images/search_off.jpg" border=0 ></a>
+	<a href="{{ $design->url('user', 'browse', 'index') }}" rel="nofollow" title="{lang 'Search The Members'}" data-load="ajax">
+	<div id="top_search"><img class="bottom" src="/images/search_on.jpg" border=0 ><img class="top" src="/images/search_off.jpg" border=0></div></a>
         </li>
 
         <li class="dropdown">
-	<a href="" rel="nofollow"  data-load="ajax"><img src="/images/chat_off.jpg" border=0 ></a>
+	<a href="" rel="nofollow"  data-load="ajax">
+	<div id="top_chat"><img class="bottom" src="/images/chat_on.jpg" border=0 ><img class="top" src="/images/chat_off.jpg" border=0></div></a>
+	</a>
         </li>
 
 		{if $is_mail_enabled}
         	<li class="dropdown">
-		<a href="{{ $design->url('mail','main','compose') }}" rel="nofollow"  title="{lang 'My Emails'}" data-load="ajax"><img src="/images/mail_off.jpg" border=0 ></a>
+		<a href="{{ $design->url('mail','main','compose') }}" rel="nofollow"  title="{lang 'My Emails'}" data-load="ajax">
+		<div id="top_mail"><img class="bottom" src="/images/mail_on.jpg" border=0 ><img class="top" src="/images/mail_off.jpg" border=0></div>
+		</a>
         	</li>
 		{/if}
 	{/if}
@@ -197,8 +202,14 @@
 
 	<li>
 	<div class="top_coin_menu_wrapper">
-	<div class="top_coin_menu_left" ><a href="{{ $design->url('payment', 'coins', '') }}" rel="nofollow"  data-load="ajax"> {lang 'Coins: '} {count_credits}   </div>
-	 <div class="top_coin_menu_right" ></div></a>
+	<div id="top_coin_menu_left" >
+	<img class="bottom" src="/images/coin_on.jpg" border=0 ><img class="top" src="/images/coin_off.jpg" border=0>
+		<div id="top_coin_menu_left_text">{lang 'Coins: '} {count_credits}</div>
+	</div>
+
+		<a href="{{ $design->url('payment', 'coins', '') }}" rel="nofollow"  data-load="ajax"> 
+		<div id="top_coin_menu_right"><img class="bottom" src="/images/add_coin_on.jpg" border=0 ><img class="top" src="/images/add_coin_off.jpg" border=0></div>
+		</a>
 	</div>
 	</li>
       {/if}
