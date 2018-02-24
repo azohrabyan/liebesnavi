@@ -308,6 +308,8 @@ var Messenger = {
                     $("#chatbox_" + sBoxTitle + " .chatboxcontent")
                         .append('<div class="chatboxmessage"><span class="chatboxmessagefrom">' + oData.user + ':&nbsp;&nbsp;</span><span class="chatboxmessagecontent">' + oData.msg + '</span></div>');
                     $("#chatbox_" + sBoxTitle + " .chatboxcontent").scrollTop($("#chatbox_" + sBoxTitle + " .chatboxcontent")[0].scrollHeight);
+
+                    $('#top_coin_menu_left_text').text('Coins: ' + oData.coins);
                 });
             }
             this.iHeartbeatTime = this.iMinHeartbeat;

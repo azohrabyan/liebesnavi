@@ -173,6 +173,8 @@ class MessengerAjax extends PermissionCore
         $sTo = $_SESSION['messenger_username_to'] = $this->_oHttpRequest->post('to');
         $sMsg = $this->_oHttpRequest->post('message');
 
+        $iSenderId = (new Session)->get('member_id');
+
         $_SESSION['messenger_openBoxes'][$this->_oHttpRequest->post('to')] = date('Y-m-d H:i:s', time());
 
         $sMsgTransform = $this->sanitize($sMsg);
@@ -188,8 +190,12 @@ class MessengerAjax extends PermissionCore
             $sMsgTransform = t('You must have the ONLINE status in order to chat with other users.');
         } elseif (!$this->isOnline($sTo)) {
             $sMsgTransform = '<small><em>' . t("%0% is offline. Send a <a href='%1%'>Private Message</a> instead.", $sTo, Uri::get('mail', 'main', 'compose', $sTo)) . '</em></small>';
+        }elseif (UserCore::countCredits($iSenderId) <= 0) {
+            $sMsgTransform = '<small><em>' . t("You have not enough coins to send messages. Go to <a href='%1%'>shop</a> and purchase some coins.", Uri::get('payment', 'coins', 'index', '')) . '</em></small>';
         } else {
             $this->_oMessengerModel->insert($sFrom, $sTo, $sMsg, (new CDateTime)->get()->dateTime('Y-m-d H:i:s'));
+            $oUserModel = new UserCoreModel;
+            $oUserModel->decreaseCredits($iSenderId);
         }
 
         $_SESSION['messenger_history'][$this->_oHttpRequest->post('to')] .= $this->setJsonContent(['status' => '1', 'user' => $sTo, 'msg' => $sMsgTransform]);
@@ -209,11 +215,14 @@ class MessengerAjax extends PermissionCore
 
     protected function setJsonContent(array $aData, $bEndComma = true)
     {
+        $iSenderId = (new Session)->get('member_id');
+
         // Default array
         $aDefData = [
             'status' => '0',
             'user' => '',
-            'msg' => ''
+            'msg' => '',
+            'coins' => UserCore::countCredits($iSenderId)
         ];
 
         // Update array
@@ -223,7 +232,8 @@ class MessengerAjax extends PermissionCore
         {
             "status": "{$aData['status']}",
             "user": "{$aData['user']}",
-            "msg": "{$aData['msg']}"
+            "msg": "{$aData['msg']}",
+            "coins": "{$aData['coins']}"
         }
 EOD;
         return $bEndComma ? $sJsonData . ',' : $sJsonData;
