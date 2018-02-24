@@ -188,9 +188,8 @@
       {/if}
     </footer>
 
-    <div class="clear"></div>
-    <div class="right vs_marg">
-    </div>
+    <div class="clear">aa</div>
+    <div class="right vs_marg"></div>
     <!-- End Footer -->
 
     <!-- Begin Footer JavaScript -->

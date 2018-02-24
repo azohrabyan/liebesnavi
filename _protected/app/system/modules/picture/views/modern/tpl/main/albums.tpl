@@ -14,14 +14,11 @@
 
                 {if $is_user_auth AND $member_id == $album->profileId}
                     <div class="small">
-                        <a href="{{ $design->url('picture', 'main', 'editalbum', $album->albumId) }}">{lang 'Edit'}</a> |
-                        {{ LinkCoreForm::display(t('Delete'), 'picture', 'main', 'deletealbum', array('album_id'=>$album->albumId)) }}
+                        <a href="{{ $design->url('picture', 'main', 'editalbum', $album->albumId) }}"><i class="fa fa-pencil"></i></a> |
+                        {{ LinkCoreForm::display(t('D'), 'picture', 'main', 'deletealbum', array('album_id'=>$album->albumId)) }}
+			 |  {{ $design->like($album->username,$album->firstName,$album->sex,$absolute_url) }}
                     </div>
                 {/if}
-                <p>
-                    {{ RatingDesignCore::voting($album->albumId,'AlbumsPictures') }}
-                    {{ $design->like($album->username,$album->firstName,$album->sex,$absolute_url) }} | {{ $design->report($album->profileId, $album->username, $album->firstName, $album->sex) }}
-                </p>
             </div>
         {/each}
         {main_include 'page_nav.inc.tpl'}

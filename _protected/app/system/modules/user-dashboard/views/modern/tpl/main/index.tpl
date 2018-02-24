@@ -62,6 +62,7 @@
 
 
         {if $is_picture_enabled}
+	<div id="dashboard_photo_gallery">
             <div class="content" id="picture">
                 <script>
                     var url_picture_block = '{{ $design->url('picture','main','albums',$username) }}';
@@ -69,13 +70,12 @@
                 </script>
             </div>
             <div class="clear"></div>
+	</div>
         {/if}
 
         <div class="clear"></div>
 
-<br clear=all>
-<br clear=all>
-<br clear=all>
+	<div id="dashboard_recent_view">
 
         <div class="content" id="visitor">
             <script>
@@ -83,8 +83,8 @@
                 $('#visitor').load(url_visitor_block + ' #visitor_block');
             </script>
         </div>
-
-
+	</div>
+	
         {if $is_video_enabled}
             <h2 class="center underline">{lang 'My video albums'}</h2>
             <div class="content" id="video">

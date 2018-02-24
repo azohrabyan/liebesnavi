@@ -11,11 +11,11 @@
 {if empty($error)}
   <ol id="toc">
     {if $is_logged AND !$is_own_profile AND $is_mail_enabled}
-     <a rel="nofollow" href="{mail_link}"><span>{lang 'Send Message'}</span></a>
+     <a rel="nofollow" href="{mail_link}"><span><img src="/images/mail_s_off.jpg" border="0"></span></a>
     {/if}
      |
     {if $is_logged AND !$is_own_profile AND $is_im_enabled}
-      <a rel="nofollow" href="{messenger_link}"><span>{lang 'Live Chat'}</span></a>
+      <a rel="nofollow" href="{messenger_link}"><span><img src="/images/chat_s_off.jpg" border="0"></span></a>
     {/if}
     {if $is_logged AND !$is_own_profile AND $is_lovecalculator_enabled}
       <li><a href="{{ $design->url('love-calculator','main','index',$username) }}" title="{lang 'Love Calculator'}"><span>{lang 'Match'} <b class="pink2">&hearts;</b></span></a></li>

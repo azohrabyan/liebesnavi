@@ -40,7 +40,7 @@
 		<br>  {lang '%0%', substr($user->description,0,50)}
 
 		<div class="search_avatar_inside">
-		 <img src="/images/chat_s_off.jpg" border=0/> |
+		 <a rel="nofollow" onclick="Messenger.chatWith('{lang '%0%',$user->username}')" href="javascript:void(0)"><img src="/images/chat_s_off.jpg" border=0/><a> |
 		 <a href="/mail/compose/{lang '%0%',$user->username}"><img src="/images/mail_s_off.jpg" border=0/></a> |
 		 <img src="/images/kiss_s_off.jpg" border=0/>
 		

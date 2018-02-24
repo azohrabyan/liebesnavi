@@ -277,6 +277,25 @@ header, #content {
     padding-right: 12px;
 }
 
+#ajph {
+	margin-left: auto;
+	margin-right: auto;
+	min-height:75vh;
+}
+
+#dashboard_recent_view {
+	margin-top:10px;
+	height:200px;
+	text-align: right;
+	position: relative;
+}
+#dashboard_photo_gallery {
+        height:300px;
+        text-align: right;
+        position: relative;
+}
+
+
 #headings, .loginas, .noscript {
     margin-top: 65px;
 }
