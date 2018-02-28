@@ -47,9 +47,8 @@
         </li>
 
         <li class="dropdown">
-	<a href="" rel="nofollow"  data-load="ajax">
+	<a  onclick="document.getElementById('main_message').style.display='inline'">
 	<div id="top_chat"><img class="bottom" src="/images/chat_on.jpg" border=0 ><img class="top" src="/images/chat_off.jpg" border=0></div></a>
-	</a>
         </li>
 
 		{if $is_mail_enabled}

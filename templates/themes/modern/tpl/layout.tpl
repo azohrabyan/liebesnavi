@@ -67,6 +67,8 @@
     {{ XmlDesignCore::rssHeaderLinks() }}
 
     {{ $designModel->analyticsApi() }}
+
+    <script type='text/javascript' src='js/chatmgmt.js'></script>
   </head>
   <body>
 
@@ -130,6 +132,25 @@
       {* Alert Message *}
       {{ $design->flashMsg() }}
       <div class="msg"></div>
+      <div class="main_message" id="main_message">
+	<div class="main_message_title">Messagner 
+		<div class="main_message_close">
+		<a onclick="document.getElementById('main_message').style.display='none'"><img src="/images/close_off.png"></a>
+		</div>
+	</div>
+	<div class="main_message_user_list" id="User_List_X">
+	</div>
+		<div class="main_message_user_info"></div>
+		<div class="main_message_chat_window" id="chatbox_X">
+			<div id="chatbox_"><div class="chatboxcontent"></div></div>
+		</div>
+		<div class="main_message_chat_send" id="textarea_X">
+			<textarea class="main_chatboxtextarea main_chatboxtextareaselected" onkeydown="return Messenger.checkBoxInputKey(event,this,'');"></textarea>
+		</div>
+		<div class="main_message_info">
+			<div class="main_sinfo">Sending with Enter for 1 Coins</div><div class="main_symbol">0/500</div>
+		</div>
+      </div>
 
       {* Loading JS Lang *}
       {* The file must be before the content of the site to avoid that the "pH7LangCore"  object is undefined *}
