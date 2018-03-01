@@ -35,6 +35,30 @@ class MessengerModel extends Model
         return $rStmt->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function selectLatest($sTo)
+    {
+        $sSqlQuery = 'SELECT * FROM' . Db::prefix('Messenger') .
+            'WHERE (toUser = :to) ORDER BY messengerId ASC LIMIT 0, 10';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
+        $rStmt->bindValue(':to', $sTo, PDO::PARAM_STR);
+        $rStmt->execute();
+
+        return $rStmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function selectFromTo($sFrom, $sTo)
+    {
+        $sSqlQuery = 'SELECT * FROM' . Db::prefix('Messenger') .
+            'WHERE (fromUser = :from AND toUser = :to) OR (fromUser = :to AND toUser = :from) ORDER BY messengerId ASC';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
+        $rStmt->bindValue(':from', $sFrom, PDO::PARAM_STR);
+        $rStmt->bindValue(':to', $sTo, PDO::PARAM_STR);
+        $rStmt->execute();
+
+        return $rStmt->fetchAll(PDO::FETCH_OBJ);
+    }
     /**
      * Update Message.
      *

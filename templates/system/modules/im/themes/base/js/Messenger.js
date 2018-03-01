@@ -64,6 +64,39 @@ var Messenger = {
     chatWith: function (sUser) {
         if (this._check(sUser)) {
             this.createBox(sUser);
+
+            $.ajax(
+                {
+                    url: pH7Url.base + "im/asset/ajax/Messenger/?act=startchat&with=" + sUser,
+                    type: 'POST',
+                    cache: false,
+                    dataType: "json",
+                    success: function (oData) {
+                        oMe.sUsername = oData.user;
+
+                        $.each(oData.items, function (i, oItem) {
+                            oMe.sBoxTitle = oItem.user;
+
+                            if (oItem.status == 1) {
+                                oItem.user = oMe.sUsername;
+                            }
+
+                            if (oItem.status == 2) {
+                                // do nothing on info messages
+                            }
+                            else {
+                                $("#chatbox_" + oMe.sBoxTitle + " .chatboxcontent").append('<div class="chatboxmessage"><span class="chatboxmessagefrom">' + oItem.user + ':&nbsp;&nbsp;</span><span class="chatboxmessagecontent">' + oItem.msg + '</span></div>');
+                            }
+                        });
+
+                        for (i = 0; i < oMe.aBoxes.length; i++) {
+                            oMe.sBoxTitle = oMe.aBoxes[i];
+                            $("#chatbox_" + oMe.sBoxTitle + " .chatboxcontent").scrollTop($("#chatbox_" + oMe.sBoxTitle + " .chatboxcontent")[0].scrollHeight);
+                        }
+
+                    }
+                });
+
             $("#chatbox_" + sUser + " .chatboxtextarea").focus();
         }
         else {
@@ -72,7 +105,9 @@ var Messenger = {
     },
 
     createBox: function (sBoxTitle, iMinimizeBox) {
+        console.log('createBox');
         if (!this._check(sBoxTitle)) return;
+        console.log(sBoxTitle, iMinimizeBox);
 
         if ($("#chatbox_" + sBoxTitle).length > 0) {
             if ($("#chatbox_" + sBoxTitle).css('display') == 'none') {
@@ -366,6 +401,7 @@ var Messenger = {
                     }
 
                     setTimeout(function () {
+                        console.log('timeout');
                         oMe.heartbeat()
                     }, oMe.iHeartbeatTime);
                 }
