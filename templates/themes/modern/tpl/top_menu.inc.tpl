@@ -47,8 +47,8 @@
         </li>
 
         <li class="dropdown">
-	<a  onclick="document.getElementById('main_message').style.display='inline'">
-	<div id="top_chat"><img class="bottom" src="/images/chat_on.jpg" border=0 ><img class="top" src="/images/chat_off.jpg" border=0></div></a>
+	<a  onclick="Messenger.show()">
+	<div id="top_chat"><img class="bottom" src="/images/chat_on.jpg" border=0 ><img class="top" src="/images/chat_off.jpg" border=0><img class="has_new_messages" src="/images/chat_new_messages.jpg" border="0" /></div></a>
         </li>
 
 		{if $is_mail_enabled}

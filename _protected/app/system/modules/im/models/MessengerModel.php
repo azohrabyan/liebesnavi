@@ -59,6 +59,50 @@ class MessengerModel extends Model
 
         return $rStmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function selectAllRead($sFrom)
+    {
+        $sSqlQuery = 'SELECT * FROM' . Db::prefix('Messenger') .
+            'WHERE ((fromUser = :from ) OR (toUser = :from))  AND recd = 1 ORDER BY messengerId ASC';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
+        $rStmt->bindValue(':from', $sFrom, PDO::PARAM_STR);
+        $rStmt->execute();
+
+        return $rStmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function selectUnread($sTo)
+    {
+        $sSqlQuery = 'SELECT * FROM' . Db::prefix('Messenger') .
+            'WHERE (toUser = :to AND recd = 0) ORDER BY messengerId ASC';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
+        $rStmt->bindValue(':to', $sTo, PDO::PARAM_STR);
+        $rStmt->execute();
+
+        return $rStmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function markAsRead($messageIds)
+    {
+        if (empty($messageIds)) {
+            return;
+        }
+        $inQuery = implode(',', array_fill(0, count($messageIds), '?'));
+
+        $sSqlQuery = 'UPDATE' . Db::prefix('Messenger') .
+            'SET recd = 1 WHERE messengerId IN (' . $inQuery . ')';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
+
+        foreach ($messageIds as $k => $id) {
+            $rStmt->bindValue(($k + 1), $id);
+        }
+
+        return $rStmt->execute();
+    }
+
     /**
      * Update Message.
      *

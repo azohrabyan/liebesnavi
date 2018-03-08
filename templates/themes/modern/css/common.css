@@ -107,7 +107,18 @@ body {
   opacity:0;
 }
 
+#top_chat img.has_new_messages {
+    display: none;
+}
 
+#top_chat.has_new_messages img.top,
+#top_chat.has_new_messages img.bottom {
+    display: none;
+}
+
+#top_chat.has_new_messages img.has_new_messages {
+    display: inline;
+}
 
 #top_mail {
   position:relative;
@@ -629,7 +640,7 @@ img, video, iframe {
 
 /*    Message window */
 
-.main_message {
+#messenger {
 	position:absolute;
 	z-index:10;
 	background:white;
@@ -643,99 +654,103 @@ img, video, iframe {
 	display:none;
 }
 
-.main_message_title {
+.messenger_title {
 	position:absolute; 
 	z-index:1000;
 	background:#fea223;
 	height:30px;
 	width:100%;
-	text-color:white;
 	color:white;
 	padding-left:8px;
 	padding-right:8px;
 	padding-top:4px;
 	
 }
-.main_message_close {
+.messenger_close {
 	 float: right;
 	
 }
 
-.main_message_user_list {
+.messenger_user_list {
 	padding-top:30px;
 	padding-left:1px;
-        border-right-color:#A7A7A7;
-        border-right-width:1px;
+    border-right-color:#A7A7A7;
+    border-right-width:1px;
 	border-left-width:0px;
 	border-bottom-width:0px;
-        border-style:solid;
+    border-style:solid;
 	width:200px;
-        height:100%;
+    height:100%;
 	float:left;
 }
-.main_message_user_info {
+.messenger_user_info {
 	margin-top:31px;
 	margin-left:199px;
 	position:absolute;
-        border-right-color:#A7A7A7;
+    border-right-color:#A7A7A7;
 	border-top-width:0px;
-        border-right-width:0px;
-        border-left-width:0px;
-        border-bottom-width:1px;
-        border-style:solid;
-        width:600px;
-        height:60px;
+    border-right-width:0px;
+    border-left-width:0px;
+    border-bottom-width:1px;
+    border-style:solid;
+    width:600px;
+    height:60px;
 	float:right;
 
 }
-.main_message_chat_window {
-        margin-top:91px;
-        margin-left:199px;
-        position:absolute;
-        border-right-color:#A7A7A7;
-        border-top-width:0px;
-        border-right-width:0px;
-        border-left-width:0px;
-        border-bottom-width:1px;
-        border-style:dashed;
-        width:600px;
-        height:430px;
-        float:right;
-
-}
-.main_message_chat_send {
-        margin-top:521px;
-        margin-left:199px;
-        position:absolute;
-        border-right-color:#A7A7A7;
-        border-top-width:0px;
-        border-right-width:0px;
-        border-left-width:0px;
-        border-bottom-width:0px;
-        border-style:solid;
-        width:600px;
-        height:56px;
-        float:right;
-}
-.main_message_info {
-        margin-top:577px;
-        margin-left:199px;
-        position:absolute;
-        border-right-color:#A7A7A7;
-        border-top-width:0px;
-        border-right-width:0px;
-        border-left-width:0px;
-        border-bottom-width:0px;
-        border-style:solid;
-        width:600px;
-        height:20px;
-        float:right;
+.messenger_chat_content_container {
+    margin-top:91px;
+    margin-left:199px;
+    position:absolute;
+    border-right-color:#A7A7A7;
+    border-top-width:0px;
+    border-right-width:0px;
+    border-left-width:0px;
+    border-bottom-width:1px;
+    border-style:dashed;
+    width:600px;
+    height:430px;
+    float:right;
 }
 
+.messenger_chat_content {
+    border:none;
+    width:600px;
+    height:430px;
+    overflow: scroll;
+}
 
-.main_chatboxtextarea {
-    padding-top:10px;
-    padding-left:10px;
+.messenger_chat_send {
+    margin-top:521px;
+    margin-left:199px;
+    position:absolute;
+    border-right-color:#A7A7A7;
+    border-top-width:0px;
+    border-right-width:0px;
+    border-left-width:0px;
+    border-bottom-width:0px;
+    border-style:solid;
+    width:600px;
+    height:56px;
+    float:right;
+}
+.messenger_info {
+    margin-top:577px;
+    margin-left:199px;
+    position:absolute;
+    border-right-color:#A7A7A7;
+    border-top-width:0px;
+    border-right-width:0px;
+    border-left-width:0px;
+    border-bottom-width:0px;
+    border-style:solid;
+    width:600px;
+    height:20px;
+    float:right;
+}
+
+
+.messenger_textarea {
     width: 550px;
     height: 44px;
     padding: 3px 0pt 3px 3px;
@@ -744,9 +759,21 @@ img, video, iframe {
     overflow: hidden;
 }
 
-.main_chatboxtextareaselected {
+.selected {
+    background-color: #aeaeae;
+}
+
+.has_new_messages {
+    background-color: #ffcc33;
+}
+
+.messenger_tareaselected {
     border: 2px solid #f99d39;
     margin: 0;
+}
+
+.messenger_user_list img {
+    float: none;
 }
 
 .main_sinfo {

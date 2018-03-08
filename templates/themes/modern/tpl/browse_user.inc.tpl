@@ -42,8 +42,7 @@
 		<div class="search_avatar_inside">
 		 <a rel="nofollow" onclick="Messenger.chatWith('{lang '%0%',$user->username}')" href="javascript:void(0)"><img src="/images/chat_s_off.jpg" border=0/><a> |
 		 <a href="/mail/compose/{lang '%0%',$user->username}"><img src="/images/mail_s_off.jpg" border=0/></a> |
-		 <a  href="javascript:void(0)" onclick="talkTo('{lang '%0%',$user->username}'); return false" ><img src="/images/kiss_s_off.jpg" border=0/></a>
-		
+
                 {if $is_admin_auth}
                        | <a href="{{ $design->url(PH7_ADMIN_MOD,'user','loginuseras',$user->profileId) }}" title="{lang 'Login As a member'}"><img src="/images/login_as_s_off.jpg"></a> |
                         {if $user->ban == '0'}
