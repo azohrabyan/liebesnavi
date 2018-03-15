@@ -67,8 +67,6 @@
     {{ XmlDesignCore::rssHeaderLinks() }}
 
     {{ $designModel->analyticsApi() }}
-
-    <script type='text/javascript' src='js/chatmgmt.js'></script>
   </head>
   <body>
 
