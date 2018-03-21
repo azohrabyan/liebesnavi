@@ -95,6 +95,8 @@ class SettingFormProcess extends Form
         'security_token_forms' => 'securityToken',
         'security_token_lifetime' => 'securityTokenLifetime',
         'stop_DDoS' => 'DDoS',
+        'recaptchaPublicKey' => 'recaptchaPublicKey',
+        'recaptchaPrivateKey' => 'recaptchaPrivateKey',
 
         // Spam
         'time_delay_user_registration' => 'timeDelayUserRegistration',

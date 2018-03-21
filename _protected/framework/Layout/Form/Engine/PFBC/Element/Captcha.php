@@ -15,7 +15,9 @@ class Captcha extends \PFBC\Element
     public function render()
     {
         $this->validation[] = new \PFBC\Validation\Captcha(DbConfig::getSetting('recaptchaPrivateKey'));
-        require_once(__DIR__ . '/../Resources/recaptchalib.php');
-        echo recaptcha_get_html(DbConfig::getSetting('recaptchaPublicKey'));
+        require_once('static/PFBC/recaptchalib.php');
+
+        $rc = new \ReCaptcha(DbConfig::getSetting('recaptchaPrivateKey'));
+        echo $rc->getHtml(DbConfig::getSetting('recaptchaPublicKey'));
     }
 }

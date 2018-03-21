@@ -12,17 +12,19 @@ class Captcha extends \PFBC\Validation
 
     public function __construct($privateKey, $message = '')
     {
+        parent::__construct($message);
         $this->privateKey = $privateKey;
 
-        if (!empty($message))
-            $this->message = t('The code of Captcha entered was incorrect. Please re-try.');
+        if (empty($message))
+            $this->message = t('Please confirm you are not a robot.');
     }
 
     public function isValid($value)
     {
-        require_once(__DIR__ . '/../Resources/recaptchalib.php');
-        $resp = recaptcha_check_answer($this->privateKey, $_SERVER['REMOTE_ADDR'], $_POST['recaptcha_challenge_field'], $_POST['recaptcha_response_field']);
+        require_once('static/PFBC/recaptchalib.php');
+        $rc = new \ReCaptcha($this->privateKey);
+        $resp = $rc->verifyResponse($_SERVER['REMOTE_ADDR'], $_POST['g-recaptcha-response']);
 
-        return ($resp->is_valid) ? true : false;
+        return ($resp->success) ? true : false;
     }
 }

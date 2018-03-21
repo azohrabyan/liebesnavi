@@ -200,6 +200,8 @@ class SettingForm
 
         $oForm->addElement(new \PFBC\Element\Select(t('System against DDoS attacks:'), 'stop_DDoS', array('1' => t('Activate'), '0' => t('Deactivate')), array('description' => t('Enable it ONLY if you think your website has real DDoS attacks or if your server is highly overloaded.'), 'value' => DbConfig::getSetting('DDoS'), 'required' => 1)));
 
+        $oForm->addElement(new \PFBC\Element\Textbox(t('Re-Captcha Public key:'), 'recaptchaPublicKey', array('description' => t('Public key used in Re-Captcha (https://www.google.com/recaptcha/admin)'), 'value' => DbConfig::getSetting('recaptchaPublicKey'))));
+        $oForm->addElement(new \PFBC\Element\Textbox(t('Re-Captcha Private key:'), 'recaptchaPrivateKey', array('description' => t('Private key used in Re-Captcha (https://www.google.com/recaptcha/admin)'), 'value' => DbConfig::getSetting('recaptchaPrivateKey'))));
 
         /********** Spam **********/
         $oForm->addElement(new \PFBC\Element\HTMLExternal('</div></div><div class="content" id="spam"><div class="col-md-10"><h2 class="underline">' . t('Spam') . '</h2>'));
