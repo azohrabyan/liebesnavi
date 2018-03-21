@@ -53,8 +53,8 @@ class JoinForm
         $oForm->addElement(new \PFBC\Element\HTMLExternal('<span class="input_error password"></span>'));
 
         if (DbConfig::getSetting('isCaptchaUserSignup')) {
-            $oForm->addElement(new \PFBC\Element\CCaptcha(t('Captcha'), 'captcha', array('placeholder' => t('Captcha'), 'id' => 'ccaptcha', 'onkeyup' => 'CValid(this.value, this.id)', 'description' => t('Enter the below code:'))));
-            $oForm->addElement(new \PFBC\Element\HTMLExternal('<span class="input_error ccaptcha"></span>'));
+            $oForm->addElement(new \PFBC\Element\Captcha(t('Re-Captcha'), array('id' => 'recaptcha')));
+            $oForm->addElement(new \PFBC\Element\HTMLExternal('<span class="input_error recaptcha"></span>'));
         }
 
         $oForm->addElement(new \PFBC\Element\Checkbox(t('Terms of Service'), 'terms', array(1 => '<em>' . t('I have read and agree to the %0%.', '<a href="' . Uri::get('page', 'main', 'terms') . '" rel="nofollow" target="_blank">' . t('Terms of Service') . '</a>') . '</em>'), array('id' => 'terms', 'onblur' => 'CValid(this.checked, this.id)', 'required' => 1)));

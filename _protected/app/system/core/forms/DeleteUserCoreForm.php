@@ -32,7 +32,8 @@ class DeleteUserCoreForm
         $oForm->addElement(new \PFBC\Element\Password(t('Your Password:'), 'password', array('required' => 1)));
         $oForm->addElement(new \PFBC\Element\Textarea(t('Your Reason:'), 'message', array('description' => t('Please be specific why you want to leave us.') . '<br />' . t('It will hep us to improve our service and make it the best one for you!'), 'required' => 1, 'validation' => new \PFBC\Validation\Str(5, 500))));
         $oForm->addElement(new \PFBC\Element\Radio(t('Why:'), 'why_delete', array(t("I'm not happy with the service."), t('I met someone.'), t('Other. I said the reason above.')), array('required' => 1)));
-        $oForm->addElement(new \PFBC\Element\CCaptcha(t('Captcha'), 'captcha', array('description' => t('Enter the below code:'))));
+        $oForm->addElement(new \PFBC\Element\Captcha(t('Re-Captcha'), array('id' => 'recaptcha')));
+        $oForm->addElement(new \PFBC\Element\HTMLExternal('<span class="input_error recaptcha"></span>'));
         $oForm->addElement(new \PFBC\Element\Button);
         $oForm->render();
     }

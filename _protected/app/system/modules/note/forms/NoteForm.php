@@ -57,8 +57,8 @@ class NoteForm
         $oForm->addElement(new \PFBC\Element\Radio(t('Enable Comment:'), 'enable_comment', array('1' => t('Enable'), '0' => t('Disable')), array('value' => '1', 'required' => 1)));
 
         if (DbConfig::getSetting('isCaptchaNote')) {
-            $oForm->addElement(new \PFBC\Element\CCaptcha(t('Captcha'), 'captcha', array('id' => 'ccaptcha', 'onkeyup' => 'CValid(this.value, this.id)', 'description' => t('Enter the below code:'))));
-            $oForm->addElement(new \PFBC\Element\HTMLExternal('<span class="input_error ccaptcha"></span>'));
+            $oForm->addElement(new \PFBC\Element\Captcha(t('Re-Captcha'), array('id' => 'recaptcha')));
+            $oForm->addElement(new \PFBC\Element\HTMLExternal('<span class="input_error recaptcha"></span>'));
         }
 
         $oForm->addElement(new \PFBC\Element\Button);

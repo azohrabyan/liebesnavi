@@ -44,8 +44,8 @@ class ContactForm
         $oForm->addElement(new \PFBC\Element\HTMLExternal('<span class="input_error str_subject"></span>'));
         $oForm->addElement(new \PFBC\Element\Textarea(t('Your Message:'), 'message', array('id' => 'str_message', 'onblur' => 'CValid(this.value, this.id,10,2000)', 'required' => 1, 'validation' => new \PFBC\Validation\Str(10, 2000))));
         $oForm->addElement(new \PFBC\Element\HTMLExternal('<span class="input_error str_message"></span>'));
-        $oForm->addElement(new \PFBC\Element\CCaptcha(t('Captcha'), 'captcha', array('description' => t('Enter the below code:'), 'id' => 'ccaptcha', 'onkeyup' => 'CValid(this.value, this.id)')));
-        $oForm->addElement(new \PFBC\Element\HTMLExternal('<span class="input_error ccaptcha"></span>'));
+        $oForm->addElement(new \PFBC\Element\Captcha(t('Re-Captcha'), array('id' => 'recaptcha')));
+        $oForm->addElement(new \PFBC\Element\HTMLExternal('<span class="input_error recaptcha"></span>'));
         $oForm->addElement(new \PFBC\Element\Button(t('Contact US'), 'submit', array('icon' => 'contact')));
         $oForm->addElement(new \PFBC\Element\HTMLExternal('<script src="' . PH7_URL_STATIC . PH7_JS . 'validate.js"></script>'));
         $oForm->render();
