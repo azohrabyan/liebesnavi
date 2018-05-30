@@ -64,6 +64,7 @@ $sHtml .= PH7_PATH_APP . PH7_SYS . 'globals' . PH7_DS . PH7_VIEWS . PH7_DEFAULT_
 $sHtml .= PH7_PATH_APP . PH7_SYS . 'globals' . PH7_DS . PH7_VIEWS . PH7_DEFAULT_THEME . PH7_DS . 'others' . PH7_DS . 'banned.html.php' . "\n";
 $sHtml .= PH7_PATH_APP . PH7_SYS . 'globals' . PH7_DS . PH7_VIEWS . PH7_DEFAULT_THEME . PH7_DS . 'others' . PH7_DS . 'maintenance.html.php' . "\n";
 $sHtml .= PH7_PATH_APP . PH7_SYS . PH7_MOD . 'admin123' . PH7_DS . PH7_FORMS . 'processing' . PH7_DS . 'AddAdminFormProcessing.php' . "\n";
+$sHtml .= PH7_PATH_APP . PH7_SYS . PH7_MOD . 'admin123' . PH7_DS . PH7_FORMS . 'processing' . PH7_DS . 'AddAgencyFormProcessing.php' . "\n";
 $sHtml .= PH7_PATH_APP . PH7_SYS . PH7_MOD . 'admin123' . PH7_DS . PH7_FORMS . 'processing' . PH7_DS . 'AddUserFormProcessing.php' . "\n";
 $sHtml .= PH7_PATH_APP . PH7_SYS . PH7_MOD . 'admin123' . PH7_DS . PH7_FORMS . 'processing' . PH7_DS . 'AdsFormProcessing.php' . "\n";
 $sHtml .= PH7_PATH_APP . PH7_SYS . PH7_MOD . 'admin123' . PH7_DS . PH7_FORMS . 'processing' . PH7_DS . 'AnalyticsApiFormProcessing.php' . "\n";

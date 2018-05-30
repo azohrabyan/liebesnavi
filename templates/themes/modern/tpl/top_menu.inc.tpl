@@ -250,13 +250,22 @@
                 </li>
               </ul>
             </li>
+
             <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url(PH7_ADMIN_MOD,'admin','browse') }}" title="{lang 'Admins Manager'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-user"></i> {lang 'Admins'}</a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="{{ $design->url(PH7_ADMIN_MOD,'admin','browse') }}" title="{lang 'Browse Admins'}"><i class="fa fa-users"></i> {lang 'Browse'}</a></li>
-                <li><a href="{{ $design->url(PH7_ADMIN_MOD,'admin','search') }}" title="{lang 'Search an Admin'}"><i class="fa fa-search"></i> {lang 'Search'}</a></li>
+{*                <li><a href="{{ $design->url(PH7_ADMIN_MOD,'admin','search') }}" title="{lang 'Search an Admin'}"><i class="fa fa-search"></i> {lang 'Search'}</a></li> *}
                 <li><a href="{{ $design->url(PH7_ADMIN_MOD,'admin','add') }}" title="{lang 'Add an Admin'}"><i class="fa fa-user-plus"></i> {lang 'Add Admin'}</a></li>
               </ul>
             </li>
+            <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url(PH7_ADMIN_MOD,'agency','browse') }}" title="{lang 'Agency Manager'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-user"></i> {lang 'Agencies'}</a>
+              <ul class="dropdown-menu" role="menu"> 
+                <li><a href="{{ $design->url(PH7_ADMIN_MOD,'agency','browse') }}" title="{lang 'Browse Agency'}"><i class="fa fa-users"></i> {lang 'Browse'}</a></li>
+                <li><a href="{{ $design->url(PH7_ADMIN_MOD,'agency','add') }}" title="{lang 'Add an Agency'}"><i class="fa fa-user-plus"></i> {lang 'Add Agency'}</a></li>
+              </ul>
+            </li>
+
+
           </ul>
         </li>
 
@@ -426,26 +435,19 @@
                 <li><a href="{{ $design->url(PH7_ADMIN_MOD,'tool','cacheconfig') }}" title="{lang 'Cache Settings'}">{lang 'Cache Setting'}</a></li>
               </ul>
             </li>
-            <li><a href="{{ $design->url(PH7_ADMIN_MOD,'tool','backup') }}" title="{lang 'Backup Manager'}"><i class="fa fa-floppy-o"></i> {lang 'Backup Manager'}</a></li>
+
+ <!--           <li><a href="{{ $design->url(PH7_ADMIN_MOD,'tool','backup') }}" title="{lang 'Backup Manager'}"><i class="fa fa-floppy-o"></i> {lang 'Backup Manager'}</a></li>
+-->
             <li><a href="{{ $design->url(PH7_ADMIN_MOD,'tool','freeSpace') }}" title="{lang 'Free Space Server'}"><i class="fa fa-refresh"></i> {lang 'Free Space Server'}</a></li>
             <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url(PH7_ADMIN_MOD,'info','index') }}" title="{lang 'Information'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-info-circle"></i> {lang 'Info'}</a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="{{ $design->url(PH7_ADMIN_MOD,'main','stat') }}" title="{lang 'Site Statistics'}">{lang 'Site Stats'}</a></li>
+<!--
                 <li><a href="{{ $design->url(PH7_ADMIN_MOD,'info','software') }}" title="{lang 'Software'}">{lang 'Software'}</a></li>
+-->
                 <li><a href="{{ $design->url(PH7_ADMIN_MOD,'info','language') }}" title="{lang 'PHP Info'}">{lang 'PHP'}</a></li>
               </ul>
             </li>
-          </ul>
-        </li>
-
-        <li class="dropdown"><a class="bold dropdown-toggle" href="{software_doc_url}" title="{lang 'Need some Helps?'}" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-life-ring"></i> {lang 'Help'} <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            {if !$is_valid_license}
-                <li><a class="bold underline" href="{software_license_url}" title="{lang 'Buy a License Key'}"><i class="fa fa-key"></i> {lang 'Switch to pH7CMSPro'}</a></li>
-            {/if}
-            <li><a class="bold underline" href="{{ $design->url('ph7cms-donation','main','donationbox') }}" title="{lang 'Will You Be Nice Today? Like 78% of our users who contribute on a regular basis.'}"><i class="fa fa-trophy"></i> {lang 'Will You Help pH7CMS?'}</a></li>
-            <li><a href="{software_doc_url}" title="{lang 'Software Documentation'}"><i class="fa fa-book"></i> {lang 'Documentation'}</a></li>
-            <li><a href="{software_issue_url}" title="{lang 'Report a Problem'}"><i class="fa fa-bug"></i> {lang 'Report a Bug'}</a></li>
           </ul>
         </li>
 

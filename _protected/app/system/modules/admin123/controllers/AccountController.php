@@ -40,4 +40,15 @@ class AccountController extends Controller
 
         $this->output();
     }
+
+    public function editagency()
+    {
+        $this->sTitle = t('Edit your account');
+        $this->view->page_title = $this->sTitle;
+        $this->view->h2_title = $this->sTitle;
+
+        $this->output();
+    }
+
+
 }

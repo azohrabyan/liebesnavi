@@ -25,7 +25,7 @@
             {{ $oPc->module = 'coins' }}
 
             <div class="paypal_logo left">
-                <img src="{url_tpl_mod_img}payment-icon.png" alt="Payment Gateways" title="{lang 'Purchase your subscription safely!'}" />
+              <!--  <img src="{url_tpl_mod_img}payment-icon.png" alt="Payment Gateways" title="{lang 'Purchase your subscription safely!'}" /> -->
             </div>
 
             {if $is_braintree}

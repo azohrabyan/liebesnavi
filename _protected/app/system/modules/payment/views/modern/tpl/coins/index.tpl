@@ -1,5 +1,4 @@
 <div class="center">
-    <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <h3 class="panel-heading">{lang 'Choose your package'}</h3>
             <div class="panel-body">
@@ -12,5 +11,4 @@
                 </ul>
             </div>
         </div>
-    </div>
 </div>
