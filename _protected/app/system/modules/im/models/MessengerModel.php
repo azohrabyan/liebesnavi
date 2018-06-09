@@ -133,16 +133,17 @@ class MessengerModel extends Model
      *
      * @return bool Returns TRUE on success or FALSE on failure
      */
-    public function insert($sFrom, $sTo, $sMessage, $sDate)
+    public function insert($sFrom, $sTo, $sMessage, $sDate, $chatterId = 0)
     {
         $sSqlQuery = 'INSERT INTO' . Db::prefix('Messenger') .
-            '(fromUser, toUser, message, sent) VALUES (:from, :to, :message, :date)';
+            '(fromUser, toUser, message, sent, chatter_id) VALUES (:from, :to, :message, :date, :chatterId)';
 
         $rStmt = Db::getInstance()->prepare($sSqlQuery);
         $rStmt->bindValue(':from', $sFrom, PDO::PARAM_STR);
         $rStmt->bindValue(':to', $sTo, PDO::PARAM_STR);
         $rStmt->bindValue(':message', $sMessage, PDO::PARAM_STR);
         $rStmt->bindValue(':date', $sDate, PDO::PARAM_STR);
+        $rStmt->bindValue(':chatterId', $chatterId, PDO::PARAM_INT);
 
         return $rStmt->execute();
     }
