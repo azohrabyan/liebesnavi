@@ -100,7 +100,7 @@ class AgencyController extends Controller
         $iId = (int)$aData[0];
         $sUsername = (string)$aData[1];
 
-        (new Agency)->delete($iId, $sUsername);
+        (new ChatAgency)->delete($iId, $sUsername);
 
         Header::redirect(
             Uri::get(PH7_ADMIN_MOD, 'agency', 'browse'),
@@ -108,24 +108,4 @@ class AgencyController extends Controller
         );
     }
 
-    public function deleteAll()
-    {
-        if (!(new SecurityToken)->check('agency_action')) {
-            $this->sMsg = Form::errorTokenMsg();
-        } elseif (count($this->httpRequest->post('action')) > 0) {
-            foreach ($this->httpRequest->post('action') as $sAction) {
-                $aData = explode('_', $sAction);
-                $iId = (int)$aData[0];
-                $sUsername = (string)$aData[1];
-
-                (new Agency)->delete($iId, $sUsername);
-            }
-            $this->sMsg = t('The agency has/have been deleted.');
-        }
-
-        Header::redirect(
-            Uri::get(PH7_ADMIN_MOD, 'agency', 'browse'),
-            $this->sMsg
-        );
-    }
 }

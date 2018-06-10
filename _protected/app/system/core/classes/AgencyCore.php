@@ -26,7 +26,7 @@ class AgencyCore extends UserCore
     public static function auth()
     {
         $oSession = new Session;
-        $bIsConnected = ((int)$oSession->exists('profileId')) && $oSession->get('agency_ip') === Ip::get() && $oSession->get('agency_http_user_agent') === (new Browser)->getUserAgent();
+        $bIsConnected = ((int)$oSession->exists('agency_id')) && $oSession->get('agency_ip') === Ip::get() && $oSession->get('agency_http_user_agent') === (new Browser)->getUserAgent();
         unset($oSession);
 
         return $bIsConnected;
@@ -59,9 +59,9 @@ class AgencyCore extends UserCore
 
         $aSessionData = [
             'agency_role' => 'admin',
-            'profileId' => $oAgencyData->profileId,
-            'email' => $oAgencyData->email,
-            'username' => $oAgencyData->username,
+            'agency_id' => $oAgencyData->profileId,
+            'agency_email' => $oAgencyData->email,
+            'agency_username' => $oAgencyData->username,
             'agency_ip' => Ip::get(),
             'agency_http_user_agent' => (new Browser)->getUserAgent(),
             'agency_token' => Various::genRnd($oAgencyData->email),

@@ -237,6 +237,7 @@ class Various
             case 'Subscribers':
             case 'Admins':
             case 'ChatAgency':
+            case 'Chatter':
                 return $sTable;
 
             default:

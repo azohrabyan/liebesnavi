@@ -1,10 +1,4 @@
 <?php
-/**
- * @author         Pierre-Henry Soria <ph7software@gmail.com>
- * @copyright      (c) 2012-2018, Pierre-Henry Soria. All Rights Reserved.
- * @license        GNU General Public License; See PH7.LICENSE.txt and PH7.COPYRIGHT.txt in the root directory.
- * @package        PH7 / App / System / Module / Admin / From / Processing
- */
 
 namespace PH7;
 
@@ -16,7 +10,7 @@ use PH7\Framework\Security\Validate\Validate;
 use PH7\Framework\Url\Header;
 use PH7\Framework\Mvc\Router\Uri;
 
-class EditAgencyFormProcess extends Form
+class EditChatterFormProcess extends Form
 {
     private $bIsErr = false;
 
@@ -25,12 +19,12 @@ class EditAgencyFormProcess extends Form
         parent::__construct();
 
         $oValidate = new Validate;
-        $oAgencyModel = new AgencyModel;
+        $oChatterModel = new ChatterModel;
 
         $iProfileId = $this->getProfileId();
-        $oAgency = $oAgencyModel->readProfile($iProfileId, 'ChatAgency');
+        $oChatter = $oChatterModel->readProfile($iProfileId, 'Chatter');
 
-        if (!$this->str->equals($this->httpRequest->post('username'), $oAgency->username)) {
+        if (!$this->str->equals($this->httpRequest->post('username'), $oChatter->username)) {
             $iMinUsernameLength = DbConfig::getSetting('minUsernameLength');
             $iMaxUsernameLength = DbConfig::getSetting('maxUsernameLength');
 
@@ -38,38 +32,38 @@ class EditAgencyFormProcess extends Form
                 \PFBC\Form::setError('form_agency_edit_account', t('Your username has to contain from %0% to %1% characters, your username is not available or your username already used by other agency.', $iMinUsernameLength, $iMaxUsernameLength));
                 $this->bIsErr = true;
             } else {
-                $oAgencyModel->updateProfile('username', $this->httpRequest->post('username'), $iProfileId, 'ChatAgency');
+                $oChatterModel->updateProfile('username', $this->httpRequest->post('username'), $iProfileId, 'Chatter');
                 $this->session->set('agency_username', $this->httpRequest->post('username'));
 
-                (new Cache)->start(UserCoreModel::CACHE_GROUP, 'username' . $iProfileId . 'ChatAgency', null)->clear();
+                (new Cache)->start(UserCoreModel::CACHE_GROUP, 'username' . $iProfileId . 'Chatter', null)->clear();
             }
         }
 
-        if (!$this->str->equals($this->httpRequest->post('mail'), $oAgency->email)) {
+        if (!$this->str->equals($this->httpRequest->post('mail'), $oChatter->email)) {
             if ((new ExistsCoreModel)->email($this->httpRequest->post('mail'))) {
                 \PFBC\Form::setError('form_agency_edit_account', t('Invalid email address or this email is already used by another agency.'));
                 $this->bIsErr = true;
             } else {
-                $oAgencyModel->updateProfile('email', $this->httpRequest->post('mail'), $iProfileId, 'ChatAgency');
+                $oChatterModel->updateProfile('email', $this->httpRequest->post('mail'), $iProfileId, 'Chatter');
                 $this->session->set('agency_email', $this->httpRequest->post('mail'));
             }
         }
 
-        if (!$this->str->equals($this->httpRequest->post('agency_name'), $oAgency->agency_name)) {
-            $oAgencyModel->updateProfile('agency_name', $this->httpRequest->post('agency_name'), $iProfileId, 'ChatAgency');
-            $this->session->set('agency_name', $this->httpRequest->post('agency_name'));
+        if (!$this->str->equals($this->httpRequest->post('chatter_name'), $oChatter->name)) {
+            $oChatterModel->updateProfile('name', $this->httpRequest->post('chatter_name'), $iProfileId, 'Chatter');
+            $this->session->set('agency_name', $this->httpRequest->post('chatter_name'));
 
-            (new Cache)->start(UserCoreModel::CACHE_GROUP, 'agencyName' . $iProfileId . 'ChatAgency', null)->clear();
+            (new Cache)->start(UserCoreModel::CACHE_GROUP, 'chatterName' . $iProfileId . 'Chatter', null)->clear();
         }
 
-        unset($oValidate, $oAgencyModel, $oAgency);
+        unset($oValidate, $oChatterModel, $oChatter);
 
-        (new ChatAgency)->clearReadProfileCache($iProfileId, 'ChatAgency');
+        (new Chatter)->clearReadProfileCache($iProfileId, 'Chatter');
 
         if (!$this->bIsErr) {
             \PFBC\Form::setSuccess('form_agency_edit_account', t('Profile successfully updated!'));
         }
-        Header::redirect(Uri::get(PH7_ADMIN_MOD, 'agency', 'browse'), t('Agency successfully added.'));
+        Header::redirect(Uri::get(PH7_AGENCY_MOD, 'chatter', 'index'), t('Chatter successfully added.'));
     }
 
     /**
@@ -82,6 +76,6 @@ class EditAgencyFormProcess extends Form
             return $this->httpRequest->get('profile_id', 'int');
         }
 
-        return $this->session->get('agency_id');
+        return $this->session->get('chatter_id');
     }
 }

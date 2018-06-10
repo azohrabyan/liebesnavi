@@ -23,7 +23,16 @@ class ChangePasswordCoreFormProcess extends Form
         parent::__construct();
 
         // PH7\UserCoreModel::login() method of the UserCoreModel Class works only for "user" and "affiliate" module.
-        $sClassName = ($this->registry->module === PH7_ADMIN_MOD) ? AdminModel::class : UserCoreModel::class;
+        switch ($this->registry->module) {
+            case  PH7_ADMIN_MOD:
+                $sClassName = AdminModel::class;
+                break;
+            case PH7_AGENCY_MOD:
+                $sClassName = AgencyModel::class;
+                break;
+            default:
+                $sClassName = UserCoreModel::class;
+        }
         $oPasswordModel = new $sClassName;
 
         $sEmail = $this->getUserEmail();
@@ -34,6 +43,12 @@ class ChangePasswordCoreFormProcess extends Form
             $mLogin = $oPasswordModel->adminLogin(
                 $sEmail,
                 $this->session->get('admin_username'),
+                $this->httpRequest->post('old_password', Http::NO_CLEAN)
+            );
+        } elseif ($this->registry->module === PH7_AGENCY_MOD) {
+            $mLogin = $oPasswordModel->agencyLogin(
+                $sEmail,
+                $this->session->get('agency_username'),
                 $this->httpRequest->post('old_password', Http::NO_CLEAN)
             );
         } else {
@@ -70,6 +85,10 @@ class ChangePasswordCoreFormProcess extends Form
             return $this->session->get('member_email');
         }
 
+        if ($this->registry->module === 'agency') {
+            return $this->session->get('agency_email');
+        }
+
         if ($this->registry->module === PH7_ADMIN_MOD) {
             return $this->session->get('admin_email');
         }
@@ -88,6 +107,10 @@ class ChangePasswordCoreFormProcess extends Form
 
         if ($this->registry->module === PH7_ADMIN_MOD) {
             return 'Admins';
+        }
+
+        if ($this->registry->module === PH7_AGENCY_MOD) {
+            return 'ChatAgency';
         }
 
         return 'Affiliates';

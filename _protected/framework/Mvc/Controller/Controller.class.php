@@ -16,6 +16,7 @@ defined('PH7') or exit('Restricted access');
 
 use PH7\AdminCore;
 use PH7\AffiliateCore;
+use PH7\AgencyCore;
 use PH7\Framework\Core\Core;
 use PH7\Framework\Geo\Ip\Geo;
 use PH7\Framework\Http\Http;
@@ -62,7 +63,8 @@ abstract class Controller extends Core
         $aAuthViewVars = [
             'is_admin_auth' => AdminCore::auth(),
             'is_user_auth' => UserCore::auth(),
-            'is_aff_auth' => AffiliateCore::auth()
+            'is_aff_auth' => AffiliateCore::auth(),
+            'is_agency_auth' => AgencyCore::auth(),
         ];
         $aGlobalViewVars = [
             'is_guest_homepage' => $this->isGuestOnHomepage($aAuthViewVars['is_user_auth']),

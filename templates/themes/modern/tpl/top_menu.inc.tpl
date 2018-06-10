@@ -26,7 +26,7 @@
             <ul class="nav navbar-nav">
 
     {* Guest Menu *}
-      {if !$is_user_auth AND !$is_aff_auth AND !$is_admin_auth}
+      {if !$is_user_auth AND !$is_aff_auth AND !$is_admin_auth AND !$is_agency_auth}
         <li><a class="bold" href="{{ $design->url('user','signup','step1') }}" title="{lang 'Join Now!'}"><i class="fa fa-user-plus"></i> {lang 'Join Now!'}</a></li>
         <li><a href="{{ $design->url('user', 'main','login') }}" title="{lang 'Login'}" data-load="ajax"><i class="fa fa-sign-in"></i> {lang 'Login'}</a></li>
       {/if}
@@ -456,6 +456,16 @@
             <li><a href="{{ $design->url(PH7_ADMIN_MOD,'account','edit') }}" title="{lang 'Edit My Account'}"><i class="fa fa-pencil fa-fw"></i> {lang 'Edit My Account'}</a></li>
             <li><a href="{{ $design->url(PH7_ADMIN_MOD,'account','password') }}" title="{lang 'Change Password'}"><i class="fa fa-key fa-fw"></i> {lang 'Change Password'}</a></li>
             <li><a href="{{ $design->url(PH7_ADMIN_MOD,'main','logout') }}" title="{lang 'Logout'}"><i class="fa fa-sign-out"></i> {lang 'Logout'}</a></li>
+          </ul>
+        </li>
+      {/if}
+      {if $is_agency_auth  }
+        <li><a href="{{ $design->url(PH7_AGENCY_MOD,'chatter','index') }}" title="{lang 'Chatters'}"><i class="fa fa-fw"></i> {lang 'Chatters'}</a></li>
+
+        <li class="dropdown"><a href="{{ $design->url(PH7_AGENCY_MOD,'main','index') }}" title="{lang 'My account'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-cog"></i> {lang 'Account'} <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="{{ $design->url(PH7_AGENCY_MOD,'account','password') }}" title="{lang 'Change Password'}"><i class="fa fa-key fa-fw"></i> {lang 'Change Password'}</a></li>
+            <li><a href="{{ $design->url(PH7_AGENCY_MOD,'main','logout') }}" title="{lang 'Logout'}"><i class="fa fa-sign-out"></i> {lang 'Logout'}</a></li>
           </ul>
         </li>
       {/if}
