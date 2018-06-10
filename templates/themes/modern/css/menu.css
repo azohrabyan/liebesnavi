@@ -6,10 +6,12 @@
 
 .bottom_nav {
     float: right;
+    background-color: red; 
 }
 
 .bottom_nav a {
-    text-decoration: underline;
+    text-decoration: none;
+    color: #ffffff;
 }
 
 /* Change the color of the menu links */
@@ -48,8 +50,7 @@
 /* Rewrite some CSS classes for Bootstrap fixed menu for better render in pH7CMS desin */
 .navbar-default {
     border-color: #ccc !important;
-    background: white url(../img/body_bg.jpg);
-
+    background: red;
 }
 
 .navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse {

@@ -71,6 +71,7 @@
   <body>
 
     <!-- Begin Header -->
+
     <header>
       {* If we aren't on the the splash page, then display the menu *}
       {if !$is_guest_homepage}
@@ -83,15 +84,8 @@
         </div>
       </noscript>
 
-      {if $is_guest_homepage}
-          <div class="row">
-              <div role="banner" id="logo" class="col-md-8">
-                  <h1>
-                  <a href="{{ $design->homePageUrl() }}" title="{slogan}">{site_name}</a>
-                  </h1>
-              </div>
-          </div>
-      {/if}
+	{if $is_guest_homepage}
+	{/if}
 
       {* Headings group *}
       <div class="center" id="headings">
@@ -108,6 +102,8 @@
           <h4>{h4_title}</h4>
         {/if}
       </div>
+
+
       {* Don't display the top middle banner on the the splash page *}
       {if !$is_guest_homepage}
           <div role="banner" class="center ad_468_60">
@@ -176,10 +172,6 @@
         {{ $designModel->ad(468, 60) }}
     </div>
     <!-- End Content -->
-      {if !$is_guest_homepage}
-          <div class="siluet_show">
-          </div>
-      {/if}
 
     <!-- Begin Footer -->
     <footer >
@@ -197,7 +189,11 @@
 
        </div>
         {{ $design->langList() }}
-        {main_include 'bottom_menu.inc.tpl'}
+
+      {if !$is_guest_homepage}
+	{main_include 'bottom_menu.inc.tpl'}
+      {/if}
+
       </div>
 
       {if isDebug()}
@@ -208,9 +204,11 @@
           {lang 'WARNING: Your site is in development mode! You can change the mode'} <a href="{{ $design->url(PH7_ADMIN_MOD,'tool','envmode') }}" title="{lang 'Change the Environment Mode'}" class="darkred">{lang 'here'}</a>
         </p>
       {/if}
+
+	<br>
     </footer>
 
-    <div class="clear">aa</div>
+    <div class="clear"></div>
     <div class="right vs_marg"></div>
     <!-- End Footer -->
 

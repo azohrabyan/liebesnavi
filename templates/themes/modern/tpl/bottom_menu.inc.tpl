@@ -1,37 +1,32 @@
   <nav class="bottom_nav">
-      <div role="listbox" class="dropdown_menu ft_dm">
-        <span class="dropdown_item_css">
-          <a rel="nofollow" href="{{ $design->url('page','main','about') }}" class="dropdown_item" data-load="ajax">{lang 'About %site_name%'}</a>
+	<span class="dropdown_item_css">
+          <a rel="nofollow" href="{{ $design->url('page','main','faq') }}" class="footer" >{lang 'HILFE'}</a>
         </span>
-        <ul class="show_dropdown">
-          <li><a href="{{ $design->url('page','main','about') }}" title="{lang 'About Us'}" data-load="ajax">{lang 'About'}</a></li>
+	| &nbsp;
 
-          {if $is_blog_enabled}
-            <li><a href="{{ $design->url('blog','main','index') }}" title="{lang 'Company Blog | News'}" data-load="ajax">{lang 'Blog'}</a></li>
-          {/if}
-
-          {if $is_affiliate_enabled}
-            <li><a href="{{ $design->url('affiliate','home','index') }}" title="{lang 'Become an Affiliate'}">{lang 'Affiliate'}</a></li>
-          {/if}
-
-          <li><a href="{{ $design->url('contact','contact','index') }}" title="{lang 'Contact Us'}">{lang 'Contact'}</a></li>
-          <li><a href="{{ $design->url('page','main','partner') }}" title="{lang 'Our Partners'}" data-load="ajax">{lang 'Partners'}</a></li>
-          <li class="dm_self"><span class="dropdown_item">{lang 'About'}</span><i></i></li>
-        </ul>
-      </div> | &nbsp; 
-
-      <div role="listbox" class="dropdown_menu ft_dm">
         <span class="dropdown_item_css">
-          <a rel="nofollow" href="{{ $design->url('page','main','faq') }}" class="dropdown_item" data-load="ajax">{lang 'Help'}</a>
+          <a rel="nofollow" href="{{ $design->url('page','main','terms') }}" class="footer" >{lang 'NUTZUNGSBEDIGUNGEN'}</a>
         </span>
-        <ul class="show_dropdown">
-          <li><a href="{{ $design->url('page','main','terms') }}" title="{lang 'Terms of Use'}" data-load="ajax">{lang 'Terms of Use'}</a></li>
-          <li><a href="{{ $design->url('page','main','privacy') }}" title="{lang 'Privacy Policy'}" data-load="ajax">{lang 'Privacy'}</a></li>
-          <li><a href="{{ $design->url('page','main','legalnotice') }}" title="{lang 'Legal Notice'}" data-load="ajax">{lang 'Legal Notice'}</a></li>
-          <li class="dm_self"><span class="dropdown_item">{lang 'Help'}</span><i></i></li>
-        </ul>
-      </div>&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
-	&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+        | &nbsp;
+
+
+        <span class="dropdown_item_css">
+          <a rel="nofollow" href="{{ $design->url('page','main','privacy') }}" class="footer" >{lang 'DATENSCHUTZ'}</a>
+        </span>
+        | &nbsp;
+
+
+        <span class="dropdown_item_css">
+          <a rel="nofollow" href="{{ $design->url('contact','contact','index') }}" class="footer" >{lang 'KONTAKT'}</a>
+        </span>
+        | &nbsp;
+
+        <span class="dropdown_item_css">
+          <a rel="nofollow" href="{{ $design->url('page','main','legalnotice') }}" class="footer" >{lang 'IMPRESSUM'}</a>
+        </span>
+
+
+	&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
 
       {if !$is_user_auth AND $is_newsletter_enabled}
         <a href="{{ $design->url('newsletter','home','subscription') }}" title="{lang 'Subscribe to our newsletter!'}" data-popup="block-page">{lang 'Newsletter'}</a> |

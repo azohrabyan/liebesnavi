@@ -333,10 +333,9 @@ footer {
     font-size: .9em;
     text-align: center;
     border-top: 0px solid #C8C8C8;
-    background:  url(../img/body_bg_footer.jpg);
     margin-left: 0px;
     margin-right: 0px;
-
+    background-color: red;
 }
 
 footer a {
