@@ -236,6 +236,7 @@ class Various
             case 'AffiliatesInfo':
             case 'Subscribers':
             case 'Admins':
+            case 'ChatAgency':
                 return $sTable;
 
             default:

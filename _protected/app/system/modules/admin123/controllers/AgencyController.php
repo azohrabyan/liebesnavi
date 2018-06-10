@@ -1,12 +1,4 @@
 <?php
-/**
- * @title          Agency Controller
- *
- * @author         Pierre-Henry Soria <ph7software@gmail.com>
- * @copyright      (c) 2012-2018, Pierre-Henry Soria. All Rights Reserved.
- * @license        GNU General Public License; See PH7.LICENSE.txt and PH7.COPYRIGHT.txt in the root directory.
- * @package        PH7 / App / System / Module / Agency / Controller
- */
 
 namespace PH7;
 
@@ -59,23 +51,18 @@ class AgencyController extends Controller
             getFirstItem(), $oPage->getNbItemsPerPage());
         unset($oPage);
 
-        if (empty($oSearch)) {
-            $this->design->setRedirect(Uri::get(PH7_ADMIN_MOD, 'agency', 'browse'));
-            $this->displayPageNotFound(t('Sorry, Your search returned no results!'));
-        } else {
-            // Adding the JS form file
-            $this->design->addJs(PH7_STATIC . PH7_JS, 'form.js');
+        // Adding the JS form file
+        $this->design->addJs(PH7_STATIC . PH7_JS, 'form.js');
 
-            // Assigns variables for views
-            $this->view->designSecurity = new HtmlSecurity; // Security Design Class
-            $this->view->dateTime = $this->dateTime; // Date Time Class
+        // Assigns variables for views
+        $this->view->designSecurity = new HtmlSecurity; // Security Design Class
+        $this->view->dateTime = $this->dateTime; // Date Time Class
 
-            $this->sTitle = t('Browse Agency');
-            $this->view->page_title = $this->sTitle;
-            $this->view->h2_title = $this->sTitle;
-            $this->view->h3_title = nt('%n% Agency', '%n% Agency', $this->iTotalAgancies);
-            $this->view->browse = $oSearch;
-        }
+        $this->sTitle = t('Browse Agency');
+        $this->view->page_title = $this->sTitle;
+        $this->view->h2_title = $this->sTitle;
+        $this->view->h3_title = nt('%n% Agency', '%n% Agency', $this->iTotalAgancies);
+        $this->view->browse = $oSearch;
 
         $this->output();
     }
@@ -92,6 +79,15 @@ class AgencyController extends Controller
     public function add()
     {
         $this->sTitle = t('Add an Agency');
+        $this->view->page_title = $this->sTitle;
+        $this->view->h2_title = $this->sTitle;
+
+        $this->output();
+    }
+
+    public function edit()
+    {
+        $this->sTitle = t('Edit your account');
         $this->view->page_title = $this->sTitle;
         $this->view->h2_title = $this->sTitle;
 

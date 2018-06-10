@@ -29,6 +29,10 @@ define('PH7_DEFAULT_TIMEZONE', 'America/Chicago');
 
 define('PH7_ADMIN_MOD', 'admin123');
 
+/***** AGENCY MODULE NAME *****/
+
+define('PH7_AGENCY_MOD', 'agency');
+
 /***** PATTERN USERNAME (for 'Members', 'Affiliates' and 'Admins') *****/
 
 define('PH7_USERNAME_PATTERN', '[\w-]');

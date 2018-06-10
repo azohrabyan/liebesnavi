@@ -188,6 +188,8 @@
       <route url="field/add/([a-zA-Z]+)" path="system/modules" module="field" controller="field" action="add" vars="mod" />
       <route url="field/edit/([a-zA-Z]+)/([a-zA-Z0-9_-]+)" path="system/modules" module="field" controller="field" action="edit" vars="mod,name" />
 
+      <!-- admin -->
+      <route url="agency/edit/?([0-9]+)?" path="system/modules" module="admin123" controller="agency" action="edit" vars="profile_id" />
     <!-- END SYSTEM MODULES -->
 
 

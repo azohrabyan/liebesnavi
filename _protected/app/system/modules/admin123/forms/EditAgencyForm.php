@@ -27,32 +27,25 @@ class EditAgencyForm
 
         $oHR = new Http;
         // Prohibit other admins to edit the Root Administrator (ID 1)
-        $iProfileId = ($oHR->getExists('profile_id') && !AdminCore::isRootProfileId($oHR->get('profile_id', 'int'))) ? $oHR->get('profile_id', 'int') : (new Session)->get('admin_id');
+        $iProfileId = $oHR->getExists('profile_id') ? $oHR->get('profile_id', 'int') : '';
 
-	$iProfileId=4;
-
-	print $iProfileId;
-
-        $oAgency = (new AgencyModel)->readProfile($iProfileId, 'Admins');
+        $oAgency = (new AgencyModel)->readProfile($iProfileId, 'ChatAgency');
 
         $oForm = new \PFBC\Form('form_agency_edit_account');
         $oForm->configure(array('action' => ''));
         $oForm->addElement(new \PFBC\Element\Hidden('submit_agency_edit_account', 'form_agency_edit_account'));
         $oForm->addElement(new \PFBC\Element\Token('edit_account'));
 
-        if ($oHR->getExists('profile_id') && !AgencyCore::isRootProfileId($oHR->get('profile_id', 'int'))) {
+        if ($oHR->getExists('profile_id')) {
             $oForm->addElement(
                 new \PFBC\Element\HTMLExternal('<p class="center"><a class="bold btn btn-default btn-md" href="' . Uri::get(PH7_ADMIN_MOD, 'agency', 'browse') . '">' . t('Back to Browse Agencies') . '</a></p>')
             );
         }
         unset($oHR);
 
+        $oForm->addElement(new \PFBC\Element\Textbox(t('Agency Name:'), 'agency_name', array('value' => $oAgency->agency_name, 'required' => 1, 'validation' => new \PFBC\Validation\Name)));
         $oForm->addElement(new \PFBC\Element\Textbox(t('Username:'), 'username', array('value' => $oAgency->username, 'required' => 1)));
         $oForm->addElement(new \PFBC\Element\Email(t('Login Email:'), 'mail', array('value' => $oAgency->email, 'required' => 1)));
-        $oForm->addElement(new \PFBC\Element\Textbox(t('First Name:'), 'first_name', array('value' => $oAgency->firstName, 'required' => 1, 'validation' => new \PFBC\Validation\Name)));
-        $oForm->addElement(new \PFBC\Element\Textbox(t('Last Name:'), 'last_name', array('value' => $oAgency->lastName, 'required' => 1, 'validation' => new \PFBC\Validation\Name)));
-        $oForm->addElement(new \PFBC\Element\Radio(t('Gender:'), 'sex', array('male' => t('Man'), 'female' => t('Female')), array('value' => $oAgency->sex, 'required' => 1)));
-        $oForm->addElement(new \PFBC\Element\Timezone('Time Zone:', 'time_zone', array('value' => $oAgency->timeZone, 'required' => 1)));
         $oForm->addElement(new \PFBC\Element\Button);
         $oForm->render();
     }

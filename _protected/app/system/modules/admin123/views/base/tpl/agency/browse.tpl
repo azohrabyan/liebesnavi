@@ -6,36 +6,23 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                  <th><input type="checkbox" name="all_action" /></th>
                   <th>{lang 'Agency ID#'}</th>
+                  <th>{lang 'Agency Name'}</th>
                   <th>{lang 'Email Address'}</th>
                   <th>{lang 'User'}</th>
-                  <th>{lang 'IP'}</th>
-                  <th>{lang 'Join Date'}</th>
-                  <th>{lang 'Last Activity'}</th>
-                  <th>{lang 'Last Edit'}</th>
                   <th>{lang 'Action'}</th>
                 </tr>
             </thead>
 
             <tfoot>
                 <tr>
-                  <th><input type="checkbox" name="all_action" /></th>
-                  <th>
+                      <th colspan="5">
                       <button
                           class="red btn btn-default btn-md"
-                          type="submit" onclick="return checkChecked()"
-                          formaction="{{ $design->url(PH7_ADMIN_MOD,'agency','deleteall') }}"
-                          >{lang 'Delete'}
+                          type="button" onclick="document.location.href = '{{ $design->url(PH7_ADMIN_MOD,'agency','add') }}';return false;"
+                          >{lang 'Add'}
                       </button>
                   </th>
-                  <th> </th>
-                  <th> </th>
-                  <th> </th>
-                  <th> </th>
-                  <th> </th>
-                  <th> </th>
-                  <th> </th>
                 </tr>
             </tfoot>
 
@@ -43,36 +30,13 @@
                 {each $admin in $browse}
                     {{ $adminId = (int)$admin->profileId }}
                     <tr>
-                      <td>
-                          <input type="checkbox" name="action[]" value="{adminId}_{% $admin->username %}" />
-                      </td>
                       <td>{adminId}</td>
+                      <td>{% $admin->agency_name %}</td>
                       <td>{% $admin->email %}</td>
-                      <td>
-                          {% $admin->username %}<br />
-                          <span class="gray">{% $admin->firstName %}</span>
-                      </td>
-                      <td>{{ $design->ip($admin->ip) }}</td>
-                      <td class="small">{% $dateTime->get($admin->joinDate)->dateTime() %}</td>
+                      <td>{% $admin->username %}</td>
                       <td class="small">
-                          {if !empty($admin->lastActivity)}
-                              {% $dateTime->get($admin->lastActivity)->dateTime() %}
-                          {else}
-                              {lang 'No login'}
-                          {/if}
-                      </td>
-                      <td class="small">
-                          {if !empty($admin->lastEdit)}
-                              {% $dateTime->get($admin->lastEdit)->dateTime() %}
-                          {else}
-                              {lang 'No editing'}
-                          {/if}
-                      </td>
-                      <td class="small">
-                          <a href="{{ $design->url(PH7_ADMIN_MOD,'account','editagency',$adminId) }}" title="{lang 'Edit this Admin'}">{lang 'Edit'}</a>
-                          {if !AdminCore::isRootProfileId($adminId) }
+                          <a href="{{ $design->url(PH7_ADMIN_MOD,'agency','edit',$adminId) }}" title="{lang 'Edit this Agency'}">{lang 'Edit'}</a>
                               | {{ $design->popupLinkConfirm(t('Delete'), PH7_ADMIN_MOD, 'agency', 'delete', $adminId.'_'.$admin->username) }}
-                          {/if}
                       </td>
                     </tr>
                 {/each}
@@ -81,4 +45,3 @@
     </div>
 </form>
 
-{main_include 'page_nav.inc.tpl'}

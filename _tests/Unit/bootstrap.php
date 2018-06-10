@@ -45,6 +45,9 @@ define('PH7_CONFIG_FILE', 'config.ini');
 // Admin constant
 define('PH7_ADMIN_MOD', 'admin123');
 
+// Agency constant
+define('PH7_AGENCY_MOD', 'agency');
+
 // Lang constant
 define('PH7_DEFAULT_LANG_CODE', 'en');
 define('PH7_LANG_CODE', 'en');

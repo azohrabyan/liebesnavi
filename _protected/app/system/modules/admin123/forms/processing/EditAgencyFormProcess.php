@@ -13,6 +13,8 @@ defined('PH7') or exit('Restricted access');
 use PH7\Framework\Cache\Cache;
 use PH7\Framework\Mvc\Model\DbConfig;
 use PH7\Framework\Security\Validate\Validate;
+use PH7\Framework\Url\Header;
+use PH7\Framework\Mvc\Router\Uri;
 
 class EditAgencyFormProcess extends Form
 {
@@ -26,7 +28,7 @@ class EditAgencyFormProcess extends Form
         $oAgencyModel = new AgencyModel;
 
         $iProfileId = $this->getProfileId();
-        $oAgency = $oAgencyModel->readProfile($iProfileId, 'Agency');
+        $oAgency = $oAgencyModel->readProfile($iProfileId, 'ChatAgency');
 
         if (!$this->str->equals($this->httpRequest->post('username'), $oAgency->username)) {
             $iMinUsernameLength = DbConfig::getSetting('minUsernameLength');
@@ -36,10 +38,10 @@ class EditAgencyFormProcess extends Form
                 \PFBC\Form::setError('form_agency_edit_account', t('Your username has to contain from %0% to %1% characters, your username is not available or your username already used by other agency.', $iMinUsernameLength, $iMaxUsernameLength));
                 $this->bIsErr = true;
             } else {
-                $oAgencyModel->updateProfile('username', $this->httpRequest->post('username'), $iProfileId, 'Agency');
+                $oAgencyModel->updateProfile('username', $this->httpRequest->post('username'), $iProfileId, 'ChatAgency');
                 $this->session->set('agency_username', $this->httpRequest->post('username'));
 
-                (new Cache)->start(UserCoreModel::CACHE_GROUP, 'username' . $iProfileId . 'Agency', null)->clear();
+                (new Cache)->start(UserCoreModel::CACHE_GROUP, 'username' . $iProfileId . 'ChatAgency', null)->clear();
             }
         }
 
@@ -48,41 +50,26 @@ class EditAgencyFormProcess extends Form
                 \PFBC\Form::setError('form_agency_edit_account', t('Invalid email address or this email is already used by another agency.'));
                 $this->bIsErr = true;
             } else {
-                $oAgencyModel->updateProfile('email', $this->httpRequest->post('mail'), $iProfileId, 'Agency');
+                $oAgencyModel->updateProfile('email', $this->httpRequest->post('mail'), $iProfileId, 'ChatAgency');
                 $this->session->set('agency_email', $this->httpRequest->post('mail'));
             }
         }
 
-        if (!$this->str->equals($this->httpRequest->post('first_name'), $oAgency->firstName)) {
-            $oAgencyModel->updateProfile('firstName', $this->httpRequest->post('first_name'), $iProfileId, 'Agency');
-            $this->session->set('agency_first_name', $this->httpRequest->post('first_name'));
+        if (!$this->str->equals($this->httpRequest->post('agency_name'), $oAgency->agency_name)) {
+            $oAgencyModel->updateProfile('agency_name', $this->httpRequest->post('agency_name'), $iProfileId, 'ChatAgency');
+            $this->session->set('agency_name', $this->httpRequest->post('agency_name'));
 
-            (new Cache)->start(UserCoreModel::CACHE_GROUP, 'firstName' . $iProfileId . 'Agency', null)->clear();
+            (new Cache)->start(UserCoreModel::CACHE_GROUP, 'agencyName' . $iProfileId . 'ChatAgency', null)->clear();
         }
-
-        if (!$this->str->equals($this->httpRequest->post('last_name'), $oAgency->lastName)) {
-            $oAgencyModel->updateProfile('lastName', $this->httpRequest->post('last_name'), $iProfileId, 'Agency');
-        }
-
-        if (!$this->str->equals($this->httpRequest->post('sex'), $oAgency->sex)) {
-            $oAgencyModel->updateProfile('sex', $this->httpRequest->post('sex'), $iProfileId, 'Agency');
-
-            (new Cache)->start(UserCoreModel::CACHE_GROUP, 'sex' . $iProfileId . 'Agency', null)->clear();
-        }
-
-        if (!$this->str->equals($this->httpRequest->post('time_zone'), $oAgency->timeZone)) {
-            $oAgencyModel->updateProfile('timeZone', $this->httpRequest->post('time_zone'), $iProfileId, 'Agency');
-        }
-
-        $oAgencyModel->setLastEdit($iProfileId, 'Agency');
 
         unset($oValidate, $oAgencyModel, $oAgency);
 
-        (new Agency)->clearReadProfileCache($iProfileId, 'Agency');
+        (new Agency)->clearReadProfileCache($iProfileId, 'ChatAgency');
 
         if (!$this->bIsErr) {
             \PFBC\Form::setSuccess('form_agency_edit_account', t('Profile successfully updated!'));
         }
+        Header::redirect(Uri::get(PH7_ADMIN_MOD, 'agency', 'browse'), t('Agency successfully added.'));
     }
 
     /**
@@ -91,7 +78,7 @@ class EditAgencyFormProcess extends Form
     private function getProfileId()
     {
         // Prohibit other admins to edit the Root Administrator (ID 1)
-        if ($this->httpRequest->getExists('profile_id') && !AdminCore::isRootProfileId($this->httpRequest->get('profile_id', 'int'))) {
+        if ($this->httpRequest->getExists('profile_id') ) {
             return $this->httpRequest->get('profile_id', 'int');
         }
 

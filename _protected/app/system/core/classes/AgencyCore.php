@@ -18,8 +18,6 @@ use stdClass;
 // Abstract Class
 class AgencyCore extends UserCore
 {
-    const ROOT_PROILE_ID = 1;
-
     /**
      * Agency' levels.
      *
@@ -28,22 +26,10 @@ class AgencyCore extends UserCore
     public static function auth()
     {
         $oSession = new Session;
-        $bIsConnected = ((int)$oSession->exists('agency_id')) && $oSession->get('agency_ip') === Ip::get() && $oSession->get('agency_http_user_agent') === (new Browser)->getUserAgent();
+        $bIsConnected = ((int)$oSession->exists('profileId')) && $oSession->get('agency_ip') === Ip::get() && $oSession->get('agency_http_user_agent') === (new Browser)->getUserAgent();
         unset($oSession);
 
         return $bIsConnected;
-    }
-
-    /**
-     * Determines if the ID is from Root Admin (main AGANCY).
-     *
-     * @param int $iProfileId
-     *
-     * @return bool
-     */
-    public static function isRootProfileId($iProfileId)
-    {
-        return $iProfileId === static::ROOT_PROILE_ID;
     }
 
     /**
@@ -68,25 +54,20 @@ class AgencyCore extends UserCore
      */
     public function setAuth(stdClass $oAgencyData, UserCoreModel $oAgencyModel, Session $oSession, SecurityModel $oSecurityModel)
     {
-        // Remove the session if the admin is logged in as "user" or "affiliate".
-        if (UserCore::auth() || AffiliateCore::auth()) {
-            $oSession->destroy();
-        }
-
         // Regenerate the session ID to prevent session fixation attack
         $oSession->regenerateId();
 
         $aSessionData = [
-            'agency_id' => $oAgencyData->profileId,
-            'agency_email' => $oAgencyData->email,
-            'agency_username' => $oAgencyData->username,
-            'agency_first_name' => $oAgencyData->firstName,
+            'agency_role' => 'admin',
+            'profileId' => $oAgencyData->profileId,
+            'email' => $oAgencyData->email,
+            'username' => $oAgencyData->username,
             'agency_ip' => Ip::get(),
             'agency_http_user_agent' => (new Browser)->getUserAgent(),
             'agency_token' => Various::genRnd($oAgencyData->email),
         ];
         $oSession->set($aSessionData);
-        $oSecurityModel->addLoginLog($oAgencyData->email, $oAgencyData->username, '*****', 'Logged in!', 'Agency');
-        $oAgencyModel->setLastActivity($oAgencyData->profileId, 'Agency');
+        $oSecurityModel->addLoginLog($oAgencyData->email, $oAgencyData->username, '*****', 'Logged in!', 'ChatAgency');
+//        $oAgencyModel->setLastActivity($oAgencyData->profileId, 'ChatAgency');
     }
 }

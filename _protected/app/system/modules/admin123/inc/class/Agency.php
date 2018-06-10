@@ -12,7 +12,7 @@ use PH7\Framework\Mvc\Router\Uri;
 use PH7\Framework\Session\Session;
 use PH7\Framework\Url\Header;
 
-class Admin extends AdminCore
+class Agency extends AdminCore
 {
     /**
      * Logout function for admins.
@@ -24,7 +24,7 @@ class Admin extends AdminCore
         (new Session)->destroy();
 
         Header::redirect(
-            Uri::get(PH7_ADMIN_MOD, 'main', 'login'),
+            Uri::get(PH7_AGENCY_MOD, 'main', 'login'),
             t('You are successfully logged out.')
         );
     }
@@ -41,10 +41,6 @@ class Admin extends AdminCore
     {
         $iProfileId = (int)$iProfileId;
 
-        if (AdminCore::isRootProfileId($iProfileId)) {
-            exit('You cannot delete the Root Administrator!');
-        } else {
-            (new AdminModel)->delete($iProfileId, $sUsername);
-        }
+        (new AgencyModel)->delete($iProfileId, $sUsername);
     }
 }
