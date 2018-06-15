@@ -20,7 +20,9 @@ class ChatterCore extends UserCore
     public static function auth()
     {
         $oSession = new Session;
-        $bIsConnected = ((int)$oSession->exists('chatter_id')) && $oSession->get('chatter_ip') === Ip::get() && $oSession->get('chatter_http_user_agent') === (new Browser)->getUserAgent();
+        $bIsConnected = ((int)$oSession->exists('chatter_id')) && $oSession->get('chatter_ip') === Ip::get() &&
+            $oSession->get('chatter_http_user_agent') === (new Browser)->getUserAgent() &&
+            $oSession->get('agency_role') == 'chatter';
         unset($oSession);
 
         return $bIsConnected;
@@ -62,7 +64,7 @@ class ChatterCore extends UserCore
             'chatter_token' => Various::genRnd($oChatterData->email),
         ];
         $oSession->set($aSessionData);
-        $oSecurityModel->addLoginLog($oChatterData->email, $oChatterData->username, '*****', 'Logged in!', 'Chatter');
-//        $oAgencyModel->setLastActivity($oChatterData->profileId, 'Chatter');
+        $oSecurityModel->addLoginLog($oChatterData->email, $oChatterData->username, '*****', 'Logged in!', 'ChatAgency');
+        $oChatterModel->setLastActivity($oChatterData->profileId, 'Chatter');
     }
 }

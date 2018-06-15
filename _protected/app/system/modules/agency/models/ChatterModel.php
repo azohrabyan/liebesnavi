@@ -85,4 +85,26 @@ class ChatterModel extends ChatterCoreModel
 
         return $mData;
     }
+
+    /**
+     * It recreates an admin method more complicated and more secure than the classic one PH7\UserCoreModel::login()
+     *
+     * @param string $sEmail
+     * @param string $sUsername
+     * @param string $sPassword
+     *
+     * @return bool Returns TRUE if successful otherwise FALSE
+     */
+    public function chatterLogin($sEmail, $sUsername, $sPassword)
+    {
+        $rStmt = Db::getInstance()->prepare('SELECT password FROM' .
+            Db::prefix('Chatter') . 'WHERE email = :email AND username = :username LIMIT 1');
+        $rStmt->bindValue(':email', $sEmail, \PDO::PARAM_STR);
+        $rStmt->bindValue(':username', $sUsername, \PDO::PARAM_STR);
+        $rStmt->execute();
+        $oRow = $rStmt->fetch(\PDO::FETCH_OBJ);
+        Db::free($rStmt);
+
+        return Security::checkPwd($sPassword, @$oRow->password);
+    }
 }

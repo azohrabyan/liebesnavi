@@ -28,13 +28,15 @@ class LoginFormProcess extends Form implements LoginableForm
     /** @var ChatterModel */
     private $oChatterModel;
 
+    private $role = '';
+
     public function __construct()
     {
         parent::__construct();
 
         $sIp = Ip::get();
         $this->oAgencyModel = new AgencyModel;
-//        $this->oChatterModel = new ChatterModel;
+        $this->oChatterModel = new ChatterModel;
         $oSecurityModel = new SecurityModel;
 
         $sEmail = $this->httpRequest->post('mail');
@@ -63,11 +65,13 @@ class LoginFormProcess extends Form implements LoginableForm
         {
             $this->preventBruteForce(self::BRUTE_FORCE_SLEEP_DELAY);
 
+            $bIsLogged = $this->oChatterModel->chatterLogin($sEmail, $sUsername, $sPassword);
+
             if (!$bIsLogged) {
-                $oSecurityModel->addLoginLog($sEmail, $sUsername, $sPassword, 'Failed! Incorrect Email, Username or Password', 'Admins');
+                $oSecurityModel->addLoginLog($sEmail, $sUsername, $sPassword, 'Failed! Incorrect Email, Username or Password', 'ChatAgency');
 
                 if ($bIsLoginAttempt) {
-                    $oSecurityModel->addLoginAttempt('Admins');
+                    $oSecurityModel->addLoginAttempt('ChatAgency');
                 }
 
                 $this->enableCaptcha();
@@ -76,6 +80,8 @@ class LoginFormProcess extends Form implements LoginableForm
                 $this->enableCaptcha();
                 \PFBC\Form::setError('form_admin_login', t('Incorrect Login!'));
                 $oSecurityModel->addLoginLog($sEmail, $sUsername, $sPassword, 'Failed! Wrong IP address', 'Admins');
+            } else {
+                $this->successChatterLogin($oSecurityModel, $sEmail, $sPassword);
             }
         } else {
             $oSecurityModel->clearLoginAttempts('ChatAgency');
@@ -83,6 +89,7 @@ class LoginFormProcess extends Form implements LoginableForm
             $iId = $this->oAgencyModel->getId($sEmail, null, 'ChatAgency');
             $oAgencyData = $this->oAgencyModel->readProfile($iId, 'ChatAgency');
 
+            $this->role = 'agency';
             $this->updatePwdHashIfNeeded($sPassword, $oAgencyData->password, $sEmail);
 
             (new AgencyCore)->setAuth($oAgencyData, $this->oAgencyModel, $this->session, $oSecurityModel);
@@ -91,13 +98,32 @@ class LoginFormProcess extends Form implements LoginableForm
         }
     }
 
+    private function successChatterLogin($oSecurityModel, $sEmail, $sPassword)
+    {
+        $oSecurityModel->clearLoginAttempts('ChatAgency');
+        $this->session->remove('captcha_agency_enabled');
+        $iId = $this->oChatterModel->getId($sEmail, null, 'Chatter');
+        $oChatterData = $this->oChatterModel->readProfile($iId, 'Chatter');
+
+        $this->role = 'chatter';
+        $this->updatePwdHashIfNeeded($sPassword, $oChatterData->password, $sEmail);
+
+        (new ChatterCore)->setAuth($oChatterData, $this->oChatterModel, $this->session, $oSecurityModel);
+
+        Header::redirect(Uri::get(PH7_AGENCY_MOD, 'main', 'index'), t('You are successfully logged in!'));
+    }
+
     /**
      * {@inheritDoc}
      */
     public function updatePwdHashIfNeeded($sPassword, $sUserPasswordHash, $sEmail)
     {
         if ($sNewPwdHash = Security::pwdNeedsRehash($sPassword, $sUserPasswordHash)) {
-            $this->oAgencyModel->changePassword($sEmail, $sNewPwdHash, 'Admins');
+            if ($this->role == 'agency') {
+                $this->oAgencyModel->changePassword($sEmail, $sNewPwdHash, 'ChatAgency');
+            } elseif ($this->role == 'chatter') {
+                $this->oChatterModel->changePassword($sEmail, $sNewPwdHash, 'Chatter');
+            }
         }
     }
 

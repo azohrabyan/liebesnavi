@@ -1,10 +1,4 @@
 <?php
-/**
- * @author         Pierre-Henry Soria <ph7software@gmail.com>
- * @copyright      (c) 2012-2018, Pierre-Henry Soria. All Rights Reserved.
- * @license        GNU General Public License; See PH7.LICENSE.txt and PH7.COPYRIGHT.txt in the root directory.
- * @package        PH7 / App / System / Core / Class
- */
 
 namespace PH7;
 
@@ -26,7 +20,9 @@ class AgencyCore extends UserCore
     public static function auth()
     {
         $oSession = new Session;
-        $bIsConnected = ((int)$oSession->exists('agency_id')) && $oSession->get('agency_ip') === Ip::get() && $oSession->get('agency_http_user_agent') === (new Browser)->getUserAgent();
+        $bIsConnected = ((int)$oSession->exists('agency_id')) && $oSession->get('agency_ip') === Ip::get() &&
+            $oSession->get('agency_http_user_agent') === (new Browser)->getUserAgent() &&
+            $oSession->get('agency_role') == 'admin';
         unset($oSession);
 
         return $bIsConnected;
@@ -68,6 +64,6 @@ class AgencyCore extends UserCore
         ];
         $oSession->set($aSessionData);
         $oSecurityModel->addLoginLog($oAgencyData->email, $oAgencyData->username, '*****', 'Logged in!', 'ChatAgency');
-//        $oAgencyModel->setLastActivity($oAgencyData->profileId, 'ChatAgency');
+        $oAgencyModel->setLastActivity($oAgencyData->profileId, 'ChatAgency');
     }
 }

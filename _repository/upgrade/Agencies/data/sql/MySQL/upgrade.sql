@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS PH7_ChatAgency (
   username varchar(40),
   email varchar(100),
   password varchar(120),
+  lastActivity datetime null,
   primary key (profileId),
   index pk_agency_id using btree (profileId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -72,8 +73,6 @@ create index lastActivity
 create index sessionHash
   on PH7_ChatAgencyLogSess (sessionHash);
 
-
-
 CREATE TABLE IF NOT EXISTS PH7_Chatter (
   profileId int(10) unsigned NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) DEFAULT 0,
@@ -83,6 +82,7 @@ CREATE TABLE IF NOT EXISTS PH7_Chatter (
   agency_id INT(10) unsigned DEFAULT 0,
   status VARCHAR(10) default '',
   enabled tinyint(1) unsigned DEFAULT 1,
+  lastActivity datetime null,
   PRIMARY KEY (profileId),
   constraint foreign key fk_agency_id (agency_id) references PH7_ChatAgency (profileId) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -97,3 +97,6 @@ CREATE TABLE IF NOT EXISTS PH7_ChatterChats (
   constraint unq_chat_pair unique (fake_user, chat_partner),
   constraint foreign key fk_chatter_id (chatter_id) REFERENCES PH7_Chatter (profileId) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE PH7_Chatter ADD COLUMN lastActivity datetime null;
+ALTER TABLE PH7_ChatAgency ADD COLUMN lastActivity datetime null;

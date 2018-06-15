@@ -84,4 +84,14 @@ class ChatterController extends Controller
         );
     }
 
+    public function logout()
+    {
+        (new Chatter())->logout();
+    }
+
+    public function chat()
+    {
+        $this->output();
+    }
+
 }
