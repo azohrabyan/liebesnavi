@@ -43,6 +43,7 @@ var Messenger = {
     },
 
     show: function() {
+	$('#messenger_blur').css('display', 'inline');
         $('#messenger').css('display', 'inline');
         var username = $('.messenger_user_list .selected').data('username');
         var chatContent = $('#chat_content_' + username);

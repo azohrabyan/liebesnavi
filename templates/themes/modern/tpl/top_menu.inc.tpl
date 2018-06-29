@@ -19,7 +19,8 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <div role="banner" id="logo" class="navbar-brand"></div>
+     <!--       <div role="banner" id="logo" class="navbar-brand"></div>
+	-->
           </div>
 
           <div id="navbar" class="navbar-collapse collapse">
@@ -36,19 +37,19 @@
       {if $is_user_auth}
 
 	{if !$is_admin_auth}
-	<li class="dropdown">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </li>
+	<li class="dropdown"></li>
 	<li class="dropdown">
-	<a href="{{ $design->url('user-dashboard', 'main', 'index') }}" rel="nofollow"  data-load="ajax"><div id="top_dashboard"><img class="bottom" src="/images/dashboard_on.jpg" border=0 ><img class="top" src="/images/dashboard_off.jpg" border=0></div></a>
+	<a href="{{ $design->url('user-dashboard', 'main', 'index') }}" rel="nofollow"  data-load="ajax"><div id="top_dashboard"><img class="bottom" src="/images/dashboard_on.png" border=0 ><img class="top" src="/images/dashboard_off.png" border=0></div></a>
         </li>
 	
         <li class="dropdown">
 	<a href="{{ $design->url('user', 'browse', 'index') }}" rel="nofollow" title="{lang 'Search The Members'}" data-load="ajax">
-	<div id="top_search"><img class="bottom" src="/images/search_on.jpg" border=0 ><img class="top" src="/images/search_off.jpg" border=0></div></a>
+	<div id="top_search"><img class="bottom" src="/images/search_on.png" border=0 ><img class="top" src="/images/search_off.png" border=0></div></a>
         </li>
 
         <li class="dropdown">
 	<a  onclick="Messenger.show()">
-	<div id="top_chat"><img class="bottom" src="/images/chat_on.jpg" border=0 ><img class="top" src="/images/chat_off.jpg" border=0><img class="has_new_messages" src="/images/chat_new_messages.jpg" border="0" /></div></a>
+	<div id="top_chat"><img class="bottom" src="/images/chat_on.png" border=0 ><img class="top" src="/images/chat_off.png" border=0><img class="has_new_messages" src="/images/chat_new_messages.jpg" border="0" /></div></a>
         </li>
 
 		{if $is_mail_enabled}
@@ -60,6 +61,8 @@
 		{/if}
 	{/if}
 
+	<li class="dropdown">&nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  </li>
+	<div role="banner" id="logo" class="navbar-brand"></div>
 
 	{if $is_admin_auth}
         <li class="dropdown">
@@ -203,7 +206,7 @@
 	<div class="top_coin_menu_wrapper">
 	<div id="top_coin_menu_left" >
 	<img class="bottom" src="/images/coin_on.jpg" border=0 ><img class="top" src="/images/coin_off.jpg" border=0>
-		<div id="top_coin_menu_left_text">{lang 'Coins: '} {count_credits}</div>
+		<span id="top_coin_menu_left_text">{lang 'Coins: '} {count_credits}</span>
 	</div>
 
 		<a href="{{ $design->url('payment', 'coins', '') }}" rel="nofollow"  data-load="ajax"> 
