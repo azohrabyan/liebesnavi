@@ -16,7 +16,7 @@ use PH7\Framework\Mvc\Router\Uri;
 use PH7\Framework\Url\Header;
 use PH7\Framework\Url\Url;
 
-if (AdminCore::auth() || UserCore::auth() || AffiliateCore::auth()) {
+if (AdminCore::auth() || UserCore::auth() || AffiliateCore::auth() || AgencyCore::auth()) {
     $oHttpRequest = new Http;
     $oDesign = new Design;
     $oDesign->htmlHeader();

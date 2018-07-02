@@ -1,10 +1,4 @@
 <?php
-/**
- * @author         Pierre-Henry Soria <ph7software@gmail.com>
- * @copyright      (c) 2012-2018, Pierre-Henry Soria. All Rights Reserved.
- * @license        GNU General Public License; See PH7.LICENSE.txt and PH7.COPYRIGHT.txt in the root directory.
- * @package        PH7 / App / System / Module / Admin / From / Processing
- */
 
 namespace PH7;
 
@@ -25,11 +19,7 @@ class AddAgencyFormProcess extends Form
             'email' => $this->httpRequest->post('mail'),
             'username' => $this->httpRequest->post('username'),
             'password' => $this->httpRequest->post('password', Http::NO_CLEAN),
-            'first_name' => $this->httpRequest->post('first_name'),
-            'last_name' => $this->httpRequest->post('last_name'),
-            'sex' => $this->httpRequest->post('sex'),
-            'time_zone' => $this->httpRequest->post('time_zone'),
-            'ip' => Ip::get()
+            'agency_name' => $this->httpRequest->post('agency_name'),
         ];
         (new AgencyModel)->add($aData);
 

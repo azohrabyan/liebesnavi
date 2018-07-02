@@ -24,62 +24,15 @@ use PH7\Framework\Mvc\Router\Uri;
 use PH7\Framework\Parse\Emoticon;
 use PH7\Framework\Session\Session;
 
-class Chat implements \JsonSerializable
-{
-    private $user;
-    private $avatarUrl;
-    private $messages = [];
-
-    public function __construct($user, $avatarUrl)
-    {
-        $this->user = $user;
-        $this->avatarUrl = $avatarUrl;
-    }
-    public function add($m)
-    {
-        $this->messages[] = $m;
-    }
-
-    public function jsonSerialize()
-    {
-        return [
-            'user' => $this->user,
-            'avatar_url' => $this->avatarUrl,
-            'messages' => $this->messages,
-        ];
-    }
-}
-
-class Message implements \JsonSerializable
-{
-    private $from;
-    private $to;
-    private $message;
-    private $sentAt;
-
-    public function __construct($from, $to, $message, $sentAt)
-    {
-        $this->from = $from;
-        $this->to = $to;
-        $this->message = $message;
-        $this->sentAt = $sentAt;
-    }
-
-    public function jsonSerialize()
-    {
-        return [
-            'from' => $this->from,
-            'to' => $this->to,
-            'message' => $this->message,
-            'sentAt' => $this->sentAt,
-        ];
-    }
-}
+include_once(__DIR__ . '/ChatterController.php');
 
 class MessengerAjax extends PermissionCore
 {
     /** @var HttpRequest */
     private $_oHttpRequest;
+
+    /** @var ChatterModel */
+    private $chatterModel;
 
     /** @var MessengerModel */
     private $_oMessengerModel;
@@ -90,19 +43,34 @@ class MessengerAjax extends PermissionCore
     /** @var string */
     private $loggedinUser;
 
-    /** @var Chat[] */
+    /** @var int $chatterId */
+    private $chatterId;
+    /** @var bool $isChatter */
+    private $isChatter;
+
+    /** @var UserMessages[] $chat Represents chats of logged in user, the array keys are usernames of chat partners */
     private $chats;
 
-    public function __construct($username)
+    /** @var ChatterController  */
+    private $chatterController = null;
+
+    public function __construct($username, $chatterId = 0)
     {
         parent::__construct();
 
         Import::pH7App(PH7_SYS . PH7_MOD . 'im.models.MessengerModel');
 
         $this->_oHttpRequest = new HttpRequest;
+        $this->chatterModel = new ChatterModel;
         $this->_oMessengerModel = new MessengerModel;
         $this->avatarDesign = new AvatarDesignCore();
         $this->loggedinUser = $username;
+        $this->chatterId = $chatterId;
+        $this->isChatter = $chatterId != 0;
+
+        if ($this->isChatter) {
+            $this->chatterController = new ChatterController($chatterId, $this->chatterModel, $this->_oMessengerModel);
+        }
 
         if (!isset($_SESSION['messenger_chats'])) {
             $_SESSION['messenger_chats'] = [];
@@ -132,78 +100,12 @@ class MessengerAjax extends PermissionCore
         }
     }
 
-    /**
-     * @deprecated
-     * @throws Framework\Http\Exception
-     */
-    protected function _heartbeat()
-    {
-        $sFrom = $_SESSION['messenger_username'];
-        $sTo = !empty($_SESSION['messenger_username_to']) ? $_SESSION['messenger_username_to'] : 0;
-
-        $oQuery = $this->_oMessengerModel->select($sFrom);
-        $sItems = '';
-
-        foreach ($oQuery as $oData) {
-            $sFrom = escape($oData->fromUser, true);
-            $sSent = escape($oData->sent, true);
-            $sMsg = $this->sanitize($oData->message);
-            $sMsg = Emoticon::init($sMsg, false);
-
-            if (!isset($_SESSION['messenger_openBoxes'][$sFrom]) && isset($_SESSION['messenger_history'][$sFrom]))
-                $sItems = $_SESSION['messenger_history'][$sFrom];
-
-            $sItems .= $this->setJsonContent(['user' => $sFrom, 'msg' => $sMsg]);
-
-            if (!isset($_SESSION['messenger_history'][$sFrom])) {
-                $_SESSION['messenger_history'][$sFrom] = '';
-            }
-
-            $_SESSION['messenger_history'][$sFrom] .= $this->setJsonContent(['user' => $sFrom, 'msg' => $sMsg]);
-
-            unset($_SESSION['messenger_boxes'][$sFrom]);
-            $_SESSION['messenger_openBoxes'][$sFrom] = $sSent;
-        }
-
-        if (!empty($_SESSION['messenger_openBoxes'])) {
-            foreach ($_SESSION['messenger_openBoxes'] as $sBox => $sTime) {
-                if (!isset($_SESSION['messenger_boxes'][$sBox])) {
-                    $iNow = time() - strtotime($sTime);
-                    $sMsg = t('Sent at %0%', VDate::textTimeStamp($sTime));
-                    if ($iNow > 180) {
-                        $sItems .= $this->setJsonContent(['status' => '2', 'user' => $sBox, 'msg' => $sMsg]);
-
-                        if (!isset($_SESSION['messenger_history'][$sBox]))
-                            $_SESSION['messenger_history'][$sBox] = '';
-
-                        $_SESSION['messenger_history'][$sBox] .= $this->setJsonContent(['status' => '2', 'user' => $sBox, 'msg' => $sMsg]);
-                        $_SESSION['messenger_boxes'][$sBox] = 1;
-                    }
-                }
-            }
-        }
-
-//        if (!$this->isOnline($sFrom)) {
-//            $sMsg = t('You must have the ONLINE status in order to speak instantaneous.');
-//            $sItems .= $this->setJsonContent(['status' => '2', 'user' => '', 'msg' => $sMsg]);
-//        } elseif ($sTo !== 0 && !$this->isOnline($sTo)) {
-//            $sMsg = '<small><em>' . t("%0% is offline. Send a <a href='%1%'>Private Message</a> instead.", $sTo, Uri::get('mail', 'main', 'compose', $sTo)) . '</em></small>';
-//            $sItems .= $this->setJsonContent(['status' => '2', 'user' => '', 'msg' => $sMsg]);
-//        } else {
-            $this->_oMessengerModel->update($sFrom, $sTo);
-//        }
-
-        if ($sItems != '') {
-            $sItems = substr($sItems, 0, -1);
-        }
-
-        Http::setContentType('application/json');
-        echo '{"items": [' . $sItems . ']}';
-        exit;
-    }
-
     protected function startSession()
     {
+        Http::setContentType('application/json');
+        if ($this->isChatter) {
+            die(json_encode($this->chatterController->start()));
+        }
         if (empty($this->chats)) {
             $messages = $this->_oMessengerModel->selectAllRead($this->loggedinUser);
             foreach ($messages as $m) {
@@ -220,7 +122,6 @@ class MessengerAjax extends PermissionCore
                 $chat->add($msg);
             }
         }
-        Http::setContentType('application/json');
         echo json_encode([
             'user' => $this->loggedinUser,
             'chats' => $this->chats,
@@ -232,7 +133,7 @@ class MessengerAjax extends PermissionCore
     {
         if (!isset($this->chats[$username])) {
             $avatarUrl = $this->avatarDesign->getUserAvatar($username, '', 64, false);
-            $this->chats[$username] = new Chat($username, $avatarUrl);
+            $this->chats[$username] = new UserMessages($username, $avatarUrl);
         }
         return $this->chats[$username];
     }
@@ -242,10 +143,18 @@ class MessengerAjax extends PermissionCore
         $toUser = $this->_oHttpRequest->post('to');
         $sMsg = $this->_oHttpRequest->post('message');
 
-        $iSenderId = (new Session)->get('member_id');
-
         $sMsgTransform = $this->sanitize($sMsg);
         $sMsgTransform = Emoticon::init($sMsgTransform, false);
+
+        if ($this->isChatter) {
+            $fromUser = $this->_oHttpRequest->post('from');
+            $msg = new Message($fromUser, $toUser, $sMsgTransform, date('Y-m-d H:i:s'));
+            $this->_oMessengerModel->insert($fromUser, $toUser, $sMsg, (new CDateTime)->get()->dateTime('Y-m-d H:i:s'), $this->chatterId);
+            Http::setContentType('application/json');
+            die(json_encode([$msg]));
+        }
+
+        $iSenderId = (new Session)->get('member_id');
 
         $chat = $this->getChatWith($toUser);
 
@@ -270,6 +179,11 @@ class MessengerAjax extends PermissionCore
 
     protected function heartbeat()
     {
+        if ($this->isChatter) {
+            Http::setContentType('application/json');
+            die(json_encode($this->chatterController->heartbeat()));
+        }
+
         $messages = $this->_oMessengerModel->selectUnread($this->loggedinUser);
         $latestChats = [];
         $messageIds = [];
@@ -288,7 +202,7 @@ class MessengerAjax extends PermissionCore
 
             if (!isset($latestChats[$chatUser])) {
                 $avatarUrl = $this->avatarDesign->getUserAvatar($chatUser, '', 64, false);
-                $latestChats[$chatUser] = new Chat($chatUser, $avatarUrl);
+                $latestChats[$chatUser] = new UserMessages($chatUser, $avatarUrl);
             }
             $latestChats[$chatUser]->add($msg);
 
@@ -335,4 +249,11 @@ if (UserCore::auth()) {
     $loggedInUsername = $oSession->get('member_username');
     unset($oSession);
     new MessengerAjax($loggedInUsername);
+}
+
+if (ChatterCore::auth()) {
+    $oSession = new Session;
+    $loggedInUsername = $oSession->get('chatter_username');
+    $loggedInId= $oSession->get('chatter_id');
+    new MessengerAjax($loggedInUsername, $loggedInId);
 }

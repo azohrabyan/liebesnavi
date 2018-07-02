@@ -8,34 +8,11 @@
 
 namespace PH7;
 
-use PH7\Framework\Date\CDateTime;
 use PH7\Framework\Mvc\Model\Engine\Db;
 use PH7\Framework\Security\Security;
 
 class AgencyModel extends AgencyCoreModel
 {
-    /**
-     * It recreates an admin method more complicated and more secure than the classic one PH7\UserCoreModel::login()
-     *
-     * @param string $sEmail
-     * @param string $sUsername
-     * @param string $sPassword
-     *
-     * @return bool Returns TRUE if successful otherwise FALSE
-     */
-    public function agencyLogin($sEmail, $sUsername, $sPassword)
-    {
-        $rStmt = Db::getInstance()->prepare('SELECT password FROM' .
-            Db::prefix('Agency') . 'WHERE email = :email AND username = :username LIMIT 1');
-        $rStmt->bindValue(':email', $sEmail, \PDO::PARAM_STR);
-        $rStmt->bindValue(':username', $sUsername, \PDO::PARAM_STR);
-        $rStmt->execute();
-        $oRow = $rStmt->fetch(\PDO::FETCH_OBJ);
-        Db::free($rStmt);
-
-        return Security::checkPwd($sPassword, @$oRow->password);
-    }
-
     /**
      * Adding an Admin.
      *
@@ -45,21 +22,13 @@ class AgencyModel extends AgencyCoreModel
      */
     public function add(array $aData)
     {
-        $sCurrentDate = (new CDateTime)->get()->dateTime('Y-m-d H:i:s');
-
-        $rStmt = Db::getInstance()->prepare('INSERT INTO' . Db::prefix('Agency') .
-            '(email, username, password, firstName, lastName, sex, timeZone, ip, joinDate, lastActivity)
-        VALUES (:email, :username, :password, :firstName, :lastName, :sex, :timeZone, :ip, :joinDate, :lastActivity)');
+        $rStmt = Db::getInstance()->prepare('INSERT INTO' . Db::prefix('ChatAgency') .
+            '(agency_name, email, username, password)
+        VALUES (:agency_name, :email, :username, :password)');
+        $rStmt->bindValue(':agency_name', $aData['agency_name'], \PDO::PARAM_STR);
         $rStmt->bindValue(':email', $aData['email'], \PDO::PARAM_STR);
         $rStmt->bindValue(':username', $aData['username'], \PDO::PARAM_STR);
         $rStmt->bindValue(':password', Security::hashPwd($aData['password']), \PDO::PARAM_STR);
-        $rStmt->bindValue(':firstName', $aData['first_name'], \PDO::PARAM_STR);
-        $rStmt->bindValue(':lastName', $aData['last_name'], \PDO::PARAM_STR);
-        $rStmt->bindValue(':sex', $aData['sex'], \PDO::PARAM_STR);
-        $rStmt->bindValue(':timeZone', $aData['time_zone'], \PDO::PARAM_STR);
-        $rStmt->bindValue(':ip', $aData['ip'], \PDO::PARAM_STR);
-        $rStmt->bindValue(':joinDate', $sCurrentDate, \PDO::PARAM_STR);
-        $rStmt->bindValue(':lastActivity', $sCurrentDate, \PDO::PARAM_STR);
         $rStmt->execute();
         Db::free($rStmt);
 
@@ -78,12 +47,8 @@ class AgencyModel extends AgencyCoreModel
     {
         $iProfileId = (int)$iProfileId;
 
-        if (AgencyCore::isRootProfileId($iProfileId)) {
-            exit('You cannot delete the Root Agency!');
-        }
-
         $oDb = Db::getInstance();
-        $oDb->exec('DELETE FROM' . Db::prefix('Agency') . 'WHERE profileId = ' . $iProfileId . ' LIMIT 1');
+        $oDb->exec('DELETE FROM' . Db::prefix('ChatAgency') . 'WHERE profileId = ' . $iProfileId . ' LIMIT 1');
         unset($oDb);
     }
 
@@ -110,12 +75,12 @@ class AgencyModel extends AgencyCoreModel
         if (ctype_digit($mLooking)) {
             $sSqlWhere = ' WHERE profileId = :looking';
         } else {
-            $sSqlWhere = ' WHERE username LIKE :looking OR firstName LIKE :looking OR lastName LIKE :looking OR email LIKE :looking OR sex LIKE :looking OR ip LIKE :looking';
+            $sSqlWhere = ' WHERE username LIKE :looking OR agency_name LIKE :looking OR email LIKE :looking ';
         }
 
         $sSqlOrder = SearchCoreModel::order($sOrderBy, $iSort);
 
-        $rStmt = Db::getInstance()->prepare('SELECT ' . $sSqlSelect . ' FROM' . Db::prefix('Agency') . $sSqlWhere . $sSqlOrder . $sSqlLimit);
+        $rStmt = Db::getInstance()->prepare('SELECT ' . $sSqlSelect . ' FROM' . Db::prefix('ChatAgency') . $sSqlWhere . $sSqlOrder . $sSqlLimit);
 
         (ctype_digit($mLooking)) ? $rStmt->bindValue(':looking', $mLooking, \PDO::PARAM_INT) : $rStmt->bindValue(':looking', '%' . $mLooking . '%', \PDO::PARAM_STR);
 
@@ -137,18 +102,5 @@ class AgencyModel extends AgencyCoreModel
         }
 
         return $mData;
-    }
-
-    /**
-     * Update the custom code.
-     *
-     * @param string $sCode
-     * @param string $sType Choose between 'css' and 'js'
-     *
-     * @return int|bool Returns the number of rows on success or FALSE on failure
-     */
-    public function updateCustomCode($sCode, $sType)
-    {
-        return $this->orm->update('CustomCode', 'code', $sCode, 'codeType', $sType);
     }
 }
