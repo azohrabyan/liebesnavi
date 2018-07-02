@@ -44,8 +44,8 @@ class ChatterModel extends Model
 
         $rStmt = Db::getInstance()->prepare($sSqlQuery);
         $rStmt->bindValue(':chatterId', $chatterId, PDO::PARAM_INT);
-        $rStmt->bindValue(':from', $fakeUser, PDO::PARAM_STR);
-        $rStmt->bindValue(':to', $chatPartner, PDO::PARAM_STR);
+        $rStmt->bindValue(':fakeUser', $fakeUser, PDO::PARAM_STR);
+        $rStmt->bindValue(':chatPartner', $chatPartner, PDO::PARAM_STR);
         $rStmt->bindValue(':created', $sDate, PDO::PARAM_STR);
 
         return $rStmt->execute();

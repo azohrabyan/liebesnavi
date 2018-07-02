@@ -24,6 +24,8 @@ use PH7\Framework\Mvc\Router\Uri;
 use PH7\Framework\Parse\Emoticon;
 use PH7\Framework\Session\Session;
 
+include_once(__DIR__ . '/ChatterController.php');
+
 class MessengerAjax extends PermissionCore
 {
     /** @var HttpRequest */
@@ -138,8 +140,6 @@ class MessengerAjax extends PermissionCore
 
     protected function send()
     {
-        Http::setContentType('application/json');
-
         $toUser = $this->_oHttpRequest->post('to');
         $sMsg = $this->_oHttpRequest->post('message');
 
@@ -149,8 +149,8 @@ class MessengerAjax extends PermissionCore
         if ($this->isChatter) {
             $fromUser = $this->_oHttpRequest->post('from');
             $msg = new Message($fromUser, $toUser, $sMsgTransform, date('Y-m-d H:i:s'));
-            $this->_oMessengerModel->insert($this->loggedinUser, $toUser, $sMsg, (new CDateTime)->get()->dateTime('Y-m-d H:i:s'), $this->chatterId);
-            $this->chatterController->send($msg, $fromUser);
+            $this->_oMessengerModel->insert($fromUser, $toUser, $sMsg, (new CDateTime)->get()->dateTime('Y-m-d H:i:s'), $this->chatterId);
+            Http::setContentType('application/json');
             die(json_encode([$msg]));
         }
 
@@ -169,6 +169,7 @@ class MessengerAjax extends PermissionCore
         $msg = new Message($this->loggedinUser, $toUser, $sMsgTransform, date('Y-m-d H:i:s'));
         $chat->add($msg);
 
+        Http::setContentType('application/json');
         echo json_encode([
             'coins' => UserCore::countCredits($iSenderId),
             'message' => $msg,
@@ -178,9 +179,8 @@ class MessengerAjax extends PermissionCore
 
     protected function heartbeat()
     {
-        Http::setContentType('application/json');
-
         if ($this->isChatter) {
+            Http::setContentType('application/json');
             die(json_encode($this->chatterController->heartbeat()));
         }
 
@@ -209,6 +209,7 @@ class MessengerAjax extends PermissionCore
         }
         $this->_oMessengerModel->markAsRead($messageIds);
 
+        Http::setContentType('application/json');
         echo json_encode([
             'user' => $this->loggedinUser,
             'chats' => $latestChats,
@@ -248,4 +249,11 @@ if (UserCore::auth()) {
     $loggedInUsername = $oSession->get('member_username');
     unset($oSession);
     new MessengerAjax($loggedInUsername);
+}
+
+if (ChatterCore::auth()) {
+    $oSession = new Session;
+    $loggedInUsername = $oSession->get('chatter_username');
+    $loggedInId= $oSession->get('chatter_id');
+    new MessengerAjax($loggedInUsername, $loggedInId);
 }

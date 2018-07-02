@@ -47,10 +47,23 @@ class MessengerModel extends Model
         return $rStmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function selectFromTo($sFrom, $sTo)
+    public function selectFromToRead($sFrom, $sTo)
     {
         $sSqlQuery = 'SELECT * FROM' . Db::prefix('Messenger') .
-            'WHERE (fromUser = :from AND toUser = :to) OR (fromUser = :to AND toUser = :from) ORDER BY messengerId ASC';
+            'WHERE recd=1 AND ( (fromUser = :from AND toUser = :to) OR (fromUser = :to AND toUser = :from)) ORDER BY messengerId ASC';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
+        $rStmt->bindValue(':from', $sFrom, PDO::PARAM_STR);
+        $rStmt->bindValue(':to', $sTo, PDO::PARAM_STR);
+        $rStmt->execute();
+
+        return $rStmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function selectFromToUnread($sFrom, $sTo)
+    {
+        $sSqlQuery = 'SELECT * FROM' . Db::prefix('Messenger') .
+            'WHERE ((fromUser = :from AND toUser = :to) OR (fromUser = :to AND toUser = :from)) AND recd = 0 ORDER BY messengerId ASC';
 
         $rStmt = Db::getInstance()->prepare($sSqlQuery);
         $rStmt->bindValue(':from', $sFrom, PDO::PARAM_STR);
@@ -79,6 +92,18 @@ class MessengerModel extends Model
 
         $rStmt = Db::getInstance()->prepare($sSqlQuery);
         $rStmt->bindValue(':to', $sTo, PDO::PARAM_STR);
+        $rStmt->execute();
+
+        return $rStmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    public function selectUnreadForFakes()
+    {
+        $sSqlQuery = 'SELECT msg.* FROM ' . Db::prefix('Messenger') . ' msg
+            INNER JOIN ' . Db::prefix('Members') . ' mmb on msg.toUser = mmb.username AND mmb.is_fake
+            WHERE recd = 0 ORDER BY messengerId ASC';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
         $rStmt->execute();
 
         return $rStmt->fetchAll(PDO::FETCH_OBJ);

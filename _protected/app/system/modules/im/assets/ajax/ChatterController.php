@@ -36,11 +36,13 @@ class ChatterController
         $this->chatterModel = $chatterModel;
         $this->messengerModel = $messengerModel;
 
+        $this->chatters[$this->chatterId] = new Chatter($this->chatterId, true);
+
         $chattersChatsRows = $this->chatterModel->getAllChattersChats();
         foreach ($chattersChatsRows as $row) {
             $chatterId = $row->chatter_id;
             if (!isset($this->chatters[$chatterId])) {
-                $ch = new Chatter($chatterId);
+                $ch = new Chatter($chatterId, false);
                 $this->chatters[$chatterId] = $ch;
             }
             $this->chatters[$chatterId]->addChat($row->fake_user, $row->chat_partner);
@@ -55,7 +57,7 @@ class ChatterController
     {
         foreach ($this->chatters[$this->chatterId]->getChats() as $chat) {
             /** @var Chat $chat */
-            $messages = $this->messengerModel->selectFromTo($chat->getFakeUser(), $chat->getChatPartner());
+            $messages = $this->messengerModel->selectFromToRead($chat->getFakeUser(), $chat->getChatPartner());
             foreach ($messages as $m) {
                 $msg = new Message($m->fromUser, $m->toUser, $m->message, $m->sent);
                 $chat->add($msg);
@@ -69,10 +71,16 @@ class ChatterController
      */
     public function heartbeat()
     {
+        $messages = $this->messengerModel->selectUnreadForFakes();
+        foreach ($messages as $m) {
+            $msg = new Message($m->fromUser, $m->toUser, $m->message, $m->sent);
+            $this->send($msg, $m->toUser);
+        }
+
         $messageIds = [];
         foreach ($this->chatters[$this->chatterId]->getChats() as $chat) {
             /** @var Chat $chat */
-            $messages = $this->messengerModel->selectUnread($chat->getFakeUser());
+            $messages = $this->messengerModel->selectFromToUnread($chat->getFakeUser(), $chat->getChatPartner());
             foreach ($messages as $m) {
                 $msg = new Message($m->fromUser, $m->toUser, $m->message, $m->sent);
                 $chat->add($msg);
@@ -80,6 +88,7 @@ class ChatterController
             }
         }
         $this->messengerModel->markAsRead($messageIds);
+
         return $this->chatters[$this->chatterId];
     }
 
@@ -88,9 +97,10 @@ class ChatterController
         if (!$this->chatExists($msg->getFrom(), $msg->getTo())) {
             $chatter = $this->findFreeChatter();
             if ($chatter) {
-                $this->addChat($chatter, $msg, $fakeUser);
+                return $this->addChat($chatter, $msg, $fakeUser);
             }
         }
+        return false;
     }
 
     /**
@@ -142,7 +152,7 @@ class ChatterController
         }
         try {
             $this->insertDb($chatter, $fakeUser, $chatPartner);
-            //$this->addChat($fakeUser, $chatPartner);
+            $chatter->addChat($fakeUser, $chatPartner);
         } catch (Exception $ex) {
             return false;
         }
@@ -160,10 +170,10 @@ class ChatterController
     }
 }
 
-class Chatter
+class Chatter implements \JsonSerializable
 {
     /** @var Chat[] $chats */
-    private $chats;
+    private $chats = [];
 
     /** @var bool $isOnline */
     private $isOnline;
@@ -171,9 +181,10 @@ class Chatter
     /** @var int $chatterId */
     private $chatterId;
 
-    public function __construct($chatterId)
+    public function __construct($chatterId, $isOnline)
     {
         $this->chatterId = $chatterId;
+        $this->isOnline = $isOnline;
     }
 
     public function getId()
@@ -215,9 +226,15 @@ class Chatter
     {
         return $this->chats;
     }
+    public function jsonSerialize()
+    {
+        return [
+            'chats' => $this->chats,
+        ];
+    }
 }
 
-class Chat
+class Chat implements \JsonSerializable
 {
     /** @var string */
     private $fakeUser;
@@ -247,12 +264,21 @@ class Chat
 
     public function getFakeUser()
     {
-        return $this->getFakeUser();
+        return $this->fakeUser;
     }
 
     public function getChatPartner()
     {
         return $this->chatPartner;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'fake' => $this->fakeUser,
+            'partner' => $this->chatPartner,
+            'messages' => $this->messages,
+        ];
     }
 }
 

@@ -227,6 +227,10 @@
       {/if}
     {/if}
 
+    {if $is_chatter_auth}
+        {{ $design->staticFiles('js', PH7_LAYOUT . PH7_SYS . PH7_MOD . 'agency/' . PH7_TPL . PH7_DEFAULT_THEME . PH7_SH . PH7_JS, 'Messenger.js,jquery/sound.js') }}
+    {/if}
+
     {* Cookie info bar *}
     {if $is_cookie_consent_bar}
       {{ $design->staticFiles('js', PH7_STATIC . PH7_JS, 'cookie_consent/eu-states.js') }}
