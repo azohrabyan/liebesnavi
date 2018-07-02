@@ -125,11 +125,12 @@
     <div role="main" class="container" id="content">
       {* Alert Message *}
       {{ $design->flashMsg() }}
+      <div id="messenger_blur"></div>
       <div class="msg"></div>
         <div id="messenger">
             <div class="messenger_title">Messenger
                 <div class="messenger_close">
-                    <a onclick="document.getElementById('messenger').style.display='none'"><img
+                    <a onclick="document.getElementById('messenger').style.display='none';document.getElementById('messenger_blur').style.display='none'"><img
                                 src="/images/close_off.png"></a>
                 </div>
             </div>

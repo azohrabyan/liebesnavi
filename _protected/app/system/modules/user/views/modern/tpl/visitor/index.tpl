@@ -5,8 +5,11 @@
     {/if}
 
     {if empty($error)}
-        <h3 class="underline">{lang 'Recently Viewed By:'}</h3>
-        <p class="italic underline"><strong><a href="{{ $design->url('user','visitor','index',$username) }}">{visitor_number}</a></strong></p><br />
+<!--
+        <p class="red3"> {lang 'Recently Viewed By:'} <strong><a href="{{ $design->url('user','visitor','index',$username) }}">{visitor_number}</a></strong></p><br />
+-->
+        <a href="{{ $design->url('user','visitor','index',$username) }}" class="red_link">{lang 'Recently Viewed By'}</a>
+
         {each $v in $visitors}
             <div class="s_photo_s">
                 {{ $avatarDesign->get($v->username, $v->firstName, $v->sex, 100, true) }}

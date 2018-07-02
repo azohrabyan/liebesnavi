@@ -1,4 +1,5 @@
 /*
+    background-color: #0067A5
  * Author:        Pierre-Henry Soria <ph7software@gmail.com>
  * Copyright:     (c) 2012-2018, Pierre-Henry Soria. All Rights Reserved.
  * License:       GNU General Public License; See PH7.LICENSE.txt and PH7.COPYRIGHT.txt in the root directory.
@@ -161,7 +162,7 @@ body {
 
 #top_coin_menu_left {
   position:relative;
-  height:37px;
+  height:50px;
   width:102px;
   margin:0 auto;
   float:left;
@@ -174,19 +175,35 @@ body {
   -moz-transition: opacity 0.4s ease-in-out;
   -o-transition: opacity 0.4s ease-in-out;
   transition: opacity 0.4s ease-in-out;
+  color:#ff0000;
+
 }
 #top_coin_menu_left img.top:hover {
   opacity:0;
+  color:#ff0000;
 }
 
 #top_coin_menu_left_text {
+    top:10px;
+    left:20px;
     position: relative;
     z-index: 1;
     margin-top: 11px;
     width:100%;
     text-align:center;
-    color:#fea223;
+    color:#ff0000;
+    height:5px;
 }
+#top_coin_menu_left_text:hover {
+    position: relative;
+    z-index: 1;
+    margin-top: 11px;
+    width:100%;
+    text-align:center;
+    color:#ffffff;
+    height:5px:
+}
+
 
 .top_coin_menu_wrapper {
 	overflow: hidden;
@@ -199,26 +216,25 @@ body {
 .search_avatar {
    position: relative;
    width: 290px;
-   height:170px;
-   border-color: #A2A2A2;
+   height:150px;
+   border-color: #ff0000;
    border-style: solid;
    border-width: 1px;
+   border-radius: 10px;
    float:left;
    margin-left: 0.25em;
    margin-top: 0.25em;
+
 }
 
 .search_avatar_inside {
    position: absolute;
-   bottom: 2px;
    margin-left: 10%;
    margin-top: 0.25em;
-   width: 230px;
-   border-top-color: #A2A2A2;
-   border-top-style: solid;
-   border-top-width: 1px;
-   text-align: center;
-
+   border-color:red;
+   border-width:1px;
+   top: 5px;
+   right: 5px;
 }
 
 #links {
@@ -242,11 +258,9 @@ body {
     width:45px;
     float:left;
     margin-top: -1px;
-    padding-top:10px;
-    background: #0067A5;
+    padding-top: 0px;
     padding-left: 260px;
     background: url(../img/logo.png) no-repeat;
-    background-color: #0067A5;
 }
 
 #logo h1 {
@@ -255,14 +269,14 @@ body {
 }
 
 .navbar #logo {
-    margin-top: 2px;
+    margin-top: 0px;
     overflow: hidden;
     margin-bottom: 1px;
 }
 
 .navbar #logo h1 {
     font-size: 1.5rem;
-    margin-top: -5px;
+    margin-top: -3px;
 }
 
 #logo h1::first-letter {
@@ -556,7 +570,7 @@ label#percent {
     height: 200px;
     width: 200px;
     border-radius: 8px;
-    border: 1px #DFDFDF solid;
+    border: 1px #ffdddd solid;
 }
 
 .thumb_img, .avatar, .map {
@@ -639,31 +653,48 @@ img, video, iframe {
 
 /*    Message window */
 
+#messenger_blur {
+        position:absolute;
+        z-index:8;
+        background:white;
+        border-color:#AA2727;
+        border-width:0px;
+        width:100%;
+        height:100%;
+        padding:0;
+        opacity: .85;
+        display:none;
+	top:0px;
+	left:0px;
+}
+
 #messenger {
 	position:absolute;
 	z-index:10;
 	background:white;
-	border-color:#A7A7A7;
+	border-color:#AA2727;
 	border-width:1px;
 	border-style:solid;
 	width:800px;
 	height:600px;
 	padding:0;
-	opacity: .85;
+	opacity: .95;
 	display:none;
+	border-radius:10px;
 }
 
 .messenger_title {
 	position:absolute; 
 	z-index:1000;
-	background:#fea223;
+	background:#ff0000;
 	height:30px;
 	width:100%;
 	color:white;
 	padding-left:8px;
 	padding-right:8px;
 	padding-top:4px;
-	
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
 }
 .messenger_close {
 	 float: right;
@@ -673,27 +704,27 @@ img, video, iframe {
 .messenger_user_list {
 	padding-top:30px;
 	padding-left:1px;
-    border-right-color:#A7A7A7;
-    border-right-width:1px;
+    	border-right-color:#AA2727;
+    	border-right-width:1px;
 	border-left-width:0px;
 	border-bottom-width:0px;
-    border-style:solid;
+    	border-style:solid;
 	width:200px;
-    height:100%;
+    	height:100%;
 	float:left;
 }
 .messenger_user_info {
 	margin-top:31px;
 	margin-left:199px;
 	position:absolute;
-    border-right-color:#A7A7A7;
+    	border-right-color:#AA2727;
 	border-top-width:0px;
-    border-right-width:0px;
-    border-left-width:0px;
-    border-bottom-width:1px;
-    border-style:solid;
-    width:600px;
-    height:60px;
+    	border-right-width:0px;
+    	border-left-width:0px;
+    	border-bottom-width:1px;
+    	border-style:solid;
+    	width:600px;
+    	height:60px;
 	float:right;
 
 }
@@ -759,7 +790,7 @@ img, video, iframe {
 }
 
 .selected {
-    background-color: #aeaeae;
+    background-color: #fbc7c7;
 }
 
 .has_new_messages {
@@ -784,3 +815,17 @@ img, video, iframe {
 	 padding-right:50px;
 }
 
+.chat_link:hover {
+	border:0px;
+        opacity:1;
+        filter: alpha(opacity=100);
+}
+.chat_link {
+        border:0px;
+	opacity:0.5;
+	filter: alpha(opacity=50);
+}
+
+.pfbc-select {
+
+}
