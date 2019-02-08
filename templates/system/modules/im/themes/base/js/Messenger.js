@@ -213,6 +213,8 @@ var Messenger = {
                                 '<span class="chatboxmessagecontent">' + m.message + '</span></div>');
                         });
 
+                        $('#chat_content_' + username).scrollTop($('#chat_content_' + username)[0].scrollHeight);
+
                         Messenger.markAsUnread(username);
                     });
                     if (found) {

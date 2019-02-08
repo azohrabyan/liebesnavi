@@ -63,7 +63,7 @@ class MessengerModel extends Model
     public function selectFromToUnread($sFrom, $sTo)
     {
         $sSqlQuery = 'SELECT * FROM' . Db::prefix('Messenger') .
-            'WHERE ((fromUser = :from AND toUser = :to) OR (fromUser = :to AND toUser = :from)) AND recd = 0 ORDER BY messengerId ASC';
+            'WHERE ((fromUser = :from AND toUser = :to) ) AND recd = 0 ORDER BY messengerId ASC';
 
         $rStmt = Db::getInstance()->prepare($sSqlQuery);
         $rStmt->bindValue(':from', $sFrom, PDO::PARAM_STR);

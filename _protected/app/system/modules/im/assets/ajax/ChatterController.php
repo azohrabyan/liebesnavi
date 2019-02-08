@@ -71,6 +71,9 @@ class ChatterController
      */
     public function heartbeat()
     {
+        $this->chatterModel->setLastActivity($this->chatterId);
+        $this->chatterModel->cleanOldChats();
+
         $messages = $this->messengerModel->selectUnreadForFakes();
         foreach ($messages as $m) {
             $msg = new Message($m->fromUser, $m->toUser, $m->message, $m->sent);
@@ -80,7 +83,7 @@ class ChatterController
         $messageIds = [];
         foreach ($this->chatters[$this->chatterId]->getChats() as $chat) {
             /** @var Chat $chat */
-            $messages = $this->messengerModel->selectFromToUnread($chat->getFakeUser(), $chat->getChatPartner());
+            $messages = $this->messengerModel->selectFromToUnread($chat->getChatPartner(), $chat->getFakeUser());
             foreach ($messages as $m) {
                 $msg = new Message($m->fromUser, $m->toUser, $m->message, $m->sent);
                 $chat->add($msg);

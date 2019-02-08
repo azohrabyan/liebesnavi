@@ -9,9 +9,24 @@ namespace PH7;
 use PDO;
 use PH7\Framework\Mvc\Model\Engine\Db;
 use PH7\Framework\Mvc\Model\Engine\Model;
+use PH7\Framework\Date\CDateTime;
 
 class ChatterModel extends Model
 {
+    /** @var string */
+    protected $sCurrentDate;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->sCurrentDate = (new CDateTime)->get()->dateTime('Y-m-d H:i:s');
+    }
+
+    public function setLastActivity($iProfileId)
+    {
+        $this->orm->update('Chatter', 'lastActivity', $this->sCurrentDate, 'profileId', $iProfileId);
+    }
+
     /**
      * Select chatters chats.
      *
@@ -48,6 +63,18 @@ class ChatterModel extends Model
         $rStmt->bindValue(':chatPartner', $chatPartner, PDO::PARAM_STR);
         $rStmt->bindValue(':created', $sDate, PDO::PARAM_STR);
 
+        return $rStmt->execute();
+    }
+
+    /**
+     * Removes old ChatterChats, i.e.relation between chatter and fake user
+     */
+    public function cleanOldChats()
+    {
+        $sSqlQuery = 'DELETE FROM' . Db::prefix('ChatterChats') .
+            'WHERE  chatter_id IN (SELECT profileId FROM '. Db::prefix('Chatter') .' WHERE lastActivity IS NULL OR lastActivity < DATE_SUB(\'' . $this->sCurrentDate . '\', INTERVAL 20 MINUTE) ) ';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
         return $rStmt->execute();
     }
 }

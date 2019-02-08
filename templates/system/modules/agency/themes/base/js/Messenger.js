@@ -218,6 +218,7 @@ var Messenger = {
         if (markAsUnread) {
             Messenger.markAsUnread(fake, partner);
         }
+        msgContainer.scrollTop(msgContainer[0].scrollHeight);
     },
 
     markAsUnread: function(fake, partner) {
@@ -245,7 +246,6 @@ var Messenger = {
                     msg = oData[0];
                     //console.log(msg, fake);
                     Messenger.addMessage(msg.from, msg.message, fake, partner, false);
-                    // $("#chat_content_" + username).scrollTop($("#chat_content_" + username)[0].scrollHeight);
                 });
             }
             return false;
