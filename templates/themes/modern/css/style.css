@@ -300,7 +300,7 @@ dd {
     padding-left: 8px;
     background-color:#fff;
     height: 35px;
-    color:#ff0000;
+    color:#b70016;
     width:238px;
     font-size:15px;
     font-family: 'Open Sans', Verdana;
@@ -309,7 +309,7 @@ dd {
 
 .profile_submenu:hover {
     font-family: 'Open Sans', Verdana;
-    background-color:#ff0000;
+    background-color:#b70016;
     color:#fff;
     padding-top: 4px;
     padding-left: 8px;
@@ -339,7 +339,7 @@ dd {
     background-color:#ffffff;
     width:240px;
     border-radius: 10px;
-    border: 1px solid #ff0000;
+    border: 1px solid #b70016;
 }
 
 

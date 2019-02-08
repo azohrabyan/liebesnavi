@@ -6,7 +6,7 @@
 
 .design-box {
     text-align: left;
-    border: 1px solid #ff0000;
+    border: 1px solid #B70016;
     margin-right: 20px;
     margin-bottom: 15px;
     padding: 5px;
@@ -361,7 +361,7 @@
         width:  100%;
         height: 50px;
         float: left;
-	background-color: red;
+	background-color: #b70016;
 	padding-top: 15px;
 	color: #ffffff;
 }

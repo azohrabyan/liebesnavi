@@ -33,7 +33,11 @@
 }
 
 .red2 {
-    color: #F44336;
+    color: #b70016;
+}
+
+.red2:hover {
+    color: #A2A2A2;
 }
 
 .red3 {

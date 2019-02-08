@@ -90,6 +90,43 @@ body {
   opacity:0;
 }
 
+#top_login {
+  position:relative;
+  height:37px;
+  width:40px;
+  margin:0 auto;
+}
+#top_login img {
+  position:absolute;
+  left:0;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+#top_login img.top:hover {
+  opacity:0;
+}
+
+
+#top_join_now {
+  position:relative;
+  height:37px;
+  width:40px;
+  margin:0 auto;
+}
+#top_join_now img {
+  position:absolute;
+  left:0;
+  -webkit-transition: opacity 0.4s ease-in-out;
+  -moz-transition: opacity 0.4s ease-in-out;
+  -o-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+#top_join_now img.top:hover {
+  opacity:0;
+}
+
 #top_chat {
   position:relative;
   height:37px;
@@ -217,7 +254,7 @@ body {
    position: relative;
    width: 290px;
    height:150px;
-   border-color: #ff0000;
+   border-color: #b70016;
    border-style: solid;
    border-width: 1px;
    border-radius: 10px;
@@ -231,7 +268,7 @@ body {
    position: absolute;
    margin-left: 10%;
    margin-top: 0.25em;
-   border-color:red;
+   border-color: #b70016;
    border-width:1px;
    top: 5px;
    right: 5px;
@@ -349,7 +386,7 @@ footer {
     border-top: 0px solid #C8C8C8;
     margin-left: 0px;
     margin-right: 0px;
-    background-color: red;
+    background-color: #b70016;
 }
 
 footer a {
@@ -452,7 +489,7 @@ label#percent {
     height: 100px;
     border:1px;
     margin: 2px;
-    border-color: red;
+    border-color: #b70016;
     border-size:2px;
 }
 

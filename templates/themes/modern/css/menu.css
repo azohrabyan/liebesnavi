@@ -6,7 +6,7 @@
 
 .bottom_nav {
     float: right;
-    background-color: red; 
+    background-color: #b70016; 
 }
 
 .bottom_nav a {
@@ -50,7 +50,7 @@
 /* Rewrite some CSS classes for Bootstrap fixed menu for better render in pH7CMS desin */
 .navbar-default {
     border-color: #ccc !important;
-    background: red;
+    background: #b70016;
 }
 
 .navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse {

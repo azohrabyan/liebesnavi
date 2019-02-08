@@ -28,8 +28,19 @@
 
     {* Guest Menu *}
       {if !$is_user_auth AND !$is_aff_auth AND !$is_admin_auth AND !$is_agency_auth AND !$is_chatter_auth}
-        <li><a class="bold" href="{{ $design->url('user','signup','step1') }}" title="{lang 'Join Now!'}"><i class="fa fa-user-plus"></i> {lang 'Join Now!'}</a></li>
-        <li><a href="{{ $design->url('user', 'main','login') }}" title="{lang 'Login'}" data-load="ajax"><i class="fa fa-sign-in"></i> {lang 'Login'}</a></li>
+        <li>
+<!--
+<a class="bold" href="{{ $design->url('user','signup','step1') }}" title="{lang 'Join Now!'}"><i class="fa fa-user-plus"></i> {lang 'Join Now!'}</a>
+-->
+	        <a href="{{ $design->url('user','signup','step1') }}" rel="nofollow"  data-load="ajax"><div id="top_join_now"><img class="bottom" src="/images/join_now_on.png" border=0 ><img class="top" src="/images/join_now_off.png" border=0></div></a>
+
+</li>
+        <li>
+<!--
+<a href="{{ $design->url('user', 'main','login') }}" title="{lang 'Login'}" data-load="ajax"><i class="fa fa-sign-in"></i> {lang 'Login'}</a></li>
+-->
+                <a href="{{ $design->url('user', 'main','login')  }}" rel="nofollow"  data-load="ajax"><div id="top_login"><img class="bottom" src="/images/login_on.png" border=0 ><img class="top" src="/images/login_off.png" border=0></div></a>
+
       {/if}
 
 
