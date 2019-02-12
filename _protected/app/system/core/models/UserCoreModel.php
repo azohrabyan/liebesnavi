@@ -157,7 +157,7 @@ class UserCoreModel extends Model
      *
      * @return int Total Users
      */
-    public function total($sTable = 'Members', $iDay = 0, $sGender = 'all')
+    public function total($sTable = 'Members', $iDay = 0, $sGender = 'all', $bIsFake = false)
     {
         Various::checkModelTable($sTable);
 
@@ -168,8 +168,12 @@ class UserCoreModel extends Model
 
         $sSqlDay = $bIsDay ? ' AND (joinDate + INTERVAL :day DAY) > NOW()' : '';
         $sSqlGender = $bIsGender ? ' AND sex = :gender' : '';
+        $sSqlFake = '';
+        if ($sTable == 'Members') {
+            $sSqlFake = $bIsFake ? ' AND is_fake ' : ' AND NOT is_fake ';
+        }
 
-        $rStmt = Db::getInstance()->prepare('SELECT COUNT(profileId) AS totalUsers FROM' . Db::prefix($sTable) . 'WHERE username <> \'' . PH7_GHOST_USERNAME . '\'' . $sSqlDay . $sSqlGender);
+        $rStmt = Db::getInstance()->prepare('SELECT COUNT(profileId) AS totalUsers FROM' . Db::prefix($sTable) . 'WHERE username <> \'' . PH7_GHOST_USERNAME . '\'' . $sSqlDay . $sSqlGender .$sSqlFake);
         if ($bIsDay) {
             $rStmt->bindValue(':day', $iDay, \PDO::PARAM_INT);
         }
@@ -657,8 +661,8 @@ class UserCoreModel extends Model
     {
         $sHashValidation = (!empty($aData['hash_validation']) ? $aData['hash_validation'] : null);
 
-        $rStmt = Db::getInstance()->prepare('INSERT INTO' . Db::prefix('Members') . '(email, username, password, firstName, lastName, sex, matchSex, birthDate, active, ip, hashValidation, joinDate, lastActivity)
-            VALUES (:email, :username, :password, :firstName, :lastName, :sex, :matchSex, :birthDate, :active, :ip, :hashValidation, :joinDate, :lastActivity)');
+        $rStmt = Db::getInstance()->prepare('INSERT INTO' . Db::prefix('Members') . '(email, username, password, firstName, lastName, sex, matchSex, birthDate, active, ip, hashValidation, joinDate, lastActivity, is_fake)
+            VALUES (:email, :username, :password, :firstName, :lastName, :sex, :matchSex, :birthDate, :active, :ip, :hashValidation, :joinDate, :lastActivity, :isFake)');
         $rStmt->bindValue(':email', trim($aData['email']), \PDO::PARAM_STR);
         $rStmt->bindValue(':username', trim($aData['username']), \PDO::PARAM_STR);
         $rStmt->bindValue(':password', Security::hashPwd($aData['password']), \PDO::PARAM_STR);
@@ -672,6 +676,7 @@ class UserCoreModel extends Model
         $rStmt->bindParam(':hashValidation', $sHashValidation, \PDO::PARAM_STR, 40);
         $rStmt->bindValue(':joinDate', $this->sCurrentDate, \PDO::PARAM_STR);
         $rStmt->bindValue(':lastActivity', $this->sCurrentDate, \PDO::PARAM_STR);
+        $rStmt->bindValue(':isFake', isset($aData['is_fake']) ? $aData['is_fake'] : false, \PDO::PARAM_BOOL);
         $rStmt->execute();
         $this->setKeyId(Db::getInstance()->lastInsertId()); // Set the user's ID
         Db::free($rStmt);

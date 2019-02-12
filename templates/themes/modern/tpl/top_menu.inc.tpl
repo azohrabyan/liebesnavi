@@ -52,7 +52,7 @@
 	<li class="dropdown">
 	<a href="{{ $design->url('user-dashboard', 'main', 'index') }}" rel="nofollow"  data-load="ajax"><div id="top_dashboard"><img class="bottom" src="/images/dashboard_on.png" border=0 ><img class="top" src="/images/dashboard_off.png" border=0></div></a>
         </li>
-	
+
         <li class="dropdown">
 	<a href="{{ $design->url('user', 'browse', 'index') }}" rel="nofollow" title="{lang 'Search The Members'}" data-load="ajax">
 	<div id="top_search"><img class="bottom" src="/images/search_on.png" border=0 ><img class="top" src="/images/search_off.png" border=0></div></a>
@@ -211,7 +211,7 @@
                 </li>
               {/if}
 
-	
+
 
 	<li>
 	<div class="top_coin_menu_wrapper">
@@ -220,7 +220,7 @@
 		<span id="top_coin_menu_left_text">{lang 'Coins: '} {count_credits}</span>
 	</div>
 
-		<a href="{{ $design->url('payment', 'coins', '') }}" rel="nofollow"  data-load="ajax"> 
+		<a href="{{ $design->url('payment', 'coins', '') }}" rel="nofollow"  data-load="ajax">
 		<div id="top_coin_menu_right"><img class="bottom" src="/images/add_coin_on.jpg" border=0 ><img class="top" src="/images/add_coin_off.jpg" border=0></div>
 		</a>
 	</div>
@@ -251,6 +251,7 @@
             <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url(PH7_ADMIN_MOD,'user','browse') }}" title="{lang 'Users Manager'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-user"></i> {lang 'Users'}</a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="{{ $design->url(PH7_ADMIN_MOD,'user','browse') }}" title="{lang 'Browse Users'}"><i class="fa fa-users"></i> {lang 'Browse'}</a></li>
+                <li><a href="{{ $design->url(PH7_ADMIN_MOD,'user','fakes') }}" title="{lang 'Fake Users'}"><i class="fa fa-users"></i> {lang 'Fakes'}</a></li>
                 <li><a href="{{ $design->url(PH7_ADMIN_MOD,'user','search') }}" title="{lang 'Search Users'}"><i class="fa fa-search"></i> {lang 'Search'}</a></li>
                 <li><a href="{{ $design->url(PH7_ADMIN_MOD,'user','add') }}" title="{lang 'Add a User'}"><i class="fa fa-user-plus"></i> {lang 'Add User'}</a></li>
                 <li><a href="{{ $design->url('report','admin','index') }}" title="{lang 'Report Abuse'}"><i class="fa fa-flag"></i> {lang 'Reports'} {if $count_total_reports}<span class="badge">{count_total_reports}</span>{/if}</a></li>
@@ -273,7 +274,7 @@
               </ul>
             </li>
             <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url(PH7_ADMIN_MOD,'agency','browse') }}" title="{lang 'Agency Manager'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-user"></i> {lang 'Agencies'}</a>
-              <ul class="dropdown-menu" role="menu"> 
+              <ul class="dropdown-menu" role="menu">
                 <li><a href="{{ $design->url(PH7_ADMIN_MOD,'agency','browse') }}" title="{lang 'Browse Agency'}"><i class="fa fa-users"></i> {lang 'Browse'}</a></li>
                 <li><a href="{{ $design->url(PH7_ADMIN_MOD,'agency','add') }}" title="{lang 'Add an Agency'}"><i class="fa fa-user-plus"></i> {lang 'Add Agency'}</a></li>
               </ul>

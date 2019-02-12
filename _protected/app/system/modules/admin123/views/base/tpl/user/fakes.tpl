@@ -1,4 +1,4 @@
-<form method="post" action="{{ $design->url(PH7_ADMIN_MOD,'user','browse') }}">
+<form method="post" action="{{ $design->url(PH7_ADMIN_MOD,'user','fakes') }}">
     {{ $designSecurity->inputToken('user_action') }}
 
     <div class="table-responsive">
@@ -10,12 +10,9 @@
                     <th>{lang 'Email Address'}</th>
                     <th>{lang 'User'}</th>
                     <th>{lang 'Avatar'}</th>
-                    <th>{lang 'IP'}</th>
-                    <th>{lang 'Coins'}</th>
                     <th>{lang 'Registration Date'}</th>
                     <th>{lang 'Last Activity'}</th>
                     <th>{lang 'Last Edit'}</th>
-                    <th>{lang 'Reference'}</th>
                     <th>{lang 'Action'}</th>
                 </tr>
             </thead>
@@ -25,22 +22,6 @@
                   <th><input type="checkbox" name="all_action" /></th>
                   <th>
                       <button
-                          class="btn btn-default btn-md"
-                          type="submit"
-                          formaction="{{ $design->url(PH7_ADMIN_MOD,'user','banall') }}"
-                          >{lang 'Ban'}
-                      </button>
-                  </th>
-                  <th>
-                      <button
-                          class="btn btn-default btn-md"
-                          type="submit"
-                          formaction="{{ $design->url(PH7_ADMIN_MOD,'user','unbanall') }}"
-                          >{lang 'UnBan'}
-                      </button>
-                  </th>
-                  <th>
-                      <button
                           class="red btn btn-default btn-md"
                           type="submit"
                           onclick="return checkChecked()"
@@ -48,22 +29,7 @@
                           >{lang 'Delete'}
                       </button>
                   </th>
-                  <th>
-                      <button
-                          class="btn btn-default btn-md"
-                          type="submit"
-                          formaction="{{ $design->url(PH7_ADMIN_MOD,'user','approveall') }}"
-                          >{lang 'Approve'}
-                      </button>
-                  </th>
-                  <th>
-                      <button
-                          class="btn btn-default btn-md"
-                          type="submit"
-                          formaction="{{ $design->url(PH7_ADMIN_MOD,'user','disapproveall') }}"
-                          >{lang 'Disapprove'}
-                      </button>
-                  </th>
+                  <th> </th>
                   <th> </th>
                   <th> </th>
                   <th> </th>
@@ -84,10 +50,6 @@
                             <span class="gray">{% $user->firstName %}</span>
                         </td>
                         <td>{{ $avatarDesign->get($user->username, $user->firstName, null, 32) }}</td>
-                        <td>
-                            <img src="{{ $design->getSmallFlagIcon(Framework\Geo\Ip\Geo::getCountryCode($user->ip)) }}" title="{lang 'IP Country'}" alt="{lang 'IP Country'}" /> {{ $design->ip($user->ip) }}
-                        </td>
-                        <td>{% $user->credits %}</td> {* Name of the Membership Group *}
                         <td class="small">{% $dateTime->get($user->joinDate)->dateTime() %}</td>
                         <td class="small">
                             {if !empty($user->lastActivity)}
@@ -103,21 +65,11 @@
                                 {lang 'No editing'}
                             {/if}
                         </td>
-                        <td class="small">{% $user->reference %}</td>
                         <td class="small">
                             <a href="{{ $design->url('user','setting','edit',$user->profileId) }}" title="{lang "Edit User's Profile"}">{lang 'Edit'}</a> |
                             <a href="{{ $design->url('user','setting','avatar',"$user->profileId,$user->username,$user->firstName,$user->sex", false) }}" title="{lang "Edit User's Avatar"}">{lang 'Edit Avatar'}</a> |
                             <a href="{{ $design->url('user','setting','design',"$user->profileId,$user->username,$user->firstName,$user->sex", false) }}" title="{lang "Edit User's Wallpaper"}">{lang 'Edit Wallpaper'}</a>
-                            {if $is_mail_enabled}
-                                | <a href="{{ $design->url('mail','main','compose',$user->username) }}" title="{lang 'Send a message to this member'}">{lang 'Send mail'}</a>
-                            {/if}
-                            | <a href="{{ $design->url(PH7_ADMIN_MOD,'user','loginuseras',$user->profileId) }}" title="{lang 'Login as a user (to edit all this user account).'}">{lang 'Login as'}</a> |
-
-                            {if $user->ban == 0}
-                                {{ $design->popupLinkConfirm(t('Ban'), PH7_ADMIN_MOD, 'user', 'ban', $user->profileId) }}
-                            {else}
-                                {{ $design->popupLinkConfirm(t('UnBan'), PH7_ADMIN_MOD, 'user', 'unban', $user->profileId) }}
-                            {/if}
+                            | <a href="{{ $design->url(PH7_ADMIN_MOD,'user','loginuseras',$user->profileId) }}" title="{lang 'Login as a user (to edit all this user account).'}">{lang 'Login as'}</a>
 
                             {if $user->active != 1}
                                 | {{ $design->popupLinkConfirm(t('Approve'), PH7_ADMIN_MOD, 'user', 'approve', $user->profileId) }}

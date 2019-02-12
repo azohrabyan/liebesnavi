@@ -79,6 +79,31 @@ class UserController extends Controller
         }
     }
 
+    public function fakes()
+    {
+        $this->iTotalUsers = $this->oAdminModel->total('Members', 0, 'all', true);
+
+        $oPage = new Page;
+        $this->view->total_pages = $oPage->getTotalPages($this->iTotalUsers, self::PROFILES_PER_PAGE);
+        $this->view->current_page = $oPage->getCurrentPage();
+        $oBrowse = $this->oAdminModel->browse($oPage->getFirstItem(), $oPage->getNbItemsPerPage(), 'Members', true);
+        unset($oPage);
+
+        if (empty($oBrowse)) {
+            $this->design->setRedirect(Uri::get(PH7_ADMIN_MOD, 'user', 'fakes'));
+            $this->displayPageNotFound(t('No fake users were found.'));
+        } else {
+            // Add the JS file for the browse form
+            $this->design->addJs(PH7_STATIC . PH7_JS, 'form.js');
+
+            $this->view->page_title = $this->view->h1_title = t('Fake Users');
+            $this->view->h3_title = t('Total Fakes: %0%', $this->iTotalUsers);
+
+            $this->view->browse = $oBrowse;
+            $this->output();
+        }
+    }
+
     public function add()
     {
         $this->view->page_title = $this->view->h1_title = t('Add a User');

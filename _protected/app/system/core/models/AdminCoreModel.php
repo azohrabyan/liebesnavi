@@ -23,7 +23,7 @@ class AdminCoreModel extends UserCoreModel
      *
      * @return array
      */
-    public function browse($iOffset, $iLimit, $sTable = 'Members')
+    public function browse($iOffset, $iLimit, $sTable = 'Members', $bIsFake = false)
     {
         Various::checkModelTable($sTable);
 
@@ -33,7 +33,8 @@ class AdminCoreModel extends UserCoreModel
         if ($sTable !== 'Members') {
             $sSql = 'SELECT * FROM' . Db::prefix($sTable) . 'WHERE username <> \'' . PH7_GHOST_USERNAME . '\' ORDER BY joinDate DESC LIMIT :offset, :limit';
         } else {
-            $sSql = 'SELECT m.*, g.name AS membershipName FROM' . Db::prefix($sTable) . 'AS m INNER JOIN ' . Db::prefix('Memberships') . 'AS g ON m.groupId = g.groupId LEFT JOIN' . Db::prefix('MembersInfo') . 'AS i ON m.profileId = i.profileId WHERE username <> \'' . PH7_GHOST_USERNAME . '\' ORDER BY joinDate DESC LIMIT :offset, :limit';
+            $sSqlFakes = $bIsFake ? ' AND is_fake ' : ' AND NOT is_fake ';
+            $sSql = 'SELECT m.*, g.name AS membershipName FROM' . Db::prefix($sTable) . 'AS m INNER JOIN ' . Db::prefix('Memberships') . 'AS g ON m.groupId = g.groupId LEFT JOIN' . Db::prefix('MembersInfo') . 'AS i ON m.profileId = i.profileId WHERE username <> \'' . PH7_GHOST_USERNAME . '\'  ' . $sSqlFakes . ' ORDER BY joinDate DESC LIMIT :offset, :limit';
         }
 
         $rStmt = Db::getInstance()->prepare($sSql);
