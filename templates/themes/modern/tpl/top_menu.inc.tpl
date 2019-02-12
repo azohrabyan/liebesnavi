@@ -485,7 +485,7 @@
         </li>
       {/if}
 
-      {if $is_chatter_auth  }
+      {if $is_chatter_auth AND (!$is_user_auth AND !$is_admin_auth)  }
         <li><a href="{{ $design->url(PH7_AGENCY_MOD,'chatter','chat') }}" title="{lang 'Chat'}"><i class="fa fa-fw"></i> {lang 'Chat'}</a></li>
 
         <li class="dropdown"><a href="{{ $design->url(PH7_AGENCY_MOD,'chatter','index') }}" title="{lang 'My account'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-cog"></i> {lang 'Account'} <span class="caret"></span></a>
