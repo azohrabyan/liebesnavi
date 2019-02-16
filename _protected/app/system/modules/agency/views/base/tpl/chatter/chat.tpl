@@ -2,42 +2,74 @@
     #chat_container {
         margin: 0;
         padding: 0;
+	padding-top: 1px;
         width: 800px;
+	border: 1px solid #B70014;
+	border-top: 0px solid #B70014;
+        border-right: 1px solid #B70014;
+	border-left: 1px solid #B70014;
+
+        border-top-left-radius:10px;
+        border-top-right-radius:10px;
+        border-bottom-left-radius:10px;
+        border-bottom-right-radius:10px;
     }
     .partners-container {
         width: 100%
     }
     .partner-list {
         width: 20%;
-        border: 1px solid black;
+	padding-left: 0px;
+	padding-top: 8px;
+	border: 1px solid #B70014;
     }
     .partner-chats {
         width: 80%;
+	border-bottom: 1px solid #B70014;
     }
     .messages-container {
-        height: 450px;
-        overflow: scroll;
-        border: 1px solid black;
+        height: 420px;
+	padding-left: 8px;
+        overflow: auto;
+        border: 0px solid black;
+	border-bottom: 1px solid #B70014;
+	border-left: 0px solid #B70014;
+	border-right: 0px solid #B70014;
+	border-color: #B70014;
     }
     .input-container {
         width: 100%;
-        border: 1px solid black;
+	border-color: #B70014;
+	border: 0px;
     }
     .editbox {
         width: 617px;
         height: 90px;
+	border: 0px;
     }
+
     .debug-border {
-        border: 1px solid black;
+        border: 0px solid black;
     }
+
     .float-left {
         float: left;
+	border-left: 1px solid #B70014;
+	border-right: 0px solid #B70014;
+	border-top: 1px solid #B70014;
+        border-top-left-radius:10px;
+        border-top-right-radius:10px;
+        border-bottom: 1px solid #B70014;
+
     }
     .has_new_messages {
         font-weight: bold;
     }
+	
 </style>
-<div id="chat_container" class="container-fluid debug-border">
+
+
+<div id="chat_container" class=" container-fluid debug-border">
     <div class="fakes-container debug-border">
         <div data-fake-username="wenwen" class="float-left col-lg-3 debug-border">wenwen</div>
         <div data-fake-username="kukus" class="float-left col-lg-3 debug-border">kukus</div>
@@ -75,3 +107,4 @@
     <div class="partners-container debug-border" id="chats_of_kukus" style="display: none;">
     </div>
 </div>
+

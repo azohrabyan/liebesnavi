@@ -723,7 +723,7 @@ img, video, iframe {
 .messenger_title {
 	position:absolute; 
 	z-index:1000;
-	background:#ff0000;
+	background:#B70014;
 	height:30px;
 	width:100%;
 	color:white;
@@ -733,6 +733,22 @@ img, video, iframe {
 	border-top-left-radius:10px;
 	border-top-right-radius:10px;
 }
+
+.chatter_messenger_title {
+        position:absolute;
+        z-index:1000;
+        background:#B70014;
+        height:26px;
+        width:480;
+        color:white;
+        padding-left:6px;
+        padding-right:6px;
+        padding-top:4px;
+        border-top-left-radius:10px;
+        border-top-right-radius:10px;
+}
+
+
 .messenger_close {
 	 float: right;
 	
