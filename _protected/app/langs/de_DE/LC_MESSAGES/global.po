@@ -904,7 +904,7 @@ msgstr ""
 #: _protected/app/system/modules/user/forms/LoginForm.php:32
 #: _repository/module/fake-admin-panel/forms/LoginForm.php:36
 msgid "Your Password:"
-msgstr ""
+msgstr "Dein Passwort:"
 
 #: _protected/app/system/core/forms/DeleteUserCoreForm.php:33
 msgid "Your Reason:"
@@ -1073,7 +1073,7 @@ msgstr ""
 #: _protected/app/system/modules/user/forms/LoginForm.php:30
 #: _repository/module/fake-admin-panel/forms/LoginForm.php:34
 msgid "Your Email:"
-msgstr ""
+msgstr "Deine Emailadresse:"
 
 #: _protected/app/system/core/forms/ResendActivationCoreForm.php:40
 msgid "Send Activation"
@@ -2618,7 +2618,7 @@ msgstr ""
 #: _protected/app/system/modules/user/forms/EditForm.php:68
 #: _protected/app/system/modules/user/forms/JoinForm.php:47
 msgid "Username:"
-msgstr ""
+msgstr "Benutzername:"
 
 #: _protected/app/system/modules/admin123/forms/AddAdminForm.php:30
 #: _protected/app/system/modules/admin123/forms/AddUserForm.php:33
@@ -2937,7 +2937,7 @@ msgstr ""
 #: _protected/framework/Mvc/Controller/Controller.class.php:152
 #: _repository/module/fake-admin-panel/forms/LoginForm.php:43
 msgid "Login"
-msgstr ""
+msgstr "Anmelden"
 
 #: _protected/app/system/modules/admin123/forms/MetaMainForm.php:42
 msgid "Click here to show/hide the languages"
