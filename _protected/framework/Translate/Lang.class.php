@@ -234,7 +234,8 @@ namespace {
     function t(...$aTokens)
     {
         $sToken = $aTokens[0];
-        $sToken = (Registry::getInstance()->lang !== '' && array_key_exists($sToken, Registry::getInstance()->lang) ? Registry::getInstance()->lang[$sToken] : gettext($sToken));
+        $trans = gettext($sToken);
+        $sToken = (Registry::getInstance()->lang !== '' && array_key_exists($sToken, Registry::getInstance()->lang) ? Registry::getInstance()->lang[$sToken] : $trans);
 
         for ($i = 1, $iFuncArgs = count($aTokens); $i < $iFuncArgs; $i++) {
             $sToken = str_replace('%' . ($i - 1) . '%', $aTokens[$i], $sToken);
