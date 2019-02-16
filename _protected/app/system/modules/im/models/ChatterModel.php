@@ -72,7 +72,7 @@ class ChatterModel extends Model
     public function cleanOldChats()
     {
         $sSqlQuery = 'DELETE FROM' . Db::prefix('ChatterChats') .
-            'WHERE  chatter_id IN (SELECT profileId FROM '. Db::prefix('Chatter') .' WHERE lastActivity IS NULL OR lastActivity < DATE_SUB(\'' . $this->sCurrentDate . '\', INTERVAL 20 MINUTE) ) ';
+            'WHERE  chatter_id IN (SELECT profileId FROM '. Db::prefix('Chatter') .' WHERE lastActivity IS NULL OR lastActivity < DATE_SUB(\'' . $this->sCurrentDate . '\', INTERVAL 1 MINUTE) ) ';
 
         $rStmt = Db::getInstance()->prepare($sSqlQuery);
         return $rStmt->execute();

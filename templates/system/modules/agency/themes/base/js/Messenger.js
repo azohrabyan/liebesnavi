@@ -157,7 +157,7 @@ var Messenger = {
                 .attr('id', 'chats_of_' + fake + '_with_' + partner + '_selector')
                 .data('fake-username', fake)
                 .data('partner-username', partner)
-                .html(partner)
+                .html('<a href="/' + partner + '.html" target="_blank">' + partner + '</a>')
                 .appendTo('#chats_of_' + fake + ' .partner-list');
             $('#chats_of_' + fake + '_with_' + partner + '_selector')
                 .click(Messenger.togglePartner);

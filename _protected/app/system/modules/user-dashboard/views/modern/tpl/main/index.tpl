@@ -40,27 +40,6 @@
 			&nbsp;<i class="fa fa-picture-o"></i>&nbsp; {lang 'Add a new album'}
 		</li></a>
 
-
-          {if $is_mail_enabled}
-            <li><a href="{{ $design->url('mail','main','inbox') }}" title="{lang 'My Emails'}" ><i class="fa fa-envelope-o fa-fw"></i> {lang 'Mail'} {if $count_unread_mail}<span class="badge">{count_unread_mail}</span>{/if}
-                <li>&nbsp; &nbsp;<a href="{{ $design->url('mail','main','compose') }}" title="{lang 'Compose'}"><i class="fa fa-pencil"></i> {lang 'Compose'}</a></li>
-                <li>&nbsp; &nbsp;<a href="{{ $design->url('mail','main','inbox') }}" title="{lang 'Inbox - Messages Received'}"><i class="fa fa-inbox"></i> {lang 'Inbox'}</a></li>
-                <li>&nbsp; &nbsp;<a href="{{ $design->url('mail','main','outbox') }}" title="{lang 'Messages Sent'}"><i class="fa fa-paper-plane-o"></i> {lang 'Sent'}</a></li>
-                <li>&nbsp; &nbsp;<a href="{{ $design->url('mail','main','trash') }}" title="{lang 'Trash'}"><i class="fa fa-trash-o"></i> {lang 'Trash'}</a></li>
-
-                <li class="profile_submenu" >
-                    <a href="{{ $design->url('user','setting','privacy') }}" title="{lang 'My Privacy Settings'}"><i class="fa fa-user-secret"></i> {lang 'Privacy Setting'}</a>
-                </li>
-	{/if}
-
-                {if $is_valid_license}
-			 <a href="{{ $design->url('payment','main','info') }}">
-                    <li class="profile_submenu">
-			&nbsp;<i class="fa fa-credit-card"></i>&nbsp; {lang 'Membership Details'}
-                    </li></a>
-
-                {/if}
-
 		<a href="{{ $design->url('user','setting','password') }}">
                 <li class="profile_submenu" >
 			&nbsp;<i class="fa fa-key fa-fw"></i>&nbsp; {lang 'Change My Password'}
@@ -68,7 +47,7 @@
 
 		<a href="{{ $design->url('user','main','logout') }}" >
               <li class="profile_submenu">
-			&nbsp;<i class="fa fa-sign-out"></i>&nbsp; {lang 'Logout'}	
+			&nbsp;<i class="fa fa-sign-out"></i>&nbsp; {lang 'Logout'}
 		 </li></a>
 
 
@@ -76,7 +55,7 @@
             </ul>
 	{*  <div class="site_quick_search"> * }
 	{*  {SearchUserCoreForm::quick() } * }
-	{*  </div> *} 
+	{*  </div> *}
 		<br>
         </div>
     {/if}
@@ -116,7 +95,7 @@
             </script>
         </div>
 	</div>
-	
+
         {if $is_video_enabled}
             <h2 class="center underline">{lang 'My video albums'}</h2>
             <div class="content" id="video">

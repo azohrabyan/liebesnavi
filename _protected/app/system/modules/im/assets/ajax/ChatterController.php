@@ -71,8 +71,8 @@ class ChatterController
      */
     public function heartbeat()
     {
-        $this->chatterModel->setLastActivity($this->chatterId);
         $this->chatterModel->cleanOldChats();
+        $this->chatterModel->setLastActivity($this->chatterId);
 
         $messages = $this->messengerModel->selectUnreadForFakes();
         foreach ($messages as $m) {
