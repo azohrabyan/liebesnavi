@@ -43,11 +43,15 @@ class ProfileController extends Controller
     /** @var int */
     private $iVisitorId;
 
+    /** @var AvatarDesignCore */
+    private $avatarDesign;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->bUserAuth = User::auth();
+        $this->avatarDesign = new AvatarDesignCore();
     }
 
     public function index()
@@ -293,7 +297,8 @@ class ProfileController extends Controller
     private function getMessengerLink($sFirstName, stdClass $oUser)
     {
         if ($this->bUserAuth) {
-            $sMessengerLink = 'javascript:void(0)" onclick="Messenger.chatWith(\'' . $oUser->username . '\')';
+            $avatarUrl = $this->avatarDesign->getUserAvatar($oUser->username, '', 64, false);
+            $sMessengerLink = 'javascript:void(0)" onclick="Messenger.chatWith(\'' . $oUser->username . '\', \''.$avatarUrl.'\')';
         } else {
             $aUrlParms = [
                 'msg' => t('You need to free register for talk to %0%.', $sFirstName),

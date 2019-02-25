@@ -24,7 +24,7 @@ use PH7\Framework\Mvc\Router\Uri;
 use PH7\Framework\Parse\Emoticon;
 use PH7\Framework\Session\Session;
 
-include_once(__DIR__ . '/ChatterController.php');
+include_once(__DIR__ . '/ChatterIMController.php');
 
 class MessengerAjax extends PermissionCore
 {
@@ -51,7 +51,7 @@ class MessengerAjax extends PermissionCore
     /** @var UserMessages[] $chat Represents chats of logged in user, the array keys are usernames of chat partners */
     private $chats;
 
-    /** @var ChatterController  */
+    /** @var ChatterIMController  */
     private $chatterController = null;
 
     public function __construct($username, $chatterId = 0)
@@ -69,7 +69,7 @@ class MessengerAjax extends PermissionCore
         $this->isChatter = $chatterId != 0;
 
         if ($this->isChatter) {
-            $this->chatterController = new ChatterController($chatterId, $this->chatterModel, $this->_oMessengerModel);
+            $this->chatterController = new ChatterIMController($chatterId, $this->chatterModel, $this->_oMessengerModel);
         }
 
         if (!isset($_SESSION['messenger_chats'])) {
@@ -219,6 +219,9 @@ class MessengerAjax extends PermissionCore
 
     protected function close()
     {
+        if ($this->isChatter) {
+            die(json_encode($this->chatterController->close($this->_oHttpRequest->post('fake'), $this->_oHttpRequest->post('partner'))));
+        }
         unset($_SESSION['messenger_openBoxes'][$this->_oHttpRequest->post('box')]);
         exit(1);
     }

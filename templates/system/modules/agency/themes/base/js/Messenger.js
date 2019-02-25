@@ -78,7 +78,7 @@ var Messenger = {
 
             // console.log(chat);
             $.each(chat.messages.messages, function(j, msg) {
-                Messenger.newMessage(msg.from, msg.to, msg.message, chat.fake, markAsUnread);
+                Messenger.newMessage(msg.from, msg.to, msg.message, chat.fake, markAsUnread, chat.partner_avatar, chat.fake_avatar);
             });
         });
     },
@@ -87,8 +87,8 @@ var Messenger = {
         $.sound.play(pH7Url.stic + 'sound/purr.mp3');
     },
 
-    newMessage: function(from, to, msg, fake, markAsUnread) {
-        Messenger.addFake(fake);
+    newMessage: function(from, to, msg, fake, markAsUnread, partnerAvatar, fakeAvatar) {
+        Messenger.addFake(fake, fakeAvatar);
         var partner = '';
         if (fake === from) {
             partner = to;
@@ -96,20 +96,25 @@ var Messenger = {
             partner = from;
         }
         if (partner !== '') {
-            Messenger.addPartner(fake, partner);
+            Messenger.addPartner(fake, partner, partnerAvatar);
         }
 
         Messenger.addMessage(from, msg, fake, partner, markAsUnread);
     },
 
-    addFake: function(fake) {
+    addFake: function(fake, fakeAvatar) {
         if ($('.fakes-container #fake_selector_' + fake).length <= 0) {
-            $('<div />')
+            var selector = $('<div />')
                 .attr('id', 'fake_selector_' + fake)
                 .data('fake-username', fake)
                 .addClass('float-left col-lg-3')
-                .html(fake)
                 .appendTo('.fakes-container');
+            $('<img />')
+                .attr('src', fakeAvatar)
+                .addClass('avatar')
+                .appendTo(selector)
+            ;
+            $('<a href="/' + fake +'.html" target="_blank">' + fake + '</a>').appendTo(selector);
 
             $('#fake_selector_' + fake)
                 .click(Messenger.toggleFake);
@@ -150,17 +155,33 @@ var Messenger = {
         Messenger.selectPartner(Messenger.getSelectedPartner());
     },
 
-    addPartner: function(fake, partner) {
+    addPartner: function(fake, partner, partnerAvatar) {
         if ($('#chats_of_' + fake + '_with_' + partner + '_selector').length <= 0) {
             // console.log('addPartner');
-            $('<div />')
+            var selector = $('<div />')
                 .attr('id', 'chats_of_' + fake + '_with_' + partner + '_selector')
                 .data('fake-username', fake)
                 .data('partner-username', partner)
-                .html('<a href="/' + partner + '.html" target="_blank">' + partner + '</a>')
+                .addClass('partner-selector')
                 .appendTo('#chats_of_' + fake + ' .partner-list');
             $('#chats_of_' + fake + '_with_' + partner + '_selector')
                 .click(Messenger.togglePartner);
+            $('<img />')
+                .addClass('avatar')
+                .attr('src', partnerAvatar)
+                .appendTo(selector)
+            ;
+            $('<a href="/' + partner + '.html" target="_blank">' + partner + '</a>')
+                .appendTo(selector)
+            ;
+            $("<div />")
+                .addClass('close-chat-btn')
+                .click(function() {
+                    console.log('close ', fake, partner);
+                    Messenger.closeChat(fake, partner);
+                })
+                .appendTo(selector)
+            ;
             $('<div />')
                 .attr('id', 'chats_of_' + fake + '_with_' + partner)
                 .addClass('partner-container')
@@ -249,6 +270,18 @@ var Messenger = {
                 });
             }
             return false;
+        }
+    },
+
+    closeChat: function(fake, partner) {
+        $.post(pH7Url.base + "im/asset/ajax/Messenger/?act=close", {fake: fake, partner: partner});
+        $('#chats_of_'+fake+'_with_'+partner+'_selector').remove();
+        $('#chats_of_'+fake+'_with_'+partner).remove();
+
+        if ($('#chats_of_'+fake + ' .partner-list .partner-selector').length === 0) {
+            $('.fakes-container #fake_selector_' + fake).remove();
+            $('#chats_of_'+fake + ' .partner-list').remove();
+            $('#chats_of_'+fake).remove();
         }
     }
 };

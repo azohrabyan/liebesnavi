@@ -66,13 +66,26 @@ class ChatterModel extends Model
         return $rStmt->execute();
     }
 
+    public function removeChat($chatterId, $fakeUser, $chatPartner)
+    {
+        $sSqlQuery = 'DELETE FROM' . Db::prefix('ChatterChats') .
+            'WHERE  chatter_id = :chatterId AND fake_user = :fakeUser AND chat_partner = :chatPartner ';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
+        $rStmt->bindValue(':chatterId', $chatterId, PDO::PARAM_INT);
+        $rStmt->bindValue(':fakeUser', $fakeUser, PDO::PARAM_STR);
+        $rStmt->bindValue(':chatPartner', $chatPartner, PDO::PARAM_STR);
+
+        return $rStmt->execute();
+    }
+
     /**
      * Removes old ChatterChats, i.e.relation between chatter and fake user
      */
     public function cleanOldChats()
     {
         $sSqlQuery = 'DELETE FROM' . Db::prefix('ChatterChats') .
-            'WHERE  chatter_id IN (SELECT profileId FROM '. Db::prefix('Chatter') .' WHERE lastActivity IS NULL OR lastActivity < DATE_SUB(\'' . $this->sCurrentDate . '\', INTERVAL 1 MINUTE) ) ';
+            'WHERE  chatter_id IN (SELECT profileId FROM '. Db::prefix('Chatter') .' WHERE lastActivity IS NULL OR lastActivity < DATE_SUB(\'' . $this->sCurrentDate . '\', INTERVAL 20 MINUTE) ) ';
 
         $rStmt = Db::getInstance()->prepare($sSqlQuery);
         return $rStmt->execute();

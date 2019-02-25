@@ -16,7 +16,7 @@ defined('PH7') or exit('Restricted access');
 
 use Exception;
 
-class ChatterController
+class ChatterIMController
 {
     /** @var Chatter[] $chatters */
     private $chatters;
@@ -106,6 +106,12 @@ class ChatterController
         return false;
     }
 
+    public function close($fake, $partner)
+    {
+        $this->chatters[$this->chatterId]->removeChat($fake, $partner);
+        $this->chatterModel->removeChat($this->chatterId, $fake, $partner);
+    }
+
     /**
      * @param $from
      * @param $to
@@ -139,7 +145,7 @@ class ChatterController
     public function addChat(Chatter $chatter, Message $msg, $fakeUser)
     {
         /**
-         * Make a db insert here to the chatter_chats table (does not exists yet).
+         * Make a db insert here to the chatter_chats table.
          * The [fake_user, user] pair will be a unique key in that table.
          * If the key already exists (another session already reserved that key),
          * an exception will be thrown and nothing happens.
@@ -225,10 +231,21 @@ class Chatter implements \JsonSerializable
         $this->chats[] = new Chat($fakeUser, $chatPartner);
     }
 
+    public function removeChat($fakeUser, $chatPartner)
+    {
+        foreach ($this->chats as $i => $ch) {
+            if ($ch->matchPair($fakeUser, $chatPartner)) {
+                unset($this->chats[$i]);
+                break;
+            }
+        }
+    }
+
     public function getChats()
     {
         return $this->chats;
     }
+
     public function jsonSerialize()
     {
         return [
@@ -244,6 +261,11 @@ class Chat implements \JsonSerializable
     /** @var string */
     private $chatPartner;
 
+    /** @var string */
+    private $fakeAvatar;
+    /** @var string */
+    private $partnerAvatar;
+
     /** @var UserMessages $messages */
     private $messages;
 
@@ -251,6 +273,11 @@ class Chat implements \JsonSerializable
     {
         $this->fakeUser = $fakeUser;
         $this->chatPartner = $chatPartner;
+
+        $avatarDesign = new AvatarDesignCore();
+        $this->partnerAvatar = $avatarDesign->getUserAvatar($chatPartner, '', 64, false);
+        $this->fakeAvatar = $avatarDesign->getUserAvatar($fakeUser, '', 64, false);
+
         $this->messages = new UserMessages($fakeUser, '');
     }
 
@@ -280,6 +307,8 @@ class Chat implements \JsonSerializable
         return [
             'fake' => $this->fakeUser,
             'partner' => $this->chatPartner,
+            'fake_avatar' => $this->fakeAvatar,
+            'partner_avatar' => $this->partnerAvatar,
             'messages' => $this->messages,
         ];
     }

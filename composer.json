@@ -38,6 +38,7 @@
         "ext-gd": "*",
         "ext-hash": "*",
         "ext-pdo_mysql": "*",
+        "ext-pdo": "*",
         "braintree/braintree_php": "^3.25"
     },
     "require-dev": {

@@ -61,7 +61,7 @@ function pH7Include(mFile) {
 (function () {
     $('a').click(function () {
         var href = $(this).attr('href');
-        if (
+        if (href !== undefined &&
             -1 == href.indexOf('ph7cms.com') && -1 == href.indexOf('youtube.com') &&
             -1 == href.indexOf('youtu.be') && -1 == href.indexOf('vimeo.com') &&
             -1 == href.indexOf('dailymotion.com') && -1 == href.indexOf('metacafe.com') &&
@@ -79,6 +79,3 @@ function pH7Include(mFile) {
         }
     })
 })();
-
-console.log('This Web App has been made with http://pH7CMS.com | The Social App Builder'
-    + "\r\n" + 'GitHub: http://github.com/pH7Software/pH7-Social-Dating-CMS');

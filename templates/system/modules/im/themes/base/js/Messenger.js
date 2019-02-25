@@ -113,10 +113,10 @@ var Messenger = {
         }
     },
 
-    chatWith: function (username) {
+    chatWith: function (username, avatarUrl) {
         if (this._check(username)) {
             $('#messenger').css('display', 'inline');
-            this.createBox(username);
+            this.createBox(username, avatarUrl);
             oMe.hideSelectedUser();
             oMe.selectUser(username);
         }
@@ -133,6 +133,12 @@ var Messenger = {
                 .css('cursor', 'pointer')
                 .html('<img align="left" class="avatar"  src="' + avatarUrl + '" ><a>'+username+'</a>')
                 .appendTo($(".messenger_user_list"));
+
+            $("<div />")
+                .addClass('close-chat-btn')
+                .click(function() { Messenger.closeBox(username); })
+                .appendTo($('#user_' + username))
+            ;
 
             $('#user_' + username)
                 .click(Messenger.toggleUser);
@@ -270,6 +276,9 @@ var Messenger = {
     },
 
     closeBox: function (sBoxTitle) {
+        $(".messenger_user_list #user_" + sBoxTitle).remove();
+        $('#chat_content_'+sBoxTitle+'.messenger_chat_content').remove();
+        $('.messenger_chat_send #chat_input_'+sBoxTitle).remove();
         $.post(pH7Url.base + "im/asset/ajax/Messenger/?act=close", {box: sBoxTitle});
     },
 

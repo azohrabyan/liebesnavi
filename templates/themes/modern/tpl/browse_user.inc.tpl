@@ -39,14 +39,14 @@
 
 		</div>
                        <strong><br>{% $this->str->extract($user->firstName,0,10, '...') %}</strong>
-                    </a> 
-		<br>  {lang '%0% |  %1% Jahre', t($user->sex),$age} 
+                    </a>
+		<br>  {lang '%0% |  %1% Jahre', t($user->sex),$age}
 		<br>  {lang '%0% | %1% ', $country_name, $this->str->upperFirst($user->city)}
 		<br>
 		<br>  {lang '%0%', substr($user->description,0,50)}
 
 		<div class="search_avatar_inside">
-		 <a rel="nofollow" onclick="Messenger.chatWith('{lang '%0%',$user->username}')" href="javascript:void(0)"><img src="/images/chat_s_off.png" border=0/ class="chat_link"><a>
+		 <a rel="nofollow" onclick="Messenger.chatWith('{lang '%0%',$user->username}', '{% (new UserDesignCore)->getUserAvatar($user->username, $user->sex, '64') %}')" href="javascript:void(0)"><img src="/images/chat_s_off.png" border=0/ class="chat_link"><a>
 		</div>
 <!--
 		 | <a href="/mail/compose/{lang '%0%',$user->username}"><img src="/images/mail_s_off.jpg" border=0/></a> |

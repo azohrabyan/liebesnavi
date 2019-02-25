@@ -19,28 +19,28 @@
     }
     .partner-list {
         width: 20%;
-	padding-left: 0px;
-	padding-top: 8px;
-	border: 1px solid #B70014;
+        padding-left: 0px;
+        padding-top: 8px;
+        border: 1px solid #B70014;
     }
     .partner-chats {
         width: 80%;
-	border-bottom: 1px solid #B70014;
+	    border-bottom: 1px solid #B70014;
     }
     .messages-container {
         height: 420px;
-	padding-left: 8px;
+	    padding-left: 8px;
         overflow: auto;
         border: 0px solid black;
-	border-bottom: 1px solid #B70014;
-	border-left: 0px solid #B70014;
-	border-right: 0px solid #B70014;
-	border-color: #B70014;
+        border-bottom: 1px solid #B70014;
+        border-left: 0px solid #B70014;
+        border-right: 0px solid #B70014;
+        border-color: #B70014;
     }
     .input-container {
         width: 100%;
-	border-color: #B70014;
-	border: 0px;
+        border-color: #B70014;
+        border: 0px;
     }
     .editbox {
         width: 617px;
@@ -54,18 +54,30 @@
 
     .float-left {
         float: left;
-	border-left: 1px solid #B70014;
-	border-right: 0px solid #B70014;
-	border-top: 1px solid #B70014;
+        border-left: 1px solid #B70014;
+        border-right: 0px solid #B70014;
+        border-top: 1px solid #B70014;
         border-top-left-radius:10px;
         border-top-right-radius:10px;
         border-bottom: 1px solid #B70014;
-
     }
     .has_new_messages {
         font-weight: bold;
     }
-	
+
+    .chatboxmessage .chatboxmessagefrom {
+        font-weight: bold;
+    }
+
+    .partner-list .selected .close-chat-btn {
+        width: 16px;
+        height: 16px;
+        background-image: url(/templates/themes/modern/img/icon/close_pop.png);
+        background-size: 16px;
+        background-repeat: no-repeat;
+        float: right;
+    }
+
 </style>
 
 
