@@ -201,10 +201,11 @@ class MessengerAjax extends PermissionCore
             $messageIds[] = $m->messengerId;
 
             if (!isset($latestChats[$chatUser])) {
-                $avatarUrl = $this->avatarDesign->getUserAvatar($chatUser, '', 64, false);
-                $latestChats[$chatUser] = new UserMessages($chatUser, $avatarUrl);
+//                $avatarUrl = $this->avatarDesign->getUserAvatar($chatUser, '', 64, false);
+//                $latestChats[$chatUser] = new UserMessages($chatUser, $avatarUrl);
+                $latestChats[$chatUser] = $chat;
             }
-            $latestChats[$chatUser]->add($msg);
+//            $latestChats[$chatUser]->add($msg);
 
         }
         $this->_oMessengerModel->markAsRead($messageIds);

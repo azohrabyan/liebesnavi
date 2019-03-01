@@ -131,7 +131,7 @@ var Messenger = {
                 .attr("id", "user_" + username)
                 .data("username", username)
                 .css('cursor', 'pointer')
-                .html('<img align="left" class="avatar"  src="' + avatarUrl + '" ><a>'+username+'</a>')
+                .html('<img align="left" class="avatar"  src="' + avatarUrl + '" ><a href="' + username +'.html">'+username+'</a>')
                 .appendTo($(".messenger_user_list"));
 
             $("<div />")

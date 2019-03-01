@@ -57,11 +57,7 @@ class ChatterIMController
     {
         foreach ($this->chatters[$this->chatterId]->getChats() as $chat) {
             /** @var Chat $chat */
-            $messages = $this->messengerModel->selectFromToRead($chat->getFakeUser(), $chat->getChatPartner());
-            foreach ($messages as $m) {
-                $msg = new Message($m->fromUser, $m->toUser, $m->message, $m->sent);
-                $chat->add($msg);
-            }
+            $this->loadMessages($chat);
         }
         return $this->chatters[$this->chatterId];
     }
@@ -95,12 +91,17 @@ class ChatterIMController
         return $this->chatters[$this->chatterId];
     }
 
-    public function send(Message $msg, $fakeUser)
+    private function send(Message $msg, $fakeUser)
     {
         if (!$this->chatExists($msg->getFrom(), $msg->getTo())) {
             $chatter = $this->findFreeChatter();
             if ($chatter) {
-                return $this->addChat($chatter, $msg, $fakeUser);
+                $chat = $this->addChat($chatter, $msg, $fakeUser);
+                if (empty($chat)) {
+                    return false;
+                }
+                $this->loadMessages($chat);
+                return true;
             }
         }
         return false;
@@ -161,11 +162,10 @@ class ChatterIMController
         }
         try {
             $this->insertDb($chatter, $fakeUser, $chatPartner);
-            $chatter->addChat($fakeUser, $chatPartner);
+            return $chatter->addChat($fakeUser, $chatPartner);
         } catch (Exception $ex) {
             return false;
         }
-        return true;
     }
 
     /**
@@ -176,6 +176,15 @@ class ChatterIMController
     private function insertDb($chatter, $fakeUser, $chatPartner)
     {
         $this->chatterModel->createChat($chatter->getId(), $fakeUser, $chatPartner, date("Y-m-d H:i:s"));
+    }
+
+    private function loadMessages(Chat &$chat)
+    {
+        $messages = $this->messengerModel->selectFromToRead($chat->getFakeUser(), $chat->getChatPartner());
+        foreach ($messages as $m) {
+            $msg = new Message($m->fromUser, $m->toUser, $m->message, $m->sent);
+            $chat->add($msg);
+        }
     }
 }
 
@@ -229,6 +238,7 @@ class Chatter implements \JsonSerializable
     public function addChat($fakeUser, $chatPartner)
     {
         $this->chats[] = new Chat($fakeUser, $chatPartner);
+        return $this->chats[count($this->chats) - 1];
     }
 
     public function removeChat($fakeUser, $chatPartner)
