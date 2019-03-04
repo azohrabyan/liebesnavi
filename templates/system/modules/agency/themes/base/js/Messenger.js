@@ -171,7 +171,7 @@ var Messenger = {
                 .attr('src', partnerAvatar)
                 .appendTo(selector)
             ;
-            $('<a href="/' + partner + '.html" target="_blank">' + partner + '</a>')
+            $('<a href="/agency/chatter/view_profile/' + partner + '.html?f='+fake+'" target="_blank">' + partner + '</a>')
                 .appendTo(selector)
             ;
             $("<div />")

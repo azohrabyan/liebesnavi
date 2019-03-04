@@ -2,11 +2,13 @@
 
 namespace PH7;
 
+defined('PH7') or exit('Restricted access');
+
 use PH7\Framework\Layout\Html\Security as HtmlSecurity;
 use PH7\Framework\Mvc\Router\Uri;
-use PH7\Framework\Navigation\Page;
-use PH7\Framework\Security\CSRF\Token as SecurityToken;
 use PH7\Framework\Url\Header;
+use PH7\Framework\File\Import;
+use PH7\Framework\Url\Url;
 
 class ChatterController extends Controller
 {
@@ -92,6 +94,32 @@ class ChatterController extends Controller
     public function chat()
     {
         $this->output();
+    }
+
+    public function view_profile()
+    {
+        Import::pH7App(PH7_SYS . PH7_MOD . 'user.models.UserModel');
+        Import::pH7App(PH7_SYS . PH7_MOD . 'user.models.VisitorModel');
+
+        $oUserModel = new UserModel;
+        $partner = $this->httpRequest->get('username', 'string');
+        $fake = $this->httpRequest->get('f', 'string');
+        $iProfileId = $oUserModel->getId(null, $partner);
+        $iVisitorId = $oUserModel->getId(null, $fake);
+
+        $oVisitorModel = new VisitorModel($iProfileId, $iVisitorId, $this->dateTime->get()->dateTime('Y-m-d H:i:s'));
+
+        if (!$oVisitorModel->already()) {
+            // Add a new visit
+            $oVisitorModel->set();
+        } else {
+            // Update the date of last visit
+            $oVisitorModel->update();
+        }
+        unset($oVisitorModel);
+
+        $userCore = new UserCore();
+        Header::redirect($userCore->getProfileLink($partner));
     }
 
 }

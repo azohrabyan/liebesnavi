@@ -191,6 +191,7 @@
       <!-- admin -->
       <route url="agency/edit/?([0-9]+)?" path="system/modules" module="admin123" controller="agency" action="edit" vars="profile_id" />
       <route url="chatter/edit/?([0-9]+)?" path="system/modules" module="agency" controller="chatter" action="edit" vars="profile_id" />
+      <route url="agency/chatter/view_profile/([a-zA-Z0-9_-]+)[$page_ext]" path="system/modules" module="agency" controller="chatter" action="view_profile" vars="username" />
     <!-- END SYSTEM MODULES -->
 
 
