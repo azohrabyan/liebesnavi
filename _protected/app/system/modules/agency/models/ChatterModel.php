@@ -107,4 +107,29 @@ class ChatterModel extends ChatterCoreModel
 
         return Security::checkPwd($sPassword, @$oRow->password);
     }
+
+    public function messageCountReport()
+    {
+        $rStmt = Db::getInstance()->prepare("SELECT m.chatter_id, c.name, DATE_FORMAT(m.sent, '%Y-%m') as mnth,
+       (SELECT COUNT(*) FROM ".Db::prefix('Messenger')." m1
+          INNER JOIN ".Db::prefix('Members')." u1 on m1.fromUser = u1.username
+          WHERE m.chatter_id = m1.chatter_id AND mnth = DATE_FORMAT(m1.sent, '%Y-%m') AND u1.is_fake
+          GROUP BY m1.chatter_id, DATE_FORMAT(m1.sent, '%Y-%m')
+         ) as sent,
+       (SELECT COUNT(*) FROM ".Db::prefix('Messenger')." m2
+          INNER JOIN ".Db::prefix('Members')." u2 on m2.toUser = u2.username
+          WHERE m.chatter_id = m2.chatter_id AND mnth = DATE_FORMAT(m2.sent, '%Y-%m') AND u2.is_fake
+          GROUP BY m2.chatter_id, DATE_FORMAT(m2.sent, '%Y-%m')
+       ) as recv
+FROM ".Db::prefix('Messenger')." m
+       INNER JOIN ".Db::prefix('Chatter')." c ON c.profileId=m.chatter_id
+WHERE chatter_id <> 0
+GROUP BY chatter_id, c.name, mnth");
+
+        $rStmt->execute();
+        $mData = $rStmt->fetchAll(\PDO::FETCH_OBJ);
+        Db::free($rStmt);
+
+        return $mData;
+    }
 }

@@ -86,7 +86,7 @@ class ChatterIMController
                 $messageIds[] = $m->messengerId;
             }
         }
-        $this->messengerModel->markAsRead($messageIds);
+        $this->messengerModel->markAsRead($messageIds, $this->chatterId);
 
         return $this->chatters[$this->chatterId];
     }

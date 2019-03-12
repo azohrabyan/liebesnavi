@@ -122,4 +122,28 @@ class ChatterController extends Controller
         Header::redirect($userCore->getProfileLink($partner));
     }
 
+
+    public function reports()
+    {
+        $mData = $this->oChatterModel->messageCountReport();
+
+        $this->sTitle = t('Reports');
+        $this->view->page_title = $this->sTitle;
+
+        $groupped = [];
+        foreach($mData as $row) {
+            if (!isset($groupped[$row->chatter_id])) {
+                $groupped[$row->chatter_id] = [
+                    'name' => $row->name,
+                    'stats' => []
+                ];
+            }
+            $groupped[$row->chatter_id]['stats'][] = $row;
+        }
+
+        $this->view->report = $groupped;
+
+        $this->output();
+    }
+
 }

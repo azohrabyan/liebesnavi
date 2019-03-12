@@ -109,7 +109,7 @@ class MessengerModel extends Model
         return $rStmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function markAsRead($messageIds)
+    public function markAsRead($messageIds, $chatterId = 0)
     {
         if (empty($messageIds)) {
             return;
@@ -117,12 +117,25 @@ class MessengerModel extends Model
         $inQuery = implode(',', array_fill(0, count($messageIds), '?'));
 
         $sSqlQuery = 'UPDATE' . Db::prefix('Messenger') .
-            'SET recd = 1 WHERE messengerId IN (' . $inQuery . ')';
+            'SET recd = 1 ';
 
-        $rStmt = Db::getInstance()->prepare($sSqlQuery);
+
+        $offset = 1;
+        if (!empty($chatterId)) {
+            $sSqlQuery .= ' , chatter_id= ?';
+            $offset += 1;
+        }
+
+        $where = ' WHERE messengerId IN (' . $inQuery . ')';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery . $where);
 
         foreach ($messageIds as $k => $id) {
-            $rStmt->bindValue(($k + 1), $id);
+            $rStmt->bindValue(($k + $offset), $id);
+        }
+
+        if (!empty($chatterId)) {
+            $rStmt->bindValue(1, $chatterId, PDO::PARAM_INT);
         }
 
         return $rStmt->execute();

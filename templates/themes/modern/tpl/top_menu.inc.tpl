@@ -476,6 +476,7 @@
       {/if}
       {if $is_agency_auth  }
         <li><a href="{{ $design->url(PH7_AGENCY_MOD,'chatter','index') }}" title="{lang 'Chatters'}"><i class="fa fa-fw"></i> {lang 'Chatters'}</a></li>
+        <li><a href="{{ $design->url(PH7_AGENCY_MOD,'chatter','reports') }}" title="{lang 'Reports'}"><i class="fa fa-fw"></i> {lang 'Reports'}</a></li>
 
         <li class="dropdown"><a href="{{ $design->url(PH7_AGENCY_MOD,'main','index') }}" title="{lang 'My account'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-cog"></i> {lang 'Account'} <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
