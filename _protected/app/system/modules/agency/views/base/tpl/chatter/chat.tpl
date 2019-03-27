@@ -2,12 +2,12 @@
     #chat_container {
         margin: 0;
         padding: 0;
-	padding-top: 1px;
-        width: 800px;
-	border: 1px solid #B70014;
-	border-top: 0px solid #B70014;
+	    padding-top: 1px;
+        width: 1200px;
+        border: 1px solid #B70014;
+        border-top: 0px solid #B70014;
         border-right: 1px solid #B70014;
-	border-left: 1px solid #B70014;
+	    border-left: 1px solid #B70014;
 
         border-top-left-radius:10px;
         border-top-right-radius:10px;
@@ -19,7 +19,7 @@
     }
     .partner-list {
         width: 20%;
-        padding-left: 0px;
+        padding-left: 0;
         padding-top: 8px;
         border: 1px solid #B70014;
     }
@@ -43,9 +43,9 @@
         border: 0px;
     }
     .editbox {
-        width: 617px;
+        width: 97%;
         height: 90px;
-	border: 0px;
+	    border: 0px;
     }
 
     .debug-border {
@@ -78,6 +78,21 @@
         float: right;
     }
 
+    .notes-wrapper {
+        border-left: 2px solid #000;
+    }
+
+    .notesbox {
+        width: 97%;
+        height: 468px;
+        background-color: #eee;
+    }
+
+    .notes-wrapper button {
+        float: right;
+        clear: both;
+    }
+
 </style>
 
 
@@ -85,12 +100,14 @@
     <div class="fakes-container debug-border">
         <div data-fake-username="wenwen" class="float-left col-lg-3 debug-border">wenwen</div>
         <div data-fake-username="kukus" class="float-left col-lg-3 debug-border">kukus</div>
+        <div class="clear"></div>
     </div>
-    <div class="clear"></div>
+
     <div class="partners-container debug-border" id="chats_of_wenwen">
         <div class="float-left col-lg-3 partners-list debug-border">
             <div id="chat_of_wenwen_with_avo19_selector" class="partner" data-fake-username="wenwen" data-partner-username="avo19">avo19</div>
             <div id="chat_of_wenwen_with_arsenjan_selector" class="partner" data-fake-username="wenwen" data-partner-username="arsenjan">arsenjan</div>
+            <div class="clear"></div>
         </div>
         <div class="partner-chats float-left col-lg-9 debug-border">
             <div id="chat_of_wenwen_with_avo19" style="display:none;">
@@ -104,14 +121,22 @@
                 </div>
             </div>
             <div id="chat_of_wenwen_with_arsenjan" >
-                <div class="messages-container debug-border" data-fake-username="wenwen" data-partner-username="avo19">
-                    <div>message 11</div>
-                    <div>message 22</div>
-                    <div>message 33</div>
+                <div style="float: left;" class="col-lg-6">
+                    <div class="messages-container debug-border" data-fake-username="wenwen" data-partner-username="avo19">
+                        <div>message 11</div>
+                        <div>message 22</div>
+                        <div>message 33</div>
+                    </div>
+                    <div class="input-container debug-border" data-fake-username="wenwen" data-partner-username="avo19">
+                        <textarea class="editbox"></textarea>
+                    </div>
                 </div>
-                <div class="input-container debug-border" data-fake-username="wenwen" data-partner-username="avo19">
-                    <textarea class="editbox"></textarea>
+                <div style="float: left" class="notes-wrapper col-lg-6">
+                    <textarea class="notesbox">chatter notes go here</textarea>
+                    <button>Save</button>
+                    <div class="clear"></div>
                 </div>
+                <div class="clear"></div>
             </div>
         </div>
         <div class="clear"></div>

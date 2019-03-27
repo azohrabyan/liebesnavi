@@ -78,7 +78,7 @@ var Messenger = {
 
             // console.log(chat);
             $.each(chat.messages.messages, function(j, msg) {
-                Messenger.newMessage(msg.from, msg.to, msg.message, chat.fake, markAsUnread, chat.partner_avatar, chat.fake_avatar);
+                Messenger.newMessage(msg.from, msg.to, msg.message, chat.fake, markAsUnread, chat.partner_avatar, chat.fake_avatar, chat.notes);
             });
         });
     },
@@ -87,7 +87,7 @@ var Messenger = {
         $.sound.play(pH7Url.stic + 'sound/purr.mp3');
     },
 
-    newMessage: function(from, to, msg, fake, markAsUnread, partnerAvatar, fakeAvatar) {
+    newMessage: function(from, to, msg, fake, markAsUnread, partnerAvatar, fakeAvatar, notes) {
         Messenger.addFake(fake, fakeAvatar);
         var partner = '';
         if (fake === from) {
@@ -96,7 +96,7 @@ var Messenger = {
             partner = from;
         }
         if (partner !== '') {
-            Messenger.addPartner(fake, partner, partnerAvatar);
+            Messenger.addPartner(fake, partner, partnerAvatar, notes);
         }
 
         Messenger.addMessage(from, msg, fake, partner, markAsUnread);
@@ -155,7 +155,7 @@ var Messenger = {
         Messenger.selectPartner(Messenger.getSelectedPartner());
     },
 
-    addPartner: function(fake, partner, partnerAvatar) {
+    addPartner: function(fake, partner, partnerAvatar, notes) {
         if ($('#chats_of_' + fake + '_with_' + partner + '_selector').length <= 0) {
             // console.log('addPartner');
             var selector = $('<div />')
@@ -190,16 +190,31 @@ var Messenger = {
                 .css('display', 'none')
                 .appendTo('#chats_of_' + fake + ' .partner-chats');
             $('<div />')
-                .addClass('messages-container')
+                .addClass('messages-container-wrapper float-left col-lg-6')
                 .appendTo('#chats_of_' + fake + '_with_' + partner);
             $('<div />')
+                .addClass('messages-container')
+                .appendTo('#chats_of_' + fake + '_with_' + partner + ' .messages-container-wrapper');
+            $('<div />')
                 .addClass('input-container')
-                .appendTo('#chats_of_' + fake + '_with_' + partner);
+                .appendTo('#chats_of_' + fake + '_with_' + partner + ' .messages-container-wrapper');
             $('<textarea />')
                 .addClass('editbox')
                 .appendTo('#chats_of_' + fake + '_with_' + partner + ' .input-container');
             $('#chats_of_' + fake + '_with_' + partner + ' textarea')
                 .keydown(Messenger.onTextKeyDown);
+
+            $('<div />')
+                .addClass('notes-wrapper float-left col-lg-6')
+                .appendTo('#chats_of_' + fake + '_with_' + partner);
+            $('<textarea />')
+                .addClass('notesbox')
+                .val(notes)
+                .appendTo('#chats_of_' + fake + '_with_' + partner + ' .notes-wrapper');
+            $('<button>Save</button>')
+                .appendTo('#chats_of_' + fake + '_with_' + partner + ' .notes-wrapper')
+                .click(Messenger.onSaveNote)
+            ;
         }
     },
 
@@ -271,6 +286,22 @@ var Messenger = {
             }
             return false;
         }
+    },
+
+    onSaveNote: function() {
+        var fake = $(this).closest('.partner-container').data('fake-username');
+        var partner = $(this).closest('.partner-container').data('partner-username');
+
+        var notes = $(this).siblings('textarea').val();
+        notes = notes.replace(/^\s+|\s+$/g, "");
+
+        $.post(pH7Url.base + "im/asset/ajax/Messenger/?act=save_notes", {
+            fake: fake,
+            partner: partner,
+            notes: notes
+        }, function (oData) {
+
+        });
     },
 
     closeChat: function(fake, partner) {

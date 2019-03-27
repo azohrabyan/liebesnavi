@@ -15,6 +15,7 @@ namespace PH7;
 defined('PH7') or exit('Restricted access');
 
 use Exception;
+use PH7\Framework\Date\CDateTime;
 
 class ChatterIMController
 {
@@ -45,7 +46,8 @@ class ChatterIMController
                 $ch = new Chatter($chatterId, false);
                 $this->chatters[$chatterId] = $ch;
             }
-            $this->chatters[$chatterId]->addChat($row->fake_user, $row->chat_partner);
+            $notes = $this->chatterModel->getNotes($row->fake_user, $row->chat_partner);
+            $this->chatters[$chatterId]->addChat($row->fake_user, $row->chat_partner, $notes);
         }
     }
 
@@ -107,6 +109,11 @@ class ChatterIMController
         return false;
     }
 
+    public function saveNotes($fake, $partner, $notes)
+    {
+        $this->chatterModel->insertNote($this->chatterId, $fake, $partner, $notes, (new CDateTime)->get()->dateTime('Y-m-d H:i:s'));
+    }
+
     public function close($fake, $partner)
     {
         $this->chatters[$this->chatterId]->removeChat($fake, $partner);
@@ -162,7 +169,8 @@ class ChatterIMController
         }
         try {
             $this->insertDb($chatter, $fakeUser, $chatPartner);
-            return $chatter->addChat($fakeUser, $chatPartner);
+            $notes = $this->chatterModel->getNotes($fakeUser, $chatPartner);
+            return $chatter->addChat($fakeUser, $chatPartner, $notes);
         } catch (Exception $ex) {
             return false;
         }
@@ -235,9 +243,9 @@ class Chatter implements \JsonSerializable
         return count($this->chats);
     }
 
-    public function addChat($fakeUser, $chatPartner)
+    public function addChat($fakeUser, $chatPartner, $notes)
     {
-        $this->chats[] = new Chat($fakeUser, $chatPartner);
+        $this->chats[] = new Chat($fakeUser, $chatPartner, $notes);
         return $this->chats[count($this->chats) - 1];
     }
 
@@ -276,10 +284,12 @@ class Chat implements \JsonSerializable
     /** @var string */
     private $partnerAvatar;
 
+    private $notes;
+
     /** @var UserMessages $messages */
     private $messages;
 
-    public function __construct($fakeUser, $chatPartner)
+    public function __construct($fakeUser, $chatPartner, $notes)
     {
         $this->fakeUser = $fakeUser;
         $this->chatPartner = $chatPartner;
@@ -289,6 +299,8 @@ class Chat implements \JsonSerializable
         $this->fakeAvatar = $avatarDesign->getUserAvatar($fakeUser, '', 64, false);
 
         $this->messages = new UserMessages($fakeUser, '');
+
+        $this->notes = $notes;
     }
 
     public function matchPair($from, $to)
@@ -320,6 +332,7 @@ class Chat implements \JsonSerializable
             'fake_avatar' => $this->fakeAvatar,
             'partner_avatar' => $this->partnerAvatar,
             'messages' => $this->messages,
+            'notes' => $this->notes,
         ];
     }
 }

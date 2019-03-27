@@ -90,6 +90,10 @@ class MessengerAjax extends PermissionCore
                 $this->send();
                 break;
 
+            case 'save_notes':
+                $this->saveNotes();
+                break;
+
             case 'close':
                 $this->close();
                 break;
@@ -175,6 +179,17 @@ class MessengerAjax extends PermissionCore
             'message' => $msg,
         ]);
         exit;
+    }
+
+    protected function saveNotes()
+    {
+        $fake = $this->_oHttpRequest->post('fake');
+        $partner = $this->_oHttpRequest->post('partner');
+        $notes = $this->_oHttpRequest->post('notes');
+        if ($this->isChatter) {
+            Http::setContentType('application/json');
+            die(json_encode($this->chatterController->saveNotes($fake, $partner, $notes)));
+        }
     }
 
     protected function heartbeat()

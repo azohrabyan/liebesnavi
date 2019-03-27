@@ -79,6 +79,38 @@ class ChatterModel extends Model
         return $rStmt->execute();
     }
 
+    public function insertNote($chatterId, $fakeUser, $chatPartner, $notes, $sDate)
+    {
+        $sSqlQuery = 'INSERT INTO' . Db::prefix('ChatterNotes') .
+            '(chatter_id, fake_user, chat_partner, notes, created) VALUES (:chatterId, :fakeUser, :chatPartner, :notes, :created)';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
+        $rStmt->bindValue(':chatterId', $chatterId, PDO::PARAM_INT);
+        $rStmt->bindValue(':fakeUser', $fakeUser, PDO::PARAM_STR);
+        $rStmt->bindValue(':chatPartner', $chatPartner, PDO::PARAM_STR);
+        $rStmt->bindValue(':notes', $notes, PDO::PARAM_STR);
+        $rStmt->bindValue(':created', $sDate, PDO::PARAM_STR);
+
+        return $rStmt->execute();
+    }
+
+    public function getNotes($fake, $partner)
+    {
+        $sSqlQuery = 'SELECT * FROM' . Db::prefix('ChatterNotes') . ' WHERE fake_user = :fakeUser AND chat_partner = :chatPartner ORDER BY chatter_note_id DESC LIMIT 1 ';
+
+        $rStmt = Db::getInstance()->prepare($sSqlQuery);
+        $rStmt->bindValue(':fakeUser', $fake, PDO::PARAM_STR);
+        $rStmt->bindValue(':chatPartner', $partner, PDO::PARAM_STR);
+        $rStmt->execute();
+
+        $rows = $rStmt->fetchAll(PDO::FETCH_OBJ);
+        if (!empty($rows)) {
+            $n = $rows[0]->notes;
+            return $n;
+        }
+        return '';
+    }
+
     /**
      * Removes old ChatterChats, i.e.relation between chatter and fake user
      */

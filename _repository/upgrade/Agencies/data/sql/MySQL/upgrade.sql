@@ -100,3 +100,13 @@ CREATE TABLE IF NOT EXISTS PH7_ChatterChats (
 
 ALTER TABLE PH7_Chatter ADD COLUMN lastActivity datetime null;
 ALTER TABLE PH7_ChatAgency ADD COLUMN lastActivity datetime null;
+
+CREATE TABLE IF NOT EXISTS PH7_ChatterNotes (
+  chatter_note_id int(10) unsigned not null auto_increment,
+  chatter_id int(10) unsigned not null,
+  fake_user varchar(40) not null,
+  chat_partner varchar(40) not null,
+  notes text,
+  created datetime not null,
+  primary key (chatter_note_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
